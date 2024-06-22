@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+   <html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+      <!--=============== REMIXICONS ===============-->
+      <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/remixicon.css" rel="stylesheet">
+
+      <!--=============== CSS ===============-->
+      <link rel="stylesheet" href="../static/css/stylesHome.css">
+
+      <title>Clinica de psicopedagogía</title>
+   </head>
+   <body>
+      <!--==================== HEADER ====================-->
+      <header class="header" id="header">
+         <nav class="nav container">
+            <span class="puntito">.</span>
+            <a href="#" class="logo">Clínica de Psicopedagogía</a>
+         
+
+            <div class="nav__menu" id="nav-menu">
+               <ul class="nav__list">
+                  <li class="nav__item">
+                     <a href="#" class="nav__link">Inicio</a>
+                  </li>
+
+                  <li class="nav__item">
+                     <a href="#" class="nav__link">Ingreso de datos</a>
+                  </li>
+
+                  <li class="nav__item">
+                     <a href="#" class="nav__link">Información de pacientes</a>
+                  </li>
+
+                  <li class="nav__item">
+                     <a href="#" class="nav__link">Facturación</a>
+                  </li>
+
+                  <li class="nav__item">
+                     <a href="#" class="nav__link">Agenda</a>
+                  </li>
+               </ul>
+
+               <!-- Close button -->
+               <div class="nav__close" id="nav-close">
+                  <i class="ri-close-line"></i>
+               </div>
+            </div>
+
+            <div class="nav__actions">
+               <div class="profile-dropdown">
+                 <button class="dropdown-button" onclick="toggleDropdown('config-dropdown')">
+                   <i class="fas fa-cog"></i> Configuración
+                 </button>
+                 <div class="dropdown-content" id="config-dropdown">
+                   <a href="/usuarios">Usuarios</a>
+                   <a href="/acerca-de">Acerca de</a>
+                 </div>
+               </div>
+             
+               <div class="profile-dropdown">
+                 <button class="dropdown-button" onclick="toggleDropdown('profile-dropdown')">
+                   <i class="fas fa-user"></i> Perfil
+                 </button>
+                 <div class="dropdown-content" id="profile-dropdown">
+                   <a href="/opciones-cuenta">Opciones de cuenta</a>
+                   <a href="/cerrar-sesion">Cerrar sesión</a>
+                 </div>
+               </div>
+             </div>
+         </nav>
+      </header>
+
+      
+      <!--==================== MAIN ====================-->
+      <main class="main">
+         <div class="content">
+            <h3>Bienvenidos a la clínica</h3>
+        </div>
+      </main>
+      
+      <!--=============== MAIN JS ===============-->
+      <script src="static/js/main.js"></script>
+   </body>
+</html>
