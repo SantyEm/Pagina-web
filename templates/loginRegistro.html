@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Usuario</title>
+    <link rel="stylesheet" href="../static/css/stiloRegistro.css"> <!-- Asegúrate de tener tu archivo CSS adecuadamente enlazado -->
+</head>
+<body>
+    <div class="wrapper">
+        <h1>Registro de Usuario</h1>
+
+    <form action="/registrar_usuario" method="POST">
+        <label for="nombre_usuario">Nombre del Usuario:</label>
+        <input type="text" id="nombre_usuario" name="nombre_usuario" required>
+        <br>
+
+        <label for="apellido_usuario">Apellido del Usuario:</label>
+        <input type="text" id="apellido_usuario" name="apellido_usuario" required>
+        <br>
+
+        <label for="contraseña">Contraseña:</label>
+        <input type="password" id="contraseña" name="contraseña" required>
+        <br>
+
+        <label for="email">Correo Electrónico:</label>
+        <input type="email" id="email" name="email" required>
+        <br>
+
+        <label for="pregunta_seguridad">Pregunta de Seguridad:</label>
+        <input type="text" id="pregunta_seguridad" name="pregunta_seguridad">
+        <br>
+
+        <label for="respuesta_seguridad">Respuesta de Seguridad:</label>
+        <input type="text" id="respuesta_seguridad" name="respuesta_seguridad">
+        <br>
+
+        <label for="rol">Rol:</label>
+        <select id="rol" name="rol" onchange="mostrarCampoCodigo()">
+            <option value="1">Administrador</option>
+            <option value="2" selected>Usuario Común</option>
+        </select>
+        <br>
+
+        <div id="campo_codigo" style="display: none;">
+            <label for="codigo">Código Especial:</label>
+            <input type="text" id="codigo" name="codigo">
+            <br>
+        </div>
+
+        <button type="submit">Registrar</button>
+    </form>
+
+    <script>
+        function mostrarCampoCodigo() {
+            var rol = document.getElementById("rol").value;
+            var campoCodigo = document.getElementById("campo_codigo");
+
+            if (rol === "1") {
+                campoCodigo.style.display = "block";
+            } else {
+                campoCodigo.style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>
