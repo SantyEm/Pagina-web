@@ -1,0 +1,130 @@
+/* styles.css */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background: url('../img/psico2.jpg') no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.wrapper {
+    width: 420px;
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    color: #222222;
+    border-radius: 10px;
+    padding: 30px;
+    text-align: center; /* Centra el contenido dentro del wrapper */
+}
+
+.wrapper h1 {
+    font-size: 36px;
+    margin-bottom: 20px;
+}
+
+.wrapper form {
+    text-align: left; /* Alinea el texto del formulario a la izquierda */
+}
+
+.wrapper form label {
+    display: block;
+    font-size: 16px;
+    margin-bottom: 5px;
+    color: #000000; /* Color del texto del label */
+}
+
+.wrapper form input,
+.wrapper form select {
+    width: 100%;
+    height: 50px;
+    background: transparent;
+    border: 2px solid rgba(255, 255, 255, 0.2); /* Ajusta el color y la opacidad del borde */
+    border-radius: 40px;
+    font-size: 16px;
+    color: #000000;
+    padding: 10px 20px; /* Ajusta el relleno según tus necesidades */
+    margin-bottom: 10px; /* Ajusta el margen inferior */
+}
+
+.wrapper form input::placeholder {
+    color: #000000;
+}
+
+.wrapper form select {
+    margin-bottom: 20px; /* Ajusta el margen inferior del select */
+}
+
+.wrapper form div#campo_codigo {
+    margin-top: 10px; /* Ajusta el margen superior */
+}
+
+.wrapper .btn {
+    width: 100%;
+    height: 45px;
+    background: #fff;
+    border: none;
+    outline: none;
+    border-radius: 40px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    font-size: 16px;
+    color: #222222;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+}
+
+.wrapper .btn:hover {
+    background-color: #ddd; /* Ajusta el color de fondo al pasar el mouse */
+}
+
+.register-link {
+    text-align: center;
+    margin-top: 20px; /* Ajusta el margen superior según tus necesidades */
+}
+
+.register-link p a {
+    color: #1f1e1e;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.register-link p a:hover {
+    text-decoration: underline;
+}
+
+.wrapper form button[type="submit"] {
+    width: 100%; /* Ocupa el ancho completo del contenedor */
+    height: 45px; /* Altura del botón */
+    background-color: #fff; /* Color de fondo */
+    border: none; /* Sin borde */
+    outline: none; /* Sin contorno al hacer click */
+    border-radius: 50px; /* Hace el botón redondeado */
+    font-size: 18px; /* Tamaño de la fuente */
+    font-weight: bold; /* Peso de la fuente */
+    cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.wrapper form button[type="submit"]:hover {
+    background-color: #ddd; /* Color de fondo al pasar el mouse */
+}
+
+.error {
+    color: red;
+    margin-top: 10px;
+    text-align: center;
+}

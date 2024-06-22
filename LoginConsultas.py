@@ -34,7 +34,7 @@ def process_login():
 
     if user:
         # Credenciales válidas, redirige al formulario de inicio
-        return redirect(url_for('inicio'))
+        return render_template('home.html')
     else:
         # Credenciales inválidas, muestra un mensaje de error
         return "Usuario o contraseña incorrectos. Por favor, inténtalo nuevamente."
