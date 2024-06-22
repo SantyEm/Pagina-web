@@ -70,6 +70,23 @@
                  </div>
                </div>
              </div>
+
+             <form action="/cerrar-sesion" method="POST">
+               <!-- Aquí van los campos de tu formulario -->
+               
+               <!-- Agrega un botón o enlace para cerrar sesión -->
+               <button onclick="confirmLogout()">Cerrar sesión</button>
+             </form>
+             
+             <script>
+             function confirmLogout() {
+               var confirmLogout = confirm("¿Desea cerrar la sesión?");
+               if (confirmLogout) {
+                 // Envía el formulario para cerrar sesión
+                 document.forms[0].submit();
+               }
+             }
+             </script>
          </nav>
       </header>
 

@@ -114,3 +114,11 @@ body {
 .register-link p a:hover {
     text-decoration: underline;
 }
+
+/* estetica de mensaje de error */
+.error-style {
+    padding: 10px;
+    background-color: red;
+    color: white;
+    font-weight: bold;
+}

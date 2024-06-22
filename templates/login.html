@@ -9,6 +9,24 @@
 </head>
 
 <body>
+
+
+    {% if error %}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            alert("{{ error }}");
+        });
+    </script>
+    {% endif %}
+    
+    {% if success_message %}
+    <script>
+        setTimeout(function() {
+            alert("{{ success_message }}");
+        }, 500); // Espera 500 milisegundos (medio segundo) antes de mostrar el mensaje
+    </script>
+    {% endif %}
+
     <div class="wrapper">
         <form action="/processLogin" method="POST">
             <h1>Login</h1>

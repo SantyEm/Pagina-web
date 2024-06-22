@@ -34,11 +34,13 @@ def process_login():
 
     if user:
         # Credenciales válidas, redirige al formulario de inicio
-        return render_template('home.html')
+        success_message = "Inicio de sesión exitoso."
+        return render_template('home.html', success_message=success_message)
     else:
-        # Credenciales inválidas, muestra un mensaje de error
-        return "Usuario o contraseña incorrectos. Por favor, inténtalo nuevamente."
-    
+         # Credenciales inválidas, muestra un mensaje de error
+        error = "Usuario o contraseña incorrectos. Por favor, inténtalo nuevamente."
+        return render_template('login.html', error=error)
+
     
 # Ruta para el formulario de registro
 @app.route('/registrarse', methods=['GET'])
@@ -193,6 +195,17 @@ def cambiar_contraseña():
         print(f"Error al cambiar la contraseña: {str(e)}")
         return render_template('loginCambioContraseña2.html', error="Error al procesar el cambio de contraseña. Inténtalo nuevamente.", security_question=security_question, username_or_email=username_or_email)
 
+
+@app.route("/cerrar-sesion")
+def logout():
+    confirm_logout = request.args.get("confirm_logout")
+    if confirm_logout == "true":
+
+        # Redirige al usuario a la página de inicio
+        return redirect(url_for("home"))
+    else:
+        # En caso de que el usuario no confirme el cierre de sesión, puedes redirigirlo a otro formulario o realizar alguna otra acción
+       return render_template('login.html')
        
 if __name__ == '__main__':
     app.run()
