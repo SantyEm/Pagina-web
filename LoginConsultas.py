@@ -10,7 +10,6 @@ mensajes = {
     "success_password_changed": "Contraseña cambiada exitosamente."
 }
 
-
 @app.route('/')
 def login():
     return render_template('login.html')
@@ -25,6 +24,8 @@ def process_login():
     username = request.form['username']
     password = request.form['password']
 
+    print(f"Username: {username}, Password: {password}")
+
     connection = get_connection()
     cursor = connection.cursor()
     cursor.execute("SELECT * FROM usuario WHERE NombreUsuario = %s AND Contraseña = %s", (username, password))
@@ -33,15 +34,14 @@ def process_login():
     connection.close()
 
     if user:
-        # Credenciales válidas, redirige al formulario de inicio
+        print("Inicio de sesión exitoso.")
         success_message = "Inicio de sesión exitoso."
         return render_template('home.html', success_message=success_message)
     else:
-         # Credenciales inválidas, muestra un mensaje de error
+        print("Usuario o contraseña incorrectos.")
         error = "Usuario o contraseña incorrectos. Por favor, inténtalo nuevamente."
         return render_template('login.html', error=error)
 
-    
 # Ruta para el formulario de registro
 @app.route('/registrarse', methods=['GET'])
 def IngresoRegistro():
@@ -207,5 +207,10 @@ def logout():
         # En caso de que el usuario no confirme el cierre de sesión, puedes redirigirlo a otro formulario o realizar alguna otra acción
        return render_template('login.html')
        
+       
+@app.route('/opciones_usuario')
+def opciones_usuario():
+    # Aquí podrías realizar consultas adicionales o lógica relacionada con las opciones del usuario
+    return render_template('opcionesUsuario.html')
 if __name__ == '__main__':
     app.run()

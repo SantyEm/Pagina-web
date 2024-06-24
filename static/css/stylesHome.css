@@ -316,42 +316,48 @@ header .logo a {
 
 /* botones */
 
-.profile-dropdown {
+/* Estilo del dropdown más estético y moderno */
+
+.dropdown {
   position: relative;
   display: inline-block;
 }
 
-.dropdown-button {
+.dropdown__button {
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
-  background-color: #007bff;
+  background-color: #6ccc1e; /* Color verde claro */
   color: #fff;
   font-size: 16px;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
-.dropdown-button:hover {
-  background-color: #0056b3;
+.dropdown__button:hover {
+  background-color: #5aa317; /* Cambio de color al pasar el mouse */
 }
 
-.dropdown-content {
+.dropdown__content {
   display: none;
   position: absolute;
   background-color: #f9f9f9;
   min-width: 160px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1;
+  border-radius: 5px; /* Borde redondeado */
+  padding: 8px 0; /* Espaciado interno */
 }
 
-.dropdown-content a {
+.dropdown__content a {
   color: #000;
   padding: 12px 16px;
   text-decoration: none;
   display: block;
+  transition: background-color 0.3s ease;
 }
 
-.dropdown-content a:hover {
-  background-color: #ddd;
+.dropdown__content a:hover {
+  background-color: #e0e0e0; /* Cambio de color al pasar el mouse */
+  color: #000; /* Color de texto al pasar el mouse */
 }
