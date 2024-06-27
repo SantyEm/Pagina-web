@@ -47,7 +47,6 @@ def process_login():
 def IngresoRegistro():
     return render_template('loginRegistro.html')  # Renderiza el formulario para ingresar la nueva contraseña
 
-
 @app.route('/registrar_usuario', methods=['POST'])
 def procesar_registro():
     if request.method == 'POST':
@@ -196,21 +195,5 @@ def cambiar_contraseña():
         return render_template('loginCambioContraseña2.html', error="Error al procesar el cambio de contraseña. Inténtalo nuevamente.", security_question=security_question, username_or_email=username_or_email)
 
 
-@app.route("/cerrar-sesion")
-def logout():
-    confirm_logout = request.args.get("confirm_logout")
-    if confirm_logout == "true":
-
-        # Redirige al usuario a la página de inicio
-        return redirect(url_for("home"))
-    else:
-        # En caso de que el usuario no confirme el cierre de sesión, puedes redirigirlo a otro formulario o realizar alguna otra acción
-       return render_template('login.html')
-       
-       
-@app.route('/opciones_usuario')
-def opciones_usuario():
-    # Aquí podrías realizar consultas adicionales o lógica relacionada con las opciones del usuario
-    return render_template('opcionesUsuario.html')
 if __name__ == '__main__':
     app.run()

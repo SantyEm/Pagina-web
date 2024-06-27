@@ -15,45 +15,52 @@
                     <a href="home.html" class="nav__link" >Inicio</a>
                  </li>
                  <li class="nav__item">
-                    <a href="opcionesUsuario.html" class="nav__link" >Ingreso de datos</a>
+                    <a href="#" class="nav__link" >Paciente</a>
                  </li>
                  <li class="nav__item">
-                    <a href="#" class="nav__link" >Información de pacientes</a>
+                    <a href="#" class="nav__link" >Padres</a>
                  </li>
                  <li class="nav__item">
-                    <a href="#" class="nav__link">Facturación</a>
+                    <a href="#" class="nav__link">Desarrollo</a>
                  </li>
                  <li class="nav__item">
-                    <a href="#" class="nav__link" >Agenda</a>
+                    <a href="#" class="nav__link" >Facturación</a>
                  </li>
               </ul>
               <div class="nav__close" id="nav-close">
                  <i class="ri-close-line"></i>
               </div>
            </div>
-
+           
            <div class="nav__actions">
-            <div class="dropdown">
-                <button class="dropdown__button" onclick="toggleDropdown('config-dropdown')">
-                    <i class="fas fa-cog"></i> Configuración
-                </button>
-                <div class="dropdown__content" id="config-dropdown">
-                    <a href="/usuarios">Usuarios</a>
-                    <a href="/acerca-de">Acerca de</a>
-                </div>
-            </div>
-            <div class="dropdown">
-                <button class="dropdown__button" onclick="toggleDropdown('profile-dropdown')">
-                    <i class="fas fa-user"></i> Perfil
-                </button>
-                <div class="dropdown__content" id="profile-dropdown">
-                    <a href="/opciones-cuenta">Opciones de cuenta</a>
-                    <a href="/cerrar-sesion">Cerrar sesión</a>
-                </div>
-            </div>
-        </div>
-      
-    </header>      
+              <div class="dropdown">
+                 <button class="dropdown__button" onclick="toggleDropdown('config-dropdown')">
+                     <i class="fas fa-cog"></i> Configuración
+                 </button>
+                 <div class="dropdown__content" id="config-dropdown">
+                    <a href="usuario-info">Usuarios</a>
+                     <a href="/acerca-de">Acerca de</a>
+                 </div>
+             </div>
+             
+             <div class="dropdown">
+              <button class="dropdown__button" onclick="toggleDropdown('profile-dropdown')">
+                  <i class="fas fa-user"></i> Perfil
+              </button>
+              <div class="dropdown__content" id="profile-dropdown">
+                 <a href="/opciones_usuario" >Opciones de Usuarios</a>
+  
+                 <a href="/logout?confirm_logout=true">Cerrar sesión</a>
+
+              </div>
+          </div>
+          
+          </div>
+          
+          </div>
+          
+        </nav>
+     </header>
 
     <div class="block">
         <div class="title">Información personal</div>

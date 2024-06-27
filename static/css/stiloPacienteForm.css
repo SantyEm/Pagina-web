@@ -1,0 +1,260 @@
+
+/*css dek menu de opciones*/
+.header {
+    position: fixed;
+    top: 0; /* Ajusta a 0 para que esté en la parte superior */
+    left: 0; /* Ajusta a 0 para que esté en la parte izquierda */
+    width: 100%;
+    background-color: hsl(230, 100%, 98%);
+    box-shadow: 0 2px 16px hsla(230, 75%, 32%, .15);
+    z-index: var(--z-fixed);
+    padding: 35px;
+}
+
+  .nav {
+    height: var(--header-height);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .nav__logo {
+    color: var(--title-color);
+    font-weight: var(--font-semi-bold);
+    transition: color .4s;
+  }
+  
+  .nav__actions {
+    display: flex;
+    align-items: center;
+    column-gap: 1rem;
+  }
+  
+  .nav__search, 
+  .nav__login, 
+  .nav__toggle, 
+  .nav__close {
+    font-size: 1.25rem;
+    color: var(--title-color);
+    cursor: pointer;
+    transition: color .4s;
+  }
+  
+  :is(.nav__logo, .nav__search, .nav__login, .nav__toggle, .nav__link):hover {
+    color: var(--first-color);
+  }
+
+  /*hasta aca */
+
+ /* Estilos para los campos de entrada */
+ input[type=text], input[type=date], textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+input[type=text]:focus, input[type=date]:focus, textarea:focus {
+    outline: none;
+    border-color: #4CAF50;
+}
+
+/* Estilos para los botones */
+button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+/* Estilos para las pestañas */
+.tab-container {
+    /* Estilos para el contenedor del tab control */
+    margin-top: 65px; /* Puedes ajustar este valor según sea necesario */
+    padding-top: 10px; /* Opcional: Añade padding si quieres espacio adicional */
+
+ }
+
+ .tabs {
+    display: flex;
+    background-color: #d2dae2; /* Color de fondo para las pestañas */
+}
+
+.tab-button {
+    padding: 12px 20px; /* Ajusta el padding según sea necesario */
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    max-width: 300px; /* Ancho máximo para los botones */
+    text-overflow: ellipsis; /* Añade puntos suspensivos si el texto es demasiado largo */
+    white-space: nowrap; /* Evita el salto de línea del texto largo */
+    overflow: hidden; /* Oculta el desbordamiento del texto */
+}
+
+.tab-button:hover {
+    background-color: #e0e0e0; /* Color de fondo al pasar el mouse sobre el botón */
+}
+
+.tab-button.active {
+    background-color: #007bff; /* Color de fondo del botón activo */
+    color: #fff;
+}
+
+
+/* Estilos para el contenido de las pestañas */
+.tab-content {
+    display: none;
+    padding: 20px;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* bloques */
+.blockTabla {
+    width: 950px;
+    height: 450px;
+    background-color: #f2f2f2;
+    border-radius: 10px;
+    text-align: center;
+    margin: 20px; /* Ajusta el margen según sea necesario */
+    display: inline-block; /* Mostrar como bloque en línea */
+    vertical-align: top; /* Alinea los bloques en la parte superior */
+}
+
+.blockEntrada {
+    width: 400px;
+    height: 800px;
+    background-color: #f2f2f2;
+    border-radius: 10px;
+    text-align: center;
+    margin: 20px; /* Ajusta el margen según sea necesario */
+    display: inline-block; /* Mostrar como bloque en línea */
+    vertical-align: top; /* Alinea los bloques en la parte superior */
+    margin-bottom: 100px; /* Espacio vertical entre bloques */
+
+}
+
+/* Estilos para la tabla dentro de .blockTabla */
+.blockTabla .title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.blockTabla .table {
+    width: 100%;
+    border-collapse: collapse; /* Colapsa los bordes de la tabla */
+    background-color: #fff; /* Color de fondo de la tabla */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra ligera alrededor de la tabla */
+    border-radius: 8px; /* Borde redondeado para la tabla */
+}
+
+.blockTabla .table th,
+.blockTabla .table td {
+    padding: 8px; /* Ajusta el padding de las celdas según sea necesario */
+    border: 1px solid #ddd; /* Añade bordes a las celdas */
+    text-align: center; /* Alinea el contenido al centro *
+}
+
+.blockTabla .table th {
+    background-color: #f0f0f0; /* Color de fondo para las celdas de encabezado */
+}
+
+.blockTabla .table tbody tr:nth-child(even) {
+    background-color: #f9f9f9; /* Color de fondo para filas pares */
+}
+
+.blockTabla .table tbody tr:hover {
+    background-color: #e0e0e0; /* Color de fondo al pasar el mouse sobre una fila */
+}
+
+.blockTabla .table td {
+    max-width: 200px; /* Ancho máximo para las celdas de datos */
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap; /* Evita que el texto se desborde */
+}
+
+.blockTabla .table td button {
+    padding: 8px 12px; /* Ajusta el padding de los botones dentro de las celdas */
+    background-color: #007bff; /* Color de fondo del botón */
+    color: #fff; /* Color del texto del botón */
+    border: none; /* Elimina el borde del botón */
+    cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
+    border-radius: 4px; /* Borde redondeado para el botón */
+    transition: background-color 0.3s ease; /* Transición suave al cambiar el color de fondo */
+}
+
+.blockTabla .table td button:hover {
+    background-color: #0056b3; /* Color de fondo del botón al pasar el mouse */
+}
+
+
+.blockTabla {
+    max-width: 100%; /* Ajusta el ancho máximo según sea necesario */
+    height: 300px; /* Altura máxima deseada para el contenedor */
+    overflow-x: auto; /* Agrega scroll horizontal si es necesario */
+    background-color: #f2f2f2;
+    border-radius: 10px;
+    margin: 20px auto; /* Ajusta el margen según sea necesario */
+}
+
+.table {
+    width: 100%; /* Ajusta el ancho de la tabla al 100% del contenedor */
+    border-collapse: collapse; /* Colapsa los bordes de la tabla */
+}
+
+
+/* Estilos para el modal */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 600px;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}

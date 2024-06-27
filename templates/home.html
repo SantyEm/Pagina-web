@@ -15,19 +15,19 @@
          <div class="nav__menu" id="nav-menu">
             <ul class="nav__list">
                <li class="nav__item">
-                  <a href="home.html" class="nav__link" >Inicio</a>
+                  <a href="/volver_inicio" class="nav__link" >Inicio</a>
                </li>
                <li class="nav__item">
-                  <a href="opcionesUsuario.html" class="nav__link" >Ingreso de datos</a>
+                  <a href="/datos_pacientes" class="nav__link" >Paciente</a>
                </li>
                <li class="nav__item">
-                  <a href="#" class="nav__link" >Información de pacientes</a>
+                  <a href="#" class="nav__link" >Padres</a>
                </li>
                <li class="nav__item">
-                  <a href="#" class="nav__link">Facturación</a>
+                  <a href="#" class="nav__link">Desarrollo</a>
                </li>
                <li class="nav__item">
-                  <a href="#" class="nav__link" >Agenda</a>
+                  <a href="#" class="nav__link" >Facturación</a>
                </li>
             </ul>
             <div class="nav__close" id="nav-close">
@@ -42,7 +42,7 @@
                </button>
                <div class="dropdown__content" id="config-dropdown">
                   <a href="usuario-info">Usuarios</a>
-                   <a href="/acerca-de">Acerca de</a>
+                   <a href="acerca-de">Acerca de</a>
                </div>
            </div>
            
@@ -51,11 +51,8 @@
                 <i class="fas fa-user"></i> Perfil
             </button>
             <div class="dropdown__content" id="profile-dropdown">
-               <a href="/opciones_usuario" >Opciones de Usuarios</a>
-
-               <a href="/logout?confirm_logout=true">Cerrar sesión</a>
-
-
+                <a href="opciones_usuario">Opciones de Usuario</a>
+                <a href="/cerrar-sesion?confirm_logout=true">Cerrar sesión</a>
             </div>
         </div>
         
@@ -66,9 +63,11 @@
       </nav>
    </header>
 
+   <!-- Formulario alternativo para cerrar sesión -->
    <form action="/cerrar-sesion" method="POST">
-      <button onclick="confirmLogout()">Cerrar sesión</button>
+      <button type="submit">Cerrar sesión</button>
    </form>
+
    <main class="main">
       <div class="content" id="contenido-dinamico">
          <h3>Bienvenidos a la clínica</h3>
