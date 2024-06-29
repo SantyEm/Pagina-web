@@ -4,9 +4,10 @@
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/remixicon.css" rel="stylesheet">
-   <link rel="stylesheet" href="../static/css/stylesHome.css">
-   <link rel="stylesheet" href="../static/css/stiloPacienteForm.css">
+   <link rel="stylesheet" href="../static/css/stiloMenu.css">
+   <link rel="stylesheet" href="../static/css/stiloPacienteForm.css"> 
 </head>
+
 <body>
     <header class="header" id="header">
         <nav class="nav container">
@@ -15,10 +16,10 @@
            <div class="nav__menu" id="nav-menu">
               <ul class="nav__list">
                  <li class="nav__item">
-                    <a href="home.html" class="nav__link" >Inicio</a>
+                    <a href="/volver_inicio" class="nav__link" >Inicio</a>
                  </li>
                  <li class="nav__item">
-                    <a href="#" class="nav__link" >Paciente</a>
+                    <a href="/datos_pacientes" class="nav__link" >Paciente</a>
                  </li>
                  <li class="nav__item">
                     <a href="#" class="nav__link" >Padres</a>
@@ -42,7 +43,7 @@
                  </button>
                  <div class="dropdown__content" id="config-dropdown">
                     <a href="usuario-info">Usuarios</a>
-                     <a href="/acerca-de">Acerca de</a>
+                     <a href="acerca-de">Acerca de</a>
                  </div>
              </div>
              
@@ -51,20 +52,22 @@
                   <i class="fas fa-user"></i> Perfil
               </button>
               <div class="dropdown__content" id="profile-dropdown">
-                 <a href="/opciones_usuario" >Opciones de Usuarios</a>
-  
-                 <a href="/logout?confirm_logout=true">Cerrar sesión</a>
-  
+                  <a href="opciones_usuario">Opciones de Usuario</a>
+                  <a href="/cerrar-sesion?confirm_logout=true">Cerrar sesión</a>
               </div>
           </div>
+          
           </div>
+          
           </div>
         </nav>
+        
      </header>
-     <form action="/cerrar-sesion" method="POST">
-        <button onclick="confirmLogout()">Cerrar sesión</button>
-     </form>
-   
+      <!-- Formulario alternativo para cerrar sesión -->
+      <form action="/cerrar-sesion" method="POST">
+          <button type="submit">Cerrar sesión</button>
+       </form>
+    
     <div class="tab-container">
         <div class="tabs">
             <button class="tab-button active" onclick="openTab(event, 'tab1')">Datos de Paciente</button>
@@ -83,6 +86,16 @@
                     <input type="text" id="apellido" name="apellido" required><br>
                     <label for="dni">DNI:</label>
                     <input type="text" id="dni" name="dni" maxlength="20" required><br>
+
+                    <label for="genero">Género:</label>
+                    <div>
+                    <select id="genero" name="genero">
+                        <option value="masculino">Masculino</option>
+                        <option value="femenino">Femenino</option>
+                        <option value="otro">Otro</option>
+                    </select>
+                    </div>
+
                     <label for="fecha_nacimiento">Fecha de Nacimiento:</label>
                     <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" required><br>
                     <label for="fecha_registro">Fecha de Registro:</label>
@@ -90,6 +103,8 @@
                     <label for="observaciones">Observaciones:</label>
                     <textarea id="observaciones" name="observaciones" rows="4"></textarea><br>
         
+
+                   
                     <!-- Área dinámica para las direcciones -->
                     <div id="direcciones-container">
                         <!-- Aquí se agregarán dinámicamente las direcciones -->
@@ -124,16 +139,17 @@
             
         <div class="blockTabla">
             <div class="title">Tabla De Registros</div>
-            <form id="tabla-registros">
+            <form action="/pacientes" method="post">
+                <!-- Contenido del formulario -->
                 <div>
                     <table class="table">
                         <!-- Encabezados de la tabla -->
                         <thead>
                             <tr>
-                                <th>ID Paciente</th>
                                 <th>Nombre</th>
                                 <th>Apellido</th>
                                 <th>DNI</th>
+                                <th>Genero</th>
                                 <th>Fecha de Nacimiento</th>
                                 <th>Fecha de Registro</th>
                                 <th>Observaciones</th>
@@ -144,10 +160,10 @@
                         <tbody>
                             {% for paciente in pacientes %}
                             <tr>
-                                <td>{{ paciente.Id_paciente }}</td>
                                 <td>{{ paciente.Nombre }}</td>
                                 <td>{{ paciente.Apellido }}</td>
                                 <td>{{ paciente.DNI }}</td>
+                                <td>{{ paciente.Genero }}</td>
                                 <td>{{ paciente.Fecha_nacimiento }}</td>
                                 <td>{{ paciente.Fecha_registro }}</td>
                                 <td>{{ paciente.Observaciones }}</td>
