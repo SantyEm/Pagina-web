@@ -4,8 +4,8 @@
    <meta charset="UTF-8">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/remixicon.css" rel="stylesheet">
-   <link rel="stylesheet" href="../static/css/stiloMenu.css">
-   <link rel="stylesheet" href="../static/css/stiloPacienteForm.css"> 
+    <link rel="stylesheet" href="../static/css/stiloMenu.css">
+    <link rel="stylesheet" href="../static/css/stiloPacienteForm.css">
 </head>
 
 <body>
@@ -102,9 +102,7 @@
                     <input type="date" id="fecha_registro" name="fecha_registro" required><br>
                     <label for="observaciones">Observaciones:</label>
                     <textarea id="observaciones" name="observaciones" rows="4"></textarea><br>
-        
 
-                   
                     <!-- Área dinámica para las direcciones -->
                     <div id="direcciones-container">
                         <!-- Aquí se agregarán dinámicamente las direcciones -->
@@ -136,7 +134,6 @@
             </div>
         </div>
         
-            
         <div class="blockTabla">
             <div class="title">Tabla De Registros</div>
             <form action="/pacientes" method="post">
@@ -156,6 +153,7 @@
                                 <th>Acciones</th>
                             </tr>
                         </thead>
+        
                         <!-- Cuerpo de la tabla -->
                         <tbody>
                             {% for paciente in pacientes %}
@@ -166,15 +164,19 @@
                                 <td>{{ paciente.Genero }}</td>
                                 <td>{{ paciente.Fecha_nacimiento }}</td>
                                 <td>{{ paciente.Fecha_registro }}</td>
-                                <td>{{ paciente.Observaciones }}</td>
-                                <td>
+                                <td class="observaciones">{{ paciente.Observaciones }}</td>
+                                <td class="acciones" >
                                     <!-- Acciones para cada paciente -->
-                                    <form action="/editar_paciente/{{ paciente.Id_paciente }}" method="get" style="display: inline;">
+                                    <form action="/editar_paciente/{{ paciente.Id_paciente }}" method="get">
                                         <button type="submit">Editar</button>
                                     </form>
-                                    <form action="/eliminar_paciente/{{ paciente.Id_paciente }}" method="post" style="display: inline;">
+                                    <form action="/eliminar_paciente/{{ paciente.Id_paciente }}" method="post">
                                         <button type="submit">Eliminar</button>
                                     </form>
+                                    <form action="/ver_direcciones/{{ paciente.id }}" method="get">
+                                        <button type="submit">Ver Direcciones</button>
+                                    </form>
+                                    
                                 </td>
                             </tr>
                             {% endfor %}
@@ -183,6 +185,52 @@
                 </div>
             </form>
         </div>
+        
+        <!-- Modal ver dirección -->
+        <div id="modalVerDirecciones" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="cerrarModalVerDirecciones()">&times;</span> <!-- Botón de cierre -->
+                <h2>Direcciones</h2>
+                <!-- Iterar sobre las direcciones -->
+                <table class="table">
+                    <!-- Encabezados de la tabla -->
+                    <thead>
+                        <tr>
+                            <th>Ciudad</th>
+                            <th>Estado</th>
+                            <th>Código Postal</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <!-- Cuerpo de la tabla -->
+                    <tbody>
+                        {% for direccion in direcciones %}
+                        <tr>
+                            <td>{{ direccion.ciudad }}</td>
+                            <td>{{ direccion.estado }}</td>
+                            <td>{{ direccion.codigo_postal }}</td>
+                            <td class="acciones">
+                                <!-- Acciones para cada dirección -->
+                                <form action="/editar_direccion/{{ direccion.id_direccion }}" method="get" style="display:inline;">
+                                    <button type="submit">Editar</button>
+                                </form>
+                                <form action="/eliminar_direccion/{{ direccion.id_direccion }}" method="post" style="display:inline;">
+                                    <button type="submit">Eliminar</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        
+
+        
+</div>
+
+    </div>
+        
     </div>
 
     <div class="tab-content" id="tab2">

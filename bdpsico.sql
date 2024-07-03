@@ -129,7 +129,6 @@ CREATE TABLE `t_01paciente` (
   `Apellido` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `DNI` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `Fecha_nacimiento` date DEFAULT NULL,
-  `Telefono` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `Fecha_registro` date DEFAULT NULL,
   `Observaciones` text COLLATE utf8mb4_unicode_ci,
   `Id_padre` int(11) DEFAULT NULL,
@@ -144,7 +143,7 @@ CREATE TABLE `t_01paciente` (
 
 LOCK TABLES `t_01paciente` WRITE;
 /*!40000 ALTER TABLE `t_01paciente` DISABLE KEYS */;
-INSERT INTO `t_01paciente` VALUES (1,'Ana','García','12345678','2010-05-15','123-456-7890','2023-07-01','Sin alergias conocidas',1,2),(2,'Juan','López','23456789','2012-08-20','987-654-3210','2023-07-05','Problemas de concentración en clase',2,1),(3,'María','Martínez','34567890','2011-03-10','555-123-4567','2023-07-10','Fobia a los espacios cerrados',3,2),(4,'Pedro','Rodríguez','45678901','2013-11-25','777-888-9999','2023-07-15','Intereses en música y arte',4,1),(5,'Luisa','Pérez','56789012','2010-07-30','222-333-4444','2023-07-20','Dificultades en matemáticas',5,2),(6,'Carlos','Gómez','67890123','2012-01-12','666-777-8888','2023-07-25','Historial de déficit de atención',2,1),(7,'Laura','Díaz','78901234','2013-06-05','444-555-6666','2023-08-01','Intereses en deportes y actividad física',6,2),(8,'José','Hernández','89012345','2011-09-18','888-999-0000','2023-08-05','Experiencias de ansiedad social',7,1),(9,'Sofía','Ramírez','90123456','2010-12-08','111-222-3333','2023-08-10','Dificultades en lectura comprensiva',8,2),(10,'Andrés','Torres','01234567','2012-02-28','333-444-5555','2023-08-15','Historial de terapia de lenguaje',9,1);
+INSERT INTO `t_01paciente` VALUES (1,'Ana','García','12345678','2010-05-15','2023-07-01','Sin alergias conocidas',1,2),(2,'Juan','López','23456789','2012-08-20','2023-07-05','Problemas de concentración en clase',2,1),(3,'María','Martínez','34567890','2011-03-10','2023-07-10','Fobia a los espacios cerrados',3,2),(4,'Pedro','Rodríguez','45678901','2013-11-25','2023-07-15','Intereses en música y arte',4,1),(5,'Luisa','Pérez','56789012','2010-07-30','2023-07-20','Dificultades en matemáticas',5,2),(6,'Carlos','Gómez','67890123','2012-01-12','2023-07-25','Historial de déficit de atención',2,1),(7,'Laura','Díaz','78901234','2013-06-05','2023-08-01','Intereses en deportes y actividad física',6,2),(8,'José','Hernández','89012345','2011-09-18','2023-08-05','Experiencias de ansiedad social',7,1),(9,'Sofía','Ramírez','90123456','2010-12-08','2023-08-10','Dificultades en lectura comprensiva',8,2),(10,'Andrés','Torres','01234567','2012-02-28','2023-08-15','Historial de terapia de lenguaje',9,1);
 /*!40000 ALTER TABLE `t_01paciente` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -198,7 +197,7 @@ CREATE TABLE `t_02genero` (
 
 LOCK TABLES `t_02genero` WRITE;
 /*!40000 ALTER TABLE `t_02genero` DISABLE KEYS */;
-INSERT INTO `t_02genero` VALUES (1,'Masculino'),(2,'Femenino'),(3,'No Binario'),(4,'Otro'),(5,'Género 5'),(6,'Género 6'),(7,'Género 7'),(8,'Género 8'),(9,'Género 9'),(10,'Género 10');
+INSERT INTO `t_02genero` VALUES (1,'Masculino'),(2,'Femenino'),(4,'Otro');
 /*!40000 ALTER TABLE `t_02genero` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -700,4 +699,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-06-22  0:41:30
+-- Dump completed on 2024-07-02  3:07:59

@@ -58,3 +58,13 @@ function agregarDireccion() {
     // y agregar dinámicamente una nueva entrada de dirección al formulario principal (#datos-paciente)
     cerrarModal(); // Cerrar el modal después de agregar la dirección
 }
+
+
+// Funciones para manejar el modal de ver direcciones
+function abrirModalVerDirecciones() {
+    document.getElementById('modalVerDirecciones').style.display = 'block';
+}
+
+function cerrarModalVerDirecciones() {
+    document.getElementById('modalVerDirecciones').style.display = 'none';
+  }
