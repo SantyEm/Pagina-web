@@ -51,7 +51,11 @@
                 <i class="fas fa-user"></i> Perfil
             </button>
             <div class="dropdown__content" id="profile-dropdown">
-                <a href="opciones_usuario">Opciones de Usuario</a>
+               <form action="/opciones_usuario" method="POST">
+                  <input type="hidden" name="username" value="opciones de usuario">
+                  <a href="/opciones_usuario" class="button-link">Opciones de Usuario</a>
+              </form>
+              
                 <a href="/cerrar-sesion?confirm_logout=true">Cerrar sesión</a>
             </div>
         </div>

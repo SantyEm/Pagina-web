@@ -69,45 +69,59 @@
           <button type="submit">Cerrar sesión</button>
        </form>
 
+       {% if datos_usuario %}
+            <p>Nombre: {{ datos_usuario.NombreUsuario }}</p>
+            <p>Apellido: {{ datos_usuario.Apellido }}</p>
+            <p>Email: {{ datos_usuario.Email }}</p>
+            {% if success_message %}
+                <div class="success-message">{{ success_message }}</div>
+            {% endif %}
+        {% endif %}
+
+
+
     <div class="container">
         <div class="item1">
             <h1 class="titulos">Información personal</h1>
-        <form id="personal-info-form">
-            <div>
-                <label for="nombre">Nombre:</label>
-                <input type="text" id="nombre" name="nombre" required>
-            </div>
-            <div>
-                <label for="apellido">Apellido:</label>
-                <input type="text" id="apellido" name="apellido" required>
-            </div>
-            <div>
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required>
-            </div>
-            <button type="submit">Guardar</button>
-        </form>
+            <form id="personal-info-form" action="/actualizar_informacion" method="POST">
+                {% if datos_usuario %}
+                <div>
+                    <label for="nombre">Nombre:</label>
+                    <input type="text" id="nombre" name="nombre" value="{{ datos_usuario.NombreUsuario }}" required>
+                </div>
+                <div>
+                    <label for="apellido">Apellido:</label>
+                    <input type="text" id="apellido" name="apellido" value="{{ datos_usuario.Apellido }}" required>
+                </div>
+                <div>
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" value="{{ datos_usuario.Email }}" required>
+                </div>
+                {% endif %}
+                <button type="submit">Guardar</button>
+            </form>
         </div>
-
+    
         <div class="item2">
             <h1 class="titulos">Cambiar contraseña</h1>
             <form id="change-password-form">
-        <div>
-            <label for="current-password">Contraseña actual:</label>
-            <input type="password" id="current-password" name="current-password" required>
-        </div>
-        <div>
-            <label for="new-password">Nueva contraseña:</label>
-            <input type="password" id="new-password" name="new-password" required>
-        </div>
-        <div>
-            <label for="confirm-new-password">Confirmar nueva contraseña:</label>
-            <input type="password" id="confirm-new-password" name="confirm-new-password" required>
-        </div>
-        <button type="submit">Guardar</button>
-    </form>
+                <div>
+                    <label for="current-password">Contraseña actual:</label>
+                    <input type="password" id="current-password" name="current-password" required>
+                </div>
+                <div>
+                    <label for="new-password">Nueva contraseña:</label>
+                    <input type="password" id="new-password" name="new-password" required>
+                </div>
+                <div>
+                    <label for="confirm-new-password">Confirmar nueva contraseña:</label>
+                    <input type="password" id="confirm-new-password" name="confirm-new-password" required>
+                </div>
+                <button type="submit">Guardar</button>
+            </form>
         </div>
     </div>
+    
 
     <script src="../static/js/menu.js"></script>
 </body>

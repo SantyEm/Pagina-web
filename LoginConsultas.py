@@ -1,7 +1,9 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session
 from conexion import get_connection
+import re
 
 app = Flask(__name__)
+app.secret_key = 'XD'
 
 mensajes = {
     "error_password_mismatch": "Las contraseñas no coinciden. Inténtalo de nuevo.",
@@ -14,20 +16,25 @@ mensajes = {
 def login():
     return render_template('login.html')
 
-@app.route('/inicio')
-def inicio():
-    # Lógica para el formulario de inicio
-    return render_template('home.html')
+@app.route('/home')
+def home():
+    if 'username' in session:
+        username = session['username']
+        print("Nombre de usuario en sesión:", username)  # Agregar esta línea para imprimir en la consola
+        return render_template('home.html', username=username)
+    else:
+        return redirect(url_for('login'))
 
 @app.route('/processLogin', methods=['POST'])
 def process_login():
+    
     username = request.form['username']
     password = request.form['password']
 
     print(f"Username: {username}, Password: {password}")
 
     connection = get_connection()
-    cursor = connection.cursor()
+    cursor = connection.cursor(dictionary=True)
     cursor.execute("SELECT * FROM usuario WHERE NombreUsuario = %s AND Contraseña = %s", (username, password))
     user = cursor.fetchone()
     cursor.close()
@@ -35,17 +42,33 @@ def process_login():
 
     if user:
         print("Inicio de sesión exitoso.")
+        session['username'] = username
+        session['usuario_id'] = user['UsuarioID']
         success_message = "Inicio de sesión exitoso."
-        return render_template('home.html', success_message=success_message)
+        return redirect(url_for('home', success_message=success_message))
     else:
         print("Usuario o contraseña incorrectos.")
         error = "Usuario o contraseña incorrectos. Por favor, inténtalo nuevamente."
         return render_template('login.html', error=error)
 
+
 # Ruta para el formulario de registro
 @app.route('/registrarse', methods=['GET'])
 def IngresoRegistro():
     return render_template('loginRegistro.html')  # Renderiza el formulario para ingresar la nueva contraseña
+
+def es_contraseña_segura(contraseña):
+    if len(contraseña) < 8:
+        return False, "La contraseña debe tener al menos 8 caracteres."
+    if not re.search(r'[A-Z]', contraseña):
+        return False, "La contraseña debe contener al menos una letra mayúscula."
+    if not re.search(r'[a-z]', contraseña):
+        return False, "La contraseña debe contener al menos una letra minúscula."
+    if not re.search(r'[0-9]', contraseña):
+        return False, "La contraseña debe contener al menos un número."
+    if not re.search(r'[!@#$%^&*]', contraseña):
+        return False, "La contraseña debe contener al menos un carácter especial (!@#$%^&*)."
+    return True, ""
 
 @app.route('/registrar_usuario', methods=['POST'])
 def procesar_registro():
@@ -53,13 +76,16 @@ def procesar_registro():
         try:
             # Obtener los datos del formulario
             nombre_usuario = request.form['nombre_usuario']
-            apellido_usuario = request.form['apellido_usuario'] 
+            apellido_usuario = request.form['apellido_usuario']
             contraseña = request.form['contraseña']
             email = request.form['email']
             pregunta_seguridad = request.form['pregunta_seguridad']
             respuesta_seguridad = request.form['respuesta_seguridad']
-            rol_id = request.form['rol']
-            codigo_especial = request.form.get('codigo')
+
+            # Validar la contraseña
+            es_segura, mensaje = es_contraseña_segura(contraseña)
+            if not es_segura:
+                return render_template('loginRegistro.html', error=mensaje)
 
             # Obtener la conexión y el cursor
             connection = get_connection()
@@ -74,19 +100,9 @@ def procesar_registro():
                 connection.close()
                 return render_template('loginRegistro.html', error="El usuario o el email ya existen. Intente con otro.")
 
-            # Verificar si el código especial del administrador es correcto
-            consulta_codigo = "SELECT codigo FROM codigos_administrador WHERE id = 1"  # Cambiar "id" según tu necesidad
-            cursor.execute(consulta_codigo)
-            resultado = cursor.fetchone()
-
-            if resultado is None or codigo_especial != resultado[0]:
-                cursor.close()
-                connection.close()
-                return render_template('loginRegistro.html', error="Código especial incorrecto. Por favor, ingresa el código correcto.")
-
             # Insertar los nuevos datos en la tabla de usuarios
-            insert_query = "INSERT INTO usuario (NombreUsuario, Apellido, Contraseña, RolID, Email, PreguntaSeguridad, RespuestaSeguridad) VALUES (%s, %s, %s, %s, %s, %s, %s)"
-            values = (nombre_usuario, apellido_usuario, contraseña, rol_id, email, pregunta_seguridad, respuesta_seguridad)
+            insert_query = "INSERT INTO usuario (NombreUsuario, Apellido, Contraseña, Email, PreguntaSeguridad, RespuestaSeguridad) VALUES (%s, %s, %s, %s, %s, %s)"
+            values = (nombre_usuario, apellido_usuario, contraseña, email, pregunta_seguridad, respuesta_seguridad)
             cursor.execute(insert_query, values)
             connection.commit()
 
@@ -95,28 +111,13 @@ def procesar_registro():
             connection.close()
 
             # Redirige a la página de inicio de sesión
-            return redirect('/')
-
+            return render_template('login.html', mensaje="Registro exitoso. Por favor, inicia sesión.")
         except Exception as e:
             print(f"Error al procesar el registro: {str(e)}")
             return "Error al procesar el registro. Inténtalo de nuevo más tarde."
 
     # Si el método no es POST, renderiza nuevamente el formulario de registro
     return render_template('loginRegistro.html')
-
-def contar_usuarios_registrados():
-    try:
-        connection = get_connection()
-        cursor = connection.cursor()
-        cursor.execute("SELECT COUNT(*) FROM usuario")
-        cantidad = cursor.fetchone()[0]
-        cursor.close()
-        connection.close()
-
-        return cantidad
-    except Exception as e:
-        print(f"Error al contar usuarios: {str(e)}")
-        return -1  # En caso de error, retorna -1
 
 @app.route('/forgot_password', methods=['GET', 'POST'])
 def forgot_password():
@@ -194,6 +195,60 @@ def cambiar_contraseña():
         print(f"Error al cambiar la contraseña: {str(e)}")
         return render_template('loginCambioContraseña2.html', error="Error al procesar el cambio de contraseña. Inténtalo nuevamente.", security_question=security_question, username_or_email=username_or_email)
 
+
+@app.route('/informacion_personal')
+def informacion_personal():
+    if 'username' in session:
+        username = session['username']
+
+        # Obtener la información personal del usuario desde la base de datos
+        connection = get_connection()
+        cursor = connection.cursor()
+        cursor.execute("SELECT * FROM usuario WHERE NombreUsuario = %s", (username,))
+        user = cursor.fetchone()
+        cursor.close()
+        connection.close()
+
+        return render_template('opcionesUsuario.html', user=user)
+
+    else:
+        return redirect(url_for('login'))
+
+@app.route('/actualizar_informacion', methods=['POST'])
+def actualizar_informacion():
+    if 'username' in session:
+        username = session['username']
+        nombre = request.form['nombre']
+        apellido = request.form['apellido']
+        email = request.form['email']
+
+        connection = get_connection()
+        cursor = connection.cursor()
+
+        # Actualizar los datos del usuario en la base de datos
+        query = "UPDATE usuario SET NombreUsuario = %s, Apellido = %s, Email = %s WHERE NombreUsuario = %s"
+        cursor.execute(query, (nombre, apellido, email, username))
+        connection.commit()
+
+        # Volver a consultar los datos actualizados del usuario
+        query_select = "SELECT UsuarioID, NombreUsuario, Apellido, Email FROM usuario WHERE NombreUsuario = %s"
+        cursor.execute(query_select, (username,))
+        datos_usuario = cursor.fetchone()
+
+        cursor.close()
+        connection.close()
+
+        if datos_usuario:
+            success_message = "Información actualizada correctamente."
+            return render_template('opcionesUsuario.html', datos_usuario=datos_usuario, success_message=success_message)
+        else:
+            return render_template('opcionesUsuario.html', message="Error al actualizar la información del usuario")
+
+    else:
+        return redirect(url_for('login'))
+
+
+    
 
 if __name__ == '__main__':
     app.run()

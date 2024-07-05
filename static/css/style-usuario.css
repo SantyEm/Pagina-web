@@ -1,31 +1,38 @@
 /* flexbox1 inicio*/
-.container{
-    display: flex;
-    padding: 30px;
-    justify-content: space-around;
+.container {
+  display: flex;
+  padding: 30px;
+  justify-content: space-around;
 }
-.container .item1{
-    background-color: beige;
-    font-size: 19px;
-    padding: 25px;
-    width: 400px;
-    border-radius: 45px;
-    border-color: rgb(139, 139, 139);
-    border-style: solid;
-    border-width: 1px;
+
+.item1 {
+  background-color: beige;
+  font-size: 19px;
+  padding: 25px;
+  width: 400px;
+  border-radius: 45px;
+  border: 1px solid rgb(139, 139, 139);
 }
-.container .item2{
-    background-color: rgb(247, 247, 244);
-    font-size: 19px;
-    padding: 25px;
-    width: 400px;
-    border-radius: 45px;
-    align-content: center;
-    border-color: rgb(139, 139, 139);
-    border-style: solid;
-    border-width: 1px;
+
+.item2 {
+  background-color: rgb(247, 247, 244);
+  font-size: 19px;
+  padding: 25px;
+  width: 400px;
+  border-radius: 45px;
+  border: 1px solid rgb(139, 139, 139);
 }
+
 /* flexbox1 fin*/
+
+/*titulos inicio*/
+.titulos{
+  font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+  font-size: 17px;
+  text-align: justify;
+
+}
+/*titulos fin*/
 
 
   body{
@@ -82,24 +89,6 @@
   }
 
   /*hasta aca */
-
-  .item1, .item2 {
-    width: 600px;
-    height: 450px;
-    background-color: #f2f2f2;
-    border-radius: 10px;
-    text-align: center;
-    margin: 20px auto; /* Ajusta el margen según sea necesario */
-    position: relative; /* Asegura que los bloques respeten su posición */
-    top: var(--header-height); /* Ajusta según la altura del header */
-  }
-  
-  
-  .title {
-    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
-    font-size: 17px;
-    text-align: justify;
-  }
 
   #change-password-form {
     display: flex;
