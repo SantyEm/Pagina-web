@@ -66,57 +66,6 @@ LOCK TABLES `estado_cuenta_usuario` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `registro_accesos`
---
-
-DROP TABLE IF EXISTS `registro_accesos`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `registro_accesos` (
-  `RegistroID` int(11) NOT NULL AUTO_INCREMENT,
-  `UsuarioID` int(11) NOT NULL,
-  `FechaHoraEntrada` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `FechaHoraSalida` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`RegistroID`),
-  KEY `UsuarioID` (`UsuarioID`),
-  CONSTRAINT `registro_accesos_ibfk_1` FOREIGN KEY (`UsuarioID`) REFERENCES `usuario` (`UsuarioID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `registro_accesos`
---
-
-LOCK TABLES `registro_accesos` WRITE;
-/*!40000 ALTER TABLE `registro_accesos` DISABLE KEYS */;
-/*!40000 ALTER TABLE `registro_accesos` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `roles`
---
-
-DROP TABLE IF EXISTS `roles`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `roles` (
-  `RolID` int(11) NOT NULL AUTO_INCREMENT,
-  `NombreRol` varchar(255) NOT NULL,
-  PRIMARY KEY (`RolID`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `roles`
---
-
-LOCK TABLES `roles` WRITE;
-/*!40000 ALTER TABLE `roles` DISABLE KEYS */;
-INSERT INTO `roles` VALUES (1,'admin'),(2,'user');
-/*!40000 ALTER TABLE `roles` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `t_01paciente`
 --
 
@@ -124,7 +73,7 @@ DROP TABLE IF EXISTS `t_01paciente`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `t_01paciente` (
-  `Id_paciente` int(11) NOT NULL,
+  `Id_paciente` int(11) NOT NULL AUTO_INCREMENT,
   `Nombre` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `Apellido` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `DNI` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -134,7 +83,7 @@ CREATE TABLE `t_01paciente` (
   `Id_padre` int(11) DEFAULT NULL,
   `Id_genero` int(11) DEFAULT NULL,
   PRIMARY KEY (`Id_paciente`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -143,7 +92,7 @@ CREATE TABLE `t_01paciente` (
 
 LOCK TABLES `t_01paciente` WRITE;
 /*!40000 ALTER TABLE `t_01paciente` DISABLE KEYS */;
-INSERT INTO `t_01paciente` VALUES (1,'Ana','García','12345678','2010-05-15','2023-07-01','Sin alergias conocidas',1,2),(2,'Juan','López','23456789','2012-08-20','2023-07-05','Problemas de concentración en clase',2,1),(3,'María','Martínez','34567890','2011-03-10','2023-07-10','Fobia a los espacios cerrados',3,2),(4,'Pedro','Rodríguez','45678901','2013-11-25','2023-07-15','Intereses en música y arte',4,1),(5,'Luisa','Pérez','56789012','2010-07-30','2023-07-20','Dificultades en matemáticas',5,2),(6,'Carlos','Gómez','67890123','2012-01-12','2023-07-25','Historial de déficit de atención',2,1),(7,'Laura','Díaz','78901234','2013-06-05','2023-08-01','Intereses en deportes y actividad física',6,2),(8,'José','Hernández','89012345','2011-09-18','2023-08-05','Experiencias de ansiedad social',7,1),(9,'Sofía','Ramírez','90123456','2010-12-08','2023-08-10','Dificultades en lectura comprensiva',8,2),(10,'Andrés','Torres','01234567','2012-02-28','2023-08-15','Historial de terapia de lenguaje',9,1);
+INSERT INTO `t_01paciente` VALUES (1,'Ana','García','12345678','2010-05-15','2023-07-01','Sin alergias conocidas',1,2),(2,'Juan','López','23456789','2012-08-20','2023-07-05','Problemas de concentración en clase',2,1),(3,'María','Martínez','34567890','2011-03-10','2023-07-10','Fobia a los espacios cerrados',3,2),(4,'Pedro','Rodríguez','45678901','2013-11-25','2023-07-15','Intereses en música y arte',4,1),(5,'Luisa','Pérez','56789012','2010-07-30','2023-07-20','Dificultades en matemáticas',5,2),(6,'Carlos','Gómez','67890123','2012-01-12','2023-07-25','Historial de déficit de atención',2,1),(7,'Laura','Díaz','78901234','2013-06-05','2023-08-01','Intereses en deportes y actividad física',6,2),(8,'José','Hernández','89012345','2011-09-18','2023-08-05','Experiencias de ansiedad social',7,1),(9,'Sofía','Ramírez','90123456','2010-12-08','2023-08-10','Dificultades en lectura comprensiva',8,2),(10,'Andrés','Torres','01234567','2012-02-28','2023-08-15','Historial de terapia de lenguaje',9,1),(16,'carlos','tevez','142432','2014-07-10','2024-08-08','as',NULL,1);
 /*!40000 ALTER TABLE `t_01paciente` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -601,64 +550,6 @@ INSERT INTO `t_16desarrollopsicomotor` VALUES (1,'Sostén cefálico'),(2,'Sentar
 UNLOCK TABLES;
 
 --
--- Table structure for table `t_17datosfacturacion`
---
-
-DROP TABLE IF EXISTS `t_17datosfacturacion`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `t_17datosfacturacion` (
-  `id_facturas` int(11) NOT NULL,
-  `id_paciente` int(11) DEFAULT NULL,
-  `id_forma_pago` int(11) DEFAULT NULL,
-  `fecha_factura` date DEFAULT NULL,
-  `tipo_monotributo` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `cuil` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `costo` decimal(10,2) DEFAULT NULL,
-  `pagado` tinyint(1) DEFAULT NULL,
-  PRIMARY KEY (`id_facturas`),
-  KEY `id_paciente` (`id_paciente`),
-  KEY `id_forma_pago` (`id_forma_pago`),
-  CONSTRAINT `t_17datosfacturacion_ibfk_1` FOREIGN KEY (`id_paciente`) REFERENCES `t_01paciente` (`Id_paciente`),
-  CONSTRAINT `t_17datosfacturacion_ibfk_2` FOREIGN KEY (`id_forma_pago`) REFERENCES `t_18formaspago` (`id_forma_pago`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `t_17datosfacturacion`
---
-
-LOCK TABLES `t_17datosfacturacion` WRITE;
-/*!40000 ALTER TABLE `t_17datosfacturacion` DISABLE KEYS */;
-INSERT INTO `t_17datosfacturacion` VALUES (1,1,1,'2023-08-01','Monotributo A','20-12345678-6',150.00,1),(2,2,2,'2023-08-05','Monotributo B','27-23456789-7',200.00,1),(3,3,3,'2023-08-10','Monotributo C','30-34567890-8',180.00,0),(4,4,4,'2023-08-15','Monotributo D','24-45678901-9',250.00,0),(5,5,5,'2023-08-20','Monotributo E','22-56789012-0',170.00,1),(6,6,1,'2023-08-25','Monotributo A','25-67890123-1',220.00,0),(7,7,2,'2023-08-30','Monotributo B','23-78901234-2',190.00,1),(8,8,3,'2023-09-01','Monotributo C','26-89012345-3',280.00,0),(9,9,4,'2023-09-05','Monotributo D','29-90123456-4',210.00,1),(10,10,5,'2023-09-10','Monotributo E','21-01234567-5',230.00,0);
-/*!40000 ALTER TABLE `t_17datosfacturacion` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `t_18formaspago`
---
-
-DROP TABLE IF EXISTS `t_18formaspago`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `t_18formaspago` (
-  `id_forma_pago` int(11) NOT NULL,
-  `nombre_forma` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  PRIMARY KEY (`id_forma_pago`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `t_18formaspago`
---
-
-LOCK TABLES `t_18formaspago` WRITE;
-/*!40000 ALTER TABLE `t_18formaspago` DISABLE KEYS */;
-INSERT INTO `t_18formaspago` VALUES (1,'Efectivo'),(2,'Tarjeta de crédito'),(3,'Transferencia bancaria'),(4,'Cheque'),(5,'Pago en línea');
-/*!40000 ALTER TABLE `t_18formaspago` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `usuario`
 --
 
@@ -677,7 +568,7 @@ CREATE TABLE `usuario` (
   `FechaRegistro` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `IntentosFallidos` int(11) DEFAULT '0',
   PRIMARY KEY (`UsuarioID`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -686,7 +577,7 @@ CREATE TABLE `usuario` (
 
 LOCK TABLES `usuario` WRITE;
 /*!40000 ALTER TABLE `usuario` DISABLE KEYS */;
-INSERT INTO `usuario` VALUES (1,'santy','umeres','qwert',1,'santiago@gmail.com','¿Color favorito?','Rojo','2024-06-13 00:55:26',0),(9,'santy112',NULL,'zxcvb',2,'santy@gmail.com','¿animal favorito?','gatos','2024-06-13 04:07:25',0),(10,'santiagor','lopez','123456789',1,'vamp@gmiail.com','¿animal favorito?','perros','2024-06-21 00:45:29',0);
+INSERT INTO `usuario` VALUES (1,'santi','umeres','qwert',1,'santiago@gmail.com','¿Color favorito?','Rojo','2024-06-13 00:55:26',0),(9,'santy112',NULL,'123456',2,'santy@gmail.com','¿animal favorito?','gatos','2024-06-13 04:07:25',0),(12,'santiago','umeres','P@ssw0rd!2023',NULL,'tonta@gmail.com','¿En qué ciudad naciste?','goya','2024-07-05 04:45:25',0);
 /*!40000 ALTER TABLE `usuario` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -699,4 +590,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-07-02  3:07:59
+-- Dump completed on 2024-08-08 17:42:51

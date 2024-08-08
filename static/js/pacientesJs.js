@@ -65,6 +65,9 @@ function abrirModalVerDirecciones() {
     document.getElementById('modalVerDirecciones').style.display = 'block';
 }
 
-function cerrarModalVerDirecciones() {
-    document.getElementById('modalVerDirecciones').style.display = 'none';
+function mostrarDirecciones() {
+    document.querySelector('.modal-content').style.display = 'block';
   }
+
+
+

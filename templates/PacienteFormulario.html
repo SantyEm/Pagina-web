@@ -19,16 +19,13 @@
                     <a href="/volver_inicio" class="nav__link" >Inicio</a>
                  </li>
                  <li class="nav__item">
-                    <a href="/datos_pacientes" class="nav__link" >Paciente</a>
-                 </li>
-                 <li class="nav__item">
                     <a href="#" class="nav__link" >Padres</a>
                  </li>
                  <li class="nav__item">
-                    <a href="#" class="nav__link">Desarrollo</a>
+                    <a href="/datos_pacientes" class="nav__link" >Paciente</a>
                  </li>
                  <li class="nav__item">
-                    <a href="#" class="nav__link" >Facturación</a>
+                    <a href="#" class="nav__link">Desarrollo</a>
                  </li>
               </ul>
               <div class="nav__close" id="nav-close">
@@ -78,7 +75,7 @@
         <div class="tab-content active" id="tab1">
             <div class="blockEntrada">
                 <div class="title">Ingreso de Datos</div>
-                <form id="datos-paciente" action="/add_paciente" method="post">
+                <form id="datos-paciente" action="/agregar-paciente" method="post">
                     <!-- Campos de entrada de datos del paciente -->
                     <label for="nombre">Nombre:</label>
                     <input type="text" id="nombre" name="nombre" required><br>
@@ -143,6 +140,7 @@
                         <!-- Encabezados de la tabla -->
                         <thead>
                             <tr>
+                                <th style="display: none;">ID</th>
                                 <th>Nombre</th>
                                 <th>Apellido</th>
                                 <th>DNI</th>
@@ -153,11 +151,12 @@
                                 <th>Acciones</th>
                             </tr>
                         </thead>
-        
+                        
                         <!-- Cuerpo de la tabla -->
                         <tbody>
                             {% for paciente in pacientes %}
                             <tr>
+                                <td style="display: none;">{{ paciente.Id_paciente }}</td>
                                 <td>{{ paciente.Nombre }}</td>
                                 <td>{{ paciente.Apellido }}</td>
                                 <td>{{ paciente.DNI }}</td>
@@ -173,10 +172,10 @@
                                     <form action="/eliminar_paciente/{{ paciente.Id_paciente }}" method="post">
                                         <button type="submit">Eliminar</button>
                                     </form>
-                                    <form action="/ver_direcciones/{{ paciente.id }}" method="get">
-                                        <button type="submit">Ver Direcciones</button>
-                                    </form>
                                     
+                                    <form action="/paciente/direcciones/{{ paciente.Id_paciente }}" method="get" onsubmit="mostrarIdPaciente(this); return false;">
+                                        <button type="submit" onclick="window.open('/paciente/direcciones/{{ paciente.Id_paciente }}', 'Direcciones', 'width=400,height=200'); return false;">Ver direcciones</button>
+                                    </form>
                                 </td>
                             </tr>
                             {% endfor %}
@@ -185,47 +184,7 @@
                 </div>
             </form>
         </div>
-        
-        <!-- Modal ver dirección -->
-        <div id="modalVerDirecciones" class="modal">
-            <div class="modal-content">
-                <span class="close" onclick="cerrarModalVerDirecciones()">&times;</span> <!-- Botón de cierre -->
-                <h2>Direcciones</h2>
-                <!-- Iterar sobre las direcciones -->
-                <table class="table">
-                    <!-- Encabezados de la tabla -->
-                    <thead>
-                        <tr>
-                            <th>Ciudad</th>
-                            <th>Estado</th>
-                            <th>Código Postal</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <!-- Cuerpo de la tabla -->
-                    <tbody>
-                        {% for direccion in direcciones %}
-                        <tr>
-                            <td>{{ direccion.ciudad }}</td>
-                            <td>{{ direccion.estado }}</td>
-                            <td>{{ direccion.codigo_postal }}</td>
-                            <td class="acciones">
-                                <!-- Acciones para cada dirección -->
-                                <form action="/editar_direccion/{{ direccion.id_direccion }}" method="get" style="display:inline;">
-                                    <button type="submit">Editar</button>
-                                </form>
-                                <form action="/eliminar_direccion/{{ direccion.id_direccion }}" method="post" style="display:inline;">
-                                    <button type="submit">Eliminar</button>
-                                </form>
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        
-
+       
         
 </div>
 

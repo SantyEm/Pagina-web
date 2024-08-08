@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/remixicon.css" rel="stylesheet">
+    <style>
+        /* Aquí va tu estilo */
+        .ventanaDireccciones-content {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 400px;
+            height: 200px;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .ventanaDireccciones-content .title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            text-align: center; /* Alineación centrada del título */
+        }
+
+        .ventanaDireccciones-content .table {
+            width: 100%;
+            border-collapse: collapse; /* Colapsa los bordes de la tabla */
+            background-color: #fff; /* Color de fondo de la tabla */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra ligera alrededor de la tabla */
+            border-radius: 8px; /* Borde redondeado para la tabla */
+        }
+
+        .ventanaDireccciones-content .table th,
+        .ventanaDireccciones-content .table td {
+            padding: 10px; /* Ajusta el padding de las celdas según sea necesario */
+            border: 1px solid #9b9a9a; /* Añade bordes a las celdas */
+            text-align: center; /* Alinea el contenido al centro */
+            white-space: nowrap; /* Evita que el texto se envuelva */
+            vertical-align: middle; /* Alinea el contenido verticalmente */
+            height: 10px; /* Ajusta la altura deseada para las celdas */
+            line-height: 10px; /* Ajusta la altura de línea igual a la altura para centrar el texto verticalmente */
+        }
+
+        .ventanaDireccciones-content .table th {
+            background-color: #f0f0f0; /* Color de fondo para las celdas de encabezado */
+        }
+
+        .ventanaDireccciones-content .table tbody tr:nth-child(even) {
+            background-color: #f9f9f9; /* Color de fondo para filas pares */
+        }
+
+        .ventanaDireccciones-content .table tbody tr:hover {
+            background-color: #e0e0e0; /* Color de fondo al pasar el mouse sobre una fila */
+        }
+
+        body {
+            background: url('../img/fon-config.jpg') no-repeat;
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-attachment: fixed;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="ventanaDireccciones-content">
+        <h2 class="title">Direcciones</h2>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Ciudad</th>
+                    <th>Estado</th>
+                    <th>Código postal</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for direccion in direcciones %}
+                <tr>
+                    <td>{{ direccion['ciudad'] }}</td>
+                    <td>{{ direccion['estado'] }}</td>
+                    <td>{{ direccion['codigo_postal'] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</body> <!-- Cierre de la etiqueta body -->
+
+</html>

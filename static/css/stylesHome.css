@@ -15,7 +15,6 @@
   --border-color: hsl(230, 25%, 80%);
 
   /*========== Font and typography ==========*/
-  /*.5rem = 8px | 1rem = 16px ...*/
   --body-font: "Syne", sans-serif;
   --h2-font-size: 1.25rem;
   --normal-font-size: .938rem;
@@ -141,8 +140,8 @@ img {
   column-gap: 1rem;
 }
 
-.nav__search, 
-.nav__login, 
+.nav__user,
+.nav__config,
 .nav__toggle, 
 .nav__close {
   font-size: 1.25rem;
@@ -151,7 +150,7 @@ img {
   transition: color .4s;
 }
 
-:is(.nav__logo, .nav__search, .nav__login, .nav__toggle, .nav__link):hover {
+:is(.nav__logo, .nav__user, .nav__toggle, .nav__link, .nav__config):hover {
   color: var(--first-color);
 }
 
@@ -195,21 +194,6 @@ img {
 
 /*=============== SEARCH ===============*/
 
-.search__icon {
-  font-size: 1.25rem;
-  color: var(--title-color);
-}
-
-.login__button:hover {
-  box-shadow: 0 4px 24px hsla(230, 75%, 40%, .4);
-}
-
-/* Show login */
-.show-login {
-  opacity: 1;
-  pointer-events: initial;
-}
-
 header .logo {
   font-size: 1.8rem;
   color: #333;
@@ -251,7 +235,14 @@ header .logo a {
   -webkit-text-stroke: 1px #fff;
   text-align: center;
 }
-
+/*=============== ICONS ===============*/
+.material-symbols-outlined {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 24
+}
 /*=============== BREAKPOINTS ===============*/
 /* For medium devices */
 @media screen and (min-width: 576px) {
@@ -316,7 +307,7 @@ header .logo a {
 
 /* botones */
 
-/* Estilo del dropdown más estético y moderno */
+/* Estilo del dropdown más estético y moderno 
 
 .dropdown {
   position: relative;
@@ -324,18 +315,18 @@ header .logo a {
 }
 
 .dropdown__button {
-  padding: 10px 20px;
+  padding: 1px 1px;
   border: none;
-  border-radius: 5px;
-  background-color: #6ccc1e; /* Color verde claro */
-  color: #fff;
+  border-radius: 38px;
+  background-color: rgba(171, 240, 21, 0); /* Color verde claro 
+  color: #000000;
   font-size: 16px;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
 .dropdown__button:hover {
-  background-color: #5aa317; /* Cambio de color al pasar el mouse */
+  background-color: #c3c5c1; /* Cambio de color al pasar el mouse 
 }
 
 .dropdown__content {
@@ -345,12 +336,12 @@ header .logo a {
   min-width: 160px;
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1;
-  border-radius: 5px; /* Borde redondeado */
-  padding: 8px 0; /* Espaciado interno */
+  border-radius: 5px; /* Borde redondeado 
+  padding: 8px 0; /* Espaciado interno 
 }
 
 .dropdown__content.show {
-  display: block; /* Mostrar cuando tiene la clase "show" */
+  display: block; /* Mostrar cuando tiene la clase "show" 
 }
 
 .dropdown__content a {
@@ -362,6 +353,37 @@ header .logo a {
 }
 
 .dropdown__content a:hover {
-  background-color: #e0e0e0; /* Cambio de color al pasar el mouse */
-  color: #000; /* Color de texto al pasar el mouse */
+  background-color: #e0e0e0; /* Cambio de color al pasar el mouse 
+  color: #000; /* Color de texto al pasar el mouse 
+}
+
+/*=============== Botones navbar ===============*/
+.boton2{
+  position: relative;
+  display: inline-block;
+}
+
+.drop2{
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  padding: 0;
+  list-style: none;
+}
+
+.boton2:hover .drop2{
+  display: block;
+}
+
+.drop2 li{
+  padding: 8px 12px;
+  color: #000000;
+  font-size: 16px;
+}
+
+.drop2 li:hover{
+  background-color: #6ccc1e;
 }
