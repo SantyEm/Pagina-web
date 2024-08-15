@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="../static/css/stiloMenu.css">
+    <link rel="stylesheet" href="../static/css/stiloPacienteForm.css">
+</head>
+
+<body>
+    <header class="header" id="header">
+        <nav class="nav container">
+           <span class="puntito">.</span>
+           <a href="#" class="logo">Clínica de Psicopedagogía</a>
+           <div class="nav__menu" id="nav-menu">
+              <ul class="nav__list">
+                 <li class="nav__item">
+                    <a href="/volver_inicio" class="nav__link" >Inicio</a>
+                 </li>
+                 <li class="nav__item">
+                    <a href="#" class="nav__link" >Padres</a>
+                 </li>
+                 <li class="nav__item">
+                    <a href="/datos_pacientes" class="nav__link" >Paciente</a>
+                 </li>
+                 <li class="nav__item">
+                    <a href="#" class="nav__link">Desarrollo</a>
+                 </li>
+              </ul>
+              <div class="nav__close" id="nav-close">
+                 <i class="ri-close-line"></i>
+              </div>
+           </div>
+           
+           <div class="nav__actions">
+              <div class="dropdown">
+                 <button class="dropdown__button" onclick="toggleDropdown('config-dropdown')">
+                     <i class="fas fa-cog"></i> Configuración
+                 </button>
+                 <div class="dropdown__content" id="config-dropdown">
+                    <a href="usuario-info">Usuarios</a>
+                     <a href="acerca-de">Acerca de</a>
+                 </div>
+             </div>
+             
+             <div class="dropdown">
+              <button class="dropdown__button" onclick="toggleDropdown('profile-dropdown')">
+                  <i class="fas fa-user"></i> Perfil
+              </button>
+              <div class="dropdown__content" id="profile-dropdown">
+                  <a href="opciones_usuario">Opciones de Usuario</a>
+                  <a href="/cerrar-sesion?confirm_logout=true">Cerrar sesión</a>
+              </div>
+          </div>
+          
+          </div>
+          
+          </div>
+        </nav>
+        
+     </header>
+      <!-- Formulario alternativo para cerrar sesión -->
+      <form action="/cerrar-sesion" method="POST">
+          <button type="submit">Cerrar sesión</button>
+       </form>
+
+       <div class="tab-container">
+        <div class="tabs">
+            <button class="tab-button" onclick="openTab(event, 'tab1')">Datos Padres</button>
+            <button class="tab-button" onclick="openTab(event, 'tab2')">Datos del Embarazo</button>
+        </div>
+
+        <div class="tab-content" id="tab1">
+            <form>
+                <div class="busqueda">
+                  <button type="submit">Buscar</button>
+                  <input type="text" name="buscar" placeholder="Buscar...">
+                  <select name="parametro">
+                    <option value="Nombres">Nombres</option>
+                    <option value="Apellido">Apellido</option>
+                    <option value="Telefono">Teléfono</option>
+                    <option value="Ocupacion">Ocupación</option>
+                  </select>
+                </div>
+              </form>
+
+            <div class="blockEntrada">
+                <div class="title">Ingreso de Datos del Padre</div>
+                <form id="datos-padre" action="/agregar-padre" method="post">
+                    <label for="nombres">Nombres:</label>
+                    <input type="text" id="nombres" name="nombres" required><br>
+                    <label for="apellido">Apellido:</label>
+                    <input type="text" id="apellido" name="apellido" required><br>
+                    <label for="telefono">Teléfono:</label>
+                    <input type="text" id="telefono" name="telefono" maxlength="20" required><br>
+                    <label for="ocupacion">Ocupación:</label>
+                    <input type="text" id="ocupacion" name="ocupacion" required><br>
+                    <label for="fecha_nacimiento">Fecha de Nacimiento:</label>
+                    <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" required><br>
+                    <label for="nivel_educacion">Nivel de Educación:</label>
+                    <div>
+                        <select id="nivel_educacion" name="nivel_educacion">
+                            <!-- Opciones para el nivel de educación -->
+                            <option value="1">Educación Inicial</option>
+                            <option value="2">Educación Primaria</option>
+                            <option value="3">Educación Secundaria</option>
+                            <option value="3">Educación Superior</option>
+                        </select>
+                    </div>
+                    <!-- Área dinámica para las direcciones -->
+                    <div id="direcciones-container">
+                        <!-- Aquí se agregarán dinámicamente las direcciones -->
+                    </div>
+                    <!-- Botón para agregar dirección -->
+                    <button type="button" onclick="abrirModal()">Agregar Dirección</button><br>
+                    <button type="submit">Agregar Padre</button>
+                </form>
+            </div>
+
+            <!-- modal direcciones -->
+        <div id="modal-direccion" class="modal">
+         <div class="modal-content">
+            <span class="close" onclick="cerrarModal()">&times;</span>
+             <h2>Agregar Dirección</h2>
+             <form id="direccion-form">
+                 <label for="direccion">Dirección:</label>
+                 <input type="text" id="direccion" name="direccion" required><br>
+                 <label for="ciudad">Ciudad:</label>
+                 <input type="text" id="ciudad" name="ciudad" required><br>
+                 <label for="estado_vivienda">Estado de Vivienda:</label>
+                 <div>
+                 <select id="estado_vivienda" name="estado_vivienda">
+                     <!-- Opciones para el estado de vivienda -->
+                     <option value="1">Buen estado</option>
+                     <option value="2">Regular estado</option>
+                     <option value="3">Mal estado</option>
+                 </select>
+                 </div>
+                 <button type="submit">Agregar Dirección</button>
+             </form>
+         </div>
+     </div>
+     <div class="blockTabla">
+        <div class="title">Tabla De Registros de Padres</div>
+        <form action="/padres" method="post">
+            <!-- Contenido del formulario -->
+            <div>
+                <table class="table">
+                    <!-- Encabezados de la tabla -->
+            <thead>
+                <tr>
+                    <th style="display: none;">ID</th>
+                    <th>Nombres</th>
+                    <th>Apellido</th>
+                    <th>Teléfono</th>
+                    <th>Ocupación</th>
+                    <th>Nivel de Educación</th>
+                    <th>Edad</th> <!-- Nueva columna para la edad -->
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+
+            <!-- Cuerpo de la tabla -->
+            <tbody>
+                {% for padre in padres %}
+                <tr>
+                    <td style="display: none;">{{ padre.Id_padre }}</td>
+                    <td>{{ padre.Nombres }}</td>
+                    <td>{{ padre.Apellido }}</td>
+                    <td>{{ padre.Telefono }}</td>
+                    <td>{{ padre.Ocupacion }}</td>
+                    <td>{{ padre.Fecha_nacimiento }}</td>
+                    <td>{{ padre.edad }}</td>  <!-- Mostrar la edad aquí -->
+                    <td class="acciones" >
+                        <!-- Acciones para cada padre -->
+                        <form action="/editar_padre/{{ padre.Id_padre }}" method="get">
+                            <button type="submit">Editar</button>
+                        </form>
+                        <form action="/eliminar_padre/{{ padre.Id_padre }}" method="post">
+                            <button type="submit">Eliminar</button>
+                        </form>
+                        
+                        <form action="/padre/direcciones/{{ padre.Id_padre }}" method="get" onsubmit="mostrarIdPadre(this); return false;">
+                            <button type="submit" onclick="window.open('/padre/direcciones/{{ padre.Id_padre }}', 'Direcciones', 'width=400,height=200'); return false;">Ver direcciones</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+                </table>
+            </div>
+        </form>
+    </div>
+     </div>
+
+        <div class="tab-content" id="tab2">
+         <!-- Contenido para los Datos del Embarazo -->
+     </div>
+    </div>
+
+    <script src="../static/js/PadresJs"></script>
+    <script src="../static/js/pacientesJs.js"></script>
+
+</body>
+</html>

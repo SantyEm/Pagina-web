@@ -281,3 +281,36 @@ label {
     pointer-events: none;
   }
 
+/* estilo busqueda */
+.busqueda {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Añade esta regla para alinear los elementos a la izquierda */
+  }
+  
+  .busqueda button[type="submit"], .busqueda input[type="text"], .busqueda select {
+    vertical-align: middle;
+  }
+
+  .busqueda button[type="submit"] {
+    margin-top: -12px; /* Mueve el botón 5px hacia abajo */
+    margin-right: 10px; /* Añade un margen entre el campo de entrada y el combo box */
+  }
+  
+  .busqueda input[type="text"] {
+    margin-right: 10px; /* Añade un margen entre el campo de entrada y el combo box */
+    width: 800px; /* Ajusta el ancho del campo de entrada */
+  }
+  
+  .busqueda select {
+    width: 150px; /* Ajusta el ancho del combo box */
+    margin-top: 50px; /* Mueve el combo box 8px hacia abajo */
+
+
+    color: #333; /* Color del texto */
+    background-color: #f9f9f9; /* Color del fondo */
+    padding: 5px; /* Espacio entre el texto y el borde */
+    border: 1px solid #ccc; /* Borde */
+    border-radius: 5px; /* Borde redondeado */
+
+  }
