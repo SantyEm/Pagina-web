@@ -282,35 +282,45 @@ label {
   }
 
 /* estilo busqueda */
-.busqueda {
+.contenedor-busqueda {
+    background-color: #fff; /* Fondo blanco */
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 90px; /* Ajusta el valor según el height del header */
+    height: 60px; /* Ajusta el valor según tus necesidades */
+    
+
+  }
+  
+  .busqueda {
     display: flex;
     align-items: center;
-    justify-content: center; /* Añade esta regla para alinear los elementos a la izquierda */
+    justify-content: center;
   }
   
   .busqueda button[type="submit"], .busqueda input[type="text"], .busqueda select {
     vertical-align: middle;
   }
-
+  
   .busqueda button[type="submit"] {
-    margin-top: -12px; /* Mueve el botón 5px hacia abajo */
-    margin-right: 10px; /* Añade un margen entre el campo de entrada y el combo box */
+    margin-top: -70px;
+    margin-right: 10px;
   }
   
   .busqueda input[type="text"] {
-    margin-right: 10px; /* Añade un margen entre el campo de entrada y el combo box */
-    width: 800px; /* Ajusta el ancho del campo de entrada */
+    margin-right: 25px;
+    margin-top: -55px;
+    width: 800px;
   }
   
   .busqueda select {
-    width: 150px; /* Ajusta el ancho del combo box */
-    margin-top: 50px; /* Mueve el combo box 8px hacia abajo */
-
-
-    color: #333; /* Color del texto */
-    background-color: #f9f9f9; /* Color del fondo */
-    padding: 5px; /* Espacio entre el texto y el borde */
-    border: 1px solid #ccc; /* Borde */
-    border-radius: 5px; /* Borde redondeado */
-
+    width: 150px;
+    margin-top: -15px;
+    color: #333;
+    background-color: #f9f9f9;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
   }

@@ -3,9 +3,6 @@ from conexion import get_connection
 from flask import request
 from datetime import datetime
 
-from flask import session
-from flask import current_app
-
 app = Flask(__name__)
 
 def calcular_edad(fecha_nacimiento):
@@ -41,18 +38,22 @@ def obtener_direcciones_padre(id_padre):
 def obtener_padres():
     connection = get_connection()
     cursor = connection.cursor()
-    cursor.execute("SELECT p.Id_padre, p.Nombres, p.Apellido, p.Telefono, p.Ocupacion, e.nivel, p.Fecha_nacimiento FROM t_03padres p LEFT JOIN t_05niveleseducacion e ON p.id_nivel_educacion = e.id_nivel")
+    cursor.execute('SELECT p.Id_padre, p.Nombres, p.Apellido, p.Telefono, p.Ocupacion, e.nivel, p.Fecha_nacimiento, p.id_tipo_relacion FROM t_03padres_madres p LEFT JOIN t_05niveleseducacion e ON p.id_nivel_educacion = e.id_nivel')
     padres = cursor.fetchall()
     padres = [dict(zip([column[0] for column in cursor.description], row)) for row in padres]
 
     # Agregar una columna adicional para la edad
     for padre in padres:
         padre['edad'] = calcular_edad(padre['Fecha_nacimiento'])
+        
+    for padre in padres:
+        print(padre['nivel'])  # Accede a la columna 'nivel'
+
     cursor.close()
     connection.close()
     return padres
 
-    
+
 @app.route('/agregar-padre', methods=['POST'])
 def agregar_padre():
         # Obtener la conexión y el cursor
@@ -79,7 +80,6 @@ def agregar_padre():
         else:
         # Manejar el caso en que no se encontró ningún resultado
              id_nivel = None
-        # o lanzar una excepción, dependiendo de la lógica de tu aplicación
 
         # Convertir la fecha de nacimiento a un objeto datetime
         fecha_nacimiento = datetime.strptime(fecha_nacimiento, '%Y-%m-%d')
@@ -112,7 +112,7 @@ def eliminar_padre(Id_padre):
     cursor = connection.cursor()
     
     # Ejecuta la consulta para eliminar el registro
-    cursor.execute("DELETE FROM t_03padres WHERE Id_padre = %s", (Id_padre,))
+    cursor.execute("DELETE FROM t_03padres_madres WHERE Id_padre = %s", (Id_padre,))
     
     # Confirma los cambios
     connection.commit()
@@ -126,6 +126,46 @@ def eliminar_padre(Id_padre):
     
     # Redirige a la página principal o muestra un mensaje de éxito
     return render_template('PadresFormulario.html', padres=padres)  # o return "Registro eliminado con éxito"
+
+
+@app.route('/padre/<int:id_padre>/datos-embarazo/', methods=['GET'])
+def mostrar_datos_embarazo(id_padre):
+    # Obtener los datos de los embarazos del padre con el ID especificado
+    datos_embarazo = obtener_datos_embarazo(id_padre)
+    print(datos_embarazo)
+    # Renderizar la plantilla con la tabla de datos de embarazo
+    return render_template('MostrarEmbarazoMadres.html', datos_embarazo=datos_embarazo)
+
+def obtener_datos_embarazo(id_padre):
+    try:
+        connection = get_connection()
+        cursor = connection.cursor()
+        cursor.execute("""
+            SELECT 
+                    e.id_embarazo, 
+                    e.id_paciente, 
+                    tp.tipo AS tipo_parto, 
+                    e.inicio_del_embarazo, 
+                    e.fecha_fin_del_embarazo, 
+                    e.semana_gestacion, 
+                    e.peso_al_nacer,
+                    en.enfermedad
+                FROM 
+                    t_06datosembarazo e
+                LEFT JOIN 
+                    t_08tipoparto tp ON e.id_tipo_parto = tp.id_tipo_parto
+                LEFT JOIN 
+                    t_09enfermedadesembarazo en ON e.id_embarazo = en.id_embarazo
+                WHERE 
+                    e.id_paciente = %s
+        """, (id_padre,))
+        datos_embarazo = cursor.fetchall()
+        if datos_embarazo is None:
+            return []
+        return [dict(zip([column[0] for column in cursor.description], row)) for row in datos_embarazo]
+    except Exception as e:
+        print(f"Error al obtener datos de embarazo: {e}")
+        return []
 
 
 if __name__ == '__main__':

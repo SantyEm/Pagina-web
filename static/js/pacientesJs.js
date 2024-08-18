@@ -69,5 +69,12 @@ function mostrarDirecciones() {
     document.querySelector('.modal-content').style.display = 'block';
   }
 
+   // Función para abrir el modal
+   function abrirModalEmbarazo() {
+    document.getElementById('modal-embarazo-registro').style.display = 'block';
+}
 
-
+// Función para cerrar el modal
+function cerrarModal() {
+    document.getElementById('modal-embarazo-registro').style.display = 'none';
+}

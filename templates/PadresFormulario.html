@@ -65,25 +65,20 @@
           <button type="submit">Cerrar sesión</button>
        </form>
 
-       <div class="tab-container">
-        <div class="tabs">
-            <button class="tab-button" onclick="openTab(event, 'tab1')">Datos Padres</button>
-            <button class="tab-button" onclick="openTab(event, 'tab2')">Datos del Embarazo</button>
-        </div>
-
-        <div class="tab-content" id="tab1">
-            <form>
-                <div class="busqueda">
-                  <button type="submit">Buscar</button>
-                  <input type="text" name="buscar" placeholder="Buscar...">
-                  <select name="parametro">
-                    <option value="Nombres">Nombres</option>
-                    <option value="Apellido">Apellido</option>
-                    <option value="Telefono">Teléfono</option>
-                    <option value="Ocupacion">Ocupación</option>
-                  </select>
-                </div>
-              </form>
+       <div class="contenedor-busqueda">
+        <form>
+          <div class="busqueda">
+            <button type="submit">Buscar</button>
+            <input type="text" name="buscar" placeholder="Buscar...">
+            <select name="parametro">
+              <option value="Nombres">Nombres</option>
+              <option value="Apellido">Apellido</option>
+              <option value="Telefono">Teléfono</option>
+              <option value="Ocupacion">Ocupación</option>
+            </select>
+          </div>
+        </form>
+      </div>
 
             <div class="blockEntrada">
                 <div class="title">Ingreso de Datos del Padre</div>
@@ -108,20 +103,26 @@
                             <option value="3">Educación Superior</option>
                         </select>
                     </div>
-                    <!-- Área dinámica para las direcciones -->
-                    <div id="direcciones-container">
-                        <!-- Aquí se agregarán dinámicamente las direcciones -->
-                    </div>
+
+                    <label for="tipo_relacion">Tipo de Relación:</label>
+                    <select id="tipo_relacion" name="tipo_relacion">
+                        <option value="Padre">Padre</option>
+                        <option value="Madre">Madre</option>
+                    </select>
+                    
+    
                     <!-- Botón para agregar dirección -->
                     <button type="button" onclick="abrirModal()">Agregar Dirección</button><br>
+                    <!-- Botón para abrir el modal embarazo -->
+                    <button type="button" onclick="abrirModalEmbarazo()">Agregar Embarazo</button><br>
                     <button type="submit">Agregar Padre</button>
                 </form>
             </div>
 
             <!-- modal direcciones -->
         <div id="modal-direccion" class="modal">
-         <div class="modal-content">
-            <span class="close" onclick="cerrarModal()">&times;</span>
+        <div class="modal-content">
+        <span class="close" onclick="cerrarModal()">&times;</span>
              <h2>Agregar Dirección</h2>
              <form id="direccion-form">
                  <label for="direccion">Dirección:</label>
@@ -141,6 +142,44 @@
              </form>
          </div>
      </div>
+
+        <!-- Modal embarazo -->
+        <div id="modal-embarazo-registro" class="modal">
+        <div class="modal-content">
+        <span class="close" onclick="cerrarModal()">&times;</span>
+        <h2>Registrar Embarazo</h2>
+        <form id="embarazo-form">
+            <!-- Campos de la tabla t_06datosembarazo -->
+            <label for="inicio_del_embarazo">Inicio del Embarazo:</label>
+            <input type="date" id="inicio_del_embarazo" name="inicio_del_embarazo" required>
+            <label for="fecha_fin_del_embarazo">Fecha Fin del Embarazo:</label>
+            <input type="date" id="fecha_fin_del_embarazo" name="fecha_fin_del_embarazo" required>
+            <label for="semana_gestacion">Semanas de Gestación:</label>
+            <input type="number" id="semana_gestacion" name="semana_gestacion" required>
+            <label for="peso_al_nacer">Peso al Nacer:</label>
+            <input type="decimal" id="peso_al_nacer" name="peso_al_nacer" required>
+            
+            <!-- Select para tipo de parto (t_08tipoparto) -->
+            <label for="id_tipo_parto">Tipo de Parto:</label>
+            <select id="id_tipo_parto" name="id_tipo_parto">
+              <!-- Opciones para el estado de vivienda -->
+              <option value="1">Parto Natural</option>
+              <option value="2">Cesárea</option>
+              <option value="3">Parto Inducido</option>
+              <option value="4">Parto por Fórceps</option>
+              <option value="5">Parto en el Agua</option>
+            <!-- Opciones generadas desde la tabla t_08tipoparto -->
+            </select>
+            
+            <!-- Campo para enfermedades del embarazo (t_09enfermedadesembarazo) -->
+            <label for="enfermedades">Enfermedades del Embarazo:</label>
+            <textarea id="enfermedades" name="enfermedades"></textarea>
+            
+            <button type="submit">Registrar Embarazo</button>
+        </form>
+        </div>
+    </div>
+
      <div class="blockTabla">
         <div class="title">Tabla De Registros de Padres</div>
         <form action="/padres" method="post">
@@ -148,55 +187,74 @@
             <div>
                 <table class="table">
                     <!-- Encabezados de la tabla -->
-            <thead>
-                <tr>
-                    <th style="display: none;">ID</th>
-                    <th>Nombres</th>
-                    <th>Apellido</th>
-                    <th>Teléfono</th>
-                    <th>Ocupación</th>
-                    <th>Nivel de Educación</th>
-                    <th>Edad</th> <!-- Nueva columna para la edad -->
-                    <th>Acciones</th>
-                </tr>
-            </thead>
+                    <thead>
+                        <tr>
+                            <th style="display: none;">ID</th>
+                            <th>Nombres</th>
+                            <th>Apellido</th>
+                            <th>Teléfono</th>
+                            <th>Ocupación</th>
+                            <th>Nivel de Educación</th>
+                            <th>Edad</th> <!-- Edad en la posición 7 -->
+                            <th>Fecha de nacimiento</th> <!-- Fecha de nacimiento en la posición 8 -->
+                            <th>Tipo de Relacion</th>
+                            <th>Datos de Embarazo</th>
+                            <th>Direcciones</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    
+                    <tbody>
+                        {% for padre in padres %}
+                        <tr>
+                            <td style="display: none;">{{ padre.Id_padre }}</td>
+                            <td>{{ padre.Nombres }}</td>
+                            <td>{{ padre.Apellido }}</td>
+                            <td>{{ padre.Telefono }}</td>
+                            <td>{{ padre.Ocupacion }}</td>
+                            <td>{{ padre.nivel }}</td>
+                            <td>{{ padre.edad }}</td> <!-- Edad en la posición 7 -->
+                            <td>{{ padre.Fecha_nacimiento }}</td> <!-- Fecha de nacimiento en la posición 8 -->
+                            <td>
+                                {% if padre.id_tipo_relacion == 1 %}
+                                    Padre
+                                {% elif padre.id_tipo_relacion == 2 %}
+                                    Madre
+                                {% else %}
+                                    Desconocido
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if padre.id_tipo_relacion == 2 %}
+                                <form action="/padre/{{ padre.Id_padre }}/datos-embarazo/" method="get" target="_blank">
+                                    <button type="submit" onclick="window.open('/padre/{{ padre.Id_padre }}/datos-embarazo/', 'Datos de Embarazo', 'width=1083,height=393');">Ver datos de embarazo</button>
+                                </form>
+                                {% endif %}
+                            </td>
+                            <td class="Direcciones" >   
+                                <form action="/padre/direcciones/{{ padre.Id_padre }}" method="get" onsubmit="mostrarIdPadre(this); return false;">
+                                    <button type="submit" onclick="window.open('/padre/direcciones/{{ padre.Id_padre }}', 'Direcciones', 'width=400,height=200'); return false;">Ver direcciones</button>
+                                </form>
+                            </td>
+                            <td class="acciones" >
+                                <!-- Acciones para cada padre -->
+                                <form action="/editar_padre/{{ padre.Id_padre }}" method="get">
+                                    <button type="submit">Editar</button>
+                                </form>
+                                <form action="/eliminar_padre/{{ padre.Id_padre }}" method="post">
+                                    <button type="submit">Eliminar</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
 
-            <!-- Cuerpo de la tabla -->
-            <tbody>
-                {% for padre in padres %}
-                <tr>
-                    <td style="display: none;">{{ padre.Id_padre }}</td>
-                    <td>{{ padre.Nombres }}</td>
-                    <td>{{ padre.Apellido }}</td>
-                    <td>{{ padre.Telefono }}</td>
-                    <td>{{ padre.Ocupacion }}</td>
-                    <td>{{ padre.Fecha_nacimiento }}</td>
-                    <td>{{ padre.edad }}</td>  <!-- Mostrar la edad aquí -->
-                    <td class="acciones" >
-                        <!-- Acciones para cada padre -->
-                        <form action="/editar_padre/{{ padre.Id_padre }}" method="get">
-                            <button type="submit">Editar</button>
-                        </form>
-                        <form action="/eliminar_padre/{{ padre.Id_padre }}" method="post">
-                            <button type="submit">Eliminar</button>
-                        </form>
-                        
-                        <form action="/padre/direcciones/{{ padre.Id_padre }}" method="get" onsubmit="mostrarIdPadre(this); return false;">
-                            <button type="submit" onclick="window.open('/padre/direcciones/{{ padre.Id_padre }}', 'Direcciones', 'width=400,height=200'); return false;">Ver direcciones</button>
-                        </form>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
                 </table>
             </div>
         </form>
     </div>
-     </div>
+    
 
-        <div class="tab-content" id="tab2">
-         <!-- Contenido para los Datos del Embarazo -->
-     </div>
     </div>
 
     <script src="../static/js/PadresJs"></script>

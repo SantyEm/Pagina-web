@@ -23,12 +23,13 @@ document.addEventListener("DOMContentLoaded", function() {
     document.getElementsByClassName("tab-button")[0].click();
 });
 
+  
 // Función para abrir el modal
-function abrirModal() {
-    document.getElementById('modal-direccion').style.display = 'block';
+function abrirModalEmbarazo() {
+    document.getElementById('modal-embarazo-registro').style.display = 'block';
 }
 
 // Función para cerrar el modal
 function cerrarModal() {
-    document.getElementById('modal-direccion').style.display = 'none';
+    document.getElementById('modal-embarazo-registro').style.display = 'none';
 }
