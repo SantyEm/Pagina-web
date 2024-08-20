@@ -238,8 +238,8 @@
                             </td>
                             <td class="acciones" >
                                 <!-- Acciones para cada padre -->
-                                <form action="/editar_padre/{{ padre.Id_padre }}" method="get">
-                                    <button type="submit">Editar</button>
+                                <form action="/padre/editar/{{ padre.Id_padre }}" method="get">
+                                    <button type="submit" onclick="window.open('/padre/editar/{{ padre.Id_padre }}', 'Editar', 'width=600,height=600'); return false;">Editar</button>
                                 </form>
                                 <form action="/eliminar_padre/{{ padre.Id_padre }}" method="post">
                                     <button type="submit">Eliminar</button>

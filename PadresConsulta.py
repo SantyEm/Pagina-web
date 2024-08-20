@@ -111,7 +111,15 @@ def eliminar_padre(Id_padre):
     connection = get_connection()
     cursor = connection.cursor()
     
-    # Ejecuta la consulta para eliminar el registro
+    # Elimina los registros relacionados en t_04direccionpadre
+    cursor.execute("DELETE FROM t_04direccionpadre WHERE id_padre = %s", (Id_padre,))
+    
+    # Elimina los registros relacionados en t_09enfermedadesembarazo (si existen)
+    cursor.execute("DELETE FROM t_09enfermedadesembarazo WHERE id_embarazo IN (SELECT id_embarazo FROM t_06datosembarazo WHERE id_paciente = (SELECT id_paciente FROM t_03padres_madres WHERE Id_padre = %s))", (Id_padre,))
+    # Elimina los registros relacionados en t_06datosembarazo (si existen)
+    cursor.execute("DELETE FROM t_06datosembarazo WHERE id_paciente = (SELECT id_paciente FROM t_03padres_madres WHERE Id_padre = %s)", (Id_padre,))
+    
+    # Elimina el registro en t_03padres_madres
     cursor.execute("DELETE FROM t_03padres_madres WHERE Id_padre = %s", (Id_padre,))
     
     # Confirma los cambios
@@ -166,7 +174,25 @@ def obtener_datos_embarazo(id_padre):
     except Exception as e:
         print(f"Error al obtener datos de embarazo: {e}")
         return []
+    
 
+@app.route('/padre/editar/<int:padre_id>', methods=['GET', 'POST'])
+def editar_padre(padre_id):
+    print("ID recibido:", padre_id)
+    padre = obtener_padre_especifico(padre_id)
+    print(padre)  # Verifica que se esté obteniendo el padre correctamente
+    if padre is None:
+        return "Padre no encontrado", 404
+    return render_template('EditarPadres.html', padre=padre)
+
+def obtener_padre_especifico(id_padre):
+    connection = get_connection()
+    cursor = connection.cursor()
+    cursor.execute('SELECT p.Id_padre, p.Nombres, p.Apellido, p.Telefono, p.Ocupacion, e.nivel, p.Fecha_nacimiento, p.id_tipo_relacion FROM t_03padres_madres p LEFT JOIN t_05niveleseducacion e ON p.id_nivel_educacion = e.id_nivel WHERE p.Id_padre = %s', (id_padre,))
+    padre = cursor.fetchone()
+    if padre is None:
+        return None
+    return dict(zip([column[0] for column in cursor.description], padre))
 
 if __name__ == '__main__':
     app.run()

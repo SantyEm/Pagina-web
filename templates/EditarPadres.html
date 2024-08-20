@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/stiloEditarPadre.css') }}">
+
+	<title>Edición de Datos del Padre</title>
+</head>
+<body>
+	<div class="blockEntrada">
+        <div class="title">Edición de Datos del Padre</div>
+        <form id="editar-padre" action="/editar-padre" method="post">
+            <label for="nombres">Nombres:</label>
+            <input type="text" id="nombres" name="nombres" value="{{ padre['Nombres'] }}" required><br>
+            <label for="apellido">Apellido:</label>
+            <input type="text" id="apellido" name="apellido" value="{{ padre['Apellido'] }}" required><br>
+            <label for="telefono">Teléfono:</label>
+            <input type="text" id="telefono" name="telefono" value="{{ padre['Telefono'] }}" maxlength="20" required><br>
+            <label for="ocupacion">Ocupación:</label>
+            <input type="text" id="ocupacion" name="ocupacion" value="{{ padre['Ocupacion'] }}" required><br>
+            <label for="fecha_nacimiento">Fecha de Nacimiento:</label>
+            <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" value="{{ padre['Fecha_nacimiento'] }}" required><br>
+            <label for="nivel_educacion">Nivel de Educación:</label>
+            <div>
+                <select id="nivel_educacion" name="nivel_educacion">
+                    <option value="1" {% if padre['nivel'] == 1 %}selected{% endif %}>Educación Inicial</option>
+                    <option value="2" {% if padre['nivel'] == 2 %}selected{% endif %}>Educación Primaria</option>
+                    <option value="3" {% if padre['nivel'] == 3 %}selected{% endif %}>Educación Secundaria</option>
+                    <option value="4" {% if padre['nivel'] == 4 %}selected{% endif %}>Educación Superior</option>
+                </select>
+            </div>
+            <label for="tipo_relacion">Tipo de Relación:</label>
+            <select id="tipo_relacion" name="tipo_relacion">
+                <option value="Padre" {% if padre['id_tipo_relacion'] == 1 %}selected{% endif %}>Padre</option>
+                <option value="Madre" {% if padre['id_tipo_relacion'] == 2 %}selected{% endif %}>Madre</option>
+            </select>
+            <button type="submit">Guardar Edición</button>
+        </form>
+    </div>
+</body>
+</html>
