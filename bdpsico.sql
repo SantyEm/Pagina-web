@@ -16,56 +16,6 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 --
--- Table structure for table `codigos_administrador`
---
-
-DROP TABLE IF EXISTS `codigos_administrador`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `codigos_administrador` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `codigo` varchar(100) NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `codigos_administrador`
---
-
-LOCK TABLES `codigos_administrador` WRITE;
-/*!40000 ALTER TABLE `codigos_administrador` DISABLE KEYS */;
-INSERT INTO `codigos_administrador` VALUES (1,'qwer');
-/*!40000 ALTER TABLE `codigos_administrador` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `estado_cuenta_usuario`
---
-
-DROP TABLE IF EXISTS `estado_cuenta_usuario`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `estado_cuenta_usuario` (
-  `EstadoCuentaID` int(11) NOT NULL AUTO_INCREMENT,
-  `UsuarioID` int(11) NOT NULL,
-  `EstadoCuenta` varchar(20) NOT NULL,
-  PRIMARY KEY (`EstadoCuentaID`),
-  KEY `UsuarioID` (`UsuarioID`),
-  CONSTRAINT `estado_cuenta_usuario_ibfk_1` FOREIGN KEY (`UsuarioID`) REFERENCES `usuario` (`UsuarioID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `estado_cuenta_usuario`
---
-
-LOCK TABLES `estado_cuenta_usuario` WRITE;
-/*!40000 ALTER TABLE `estado_cuenta_usuario` DISABLE KEYS */;
-/*!40000 ALTER TABLE `estado_cuenta_usuario` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
 -- Table structure for table `t_01paciente`
 --
 
@@ -83,7 +33,7 @@ CREATE TABLE `t_01paciente` (
   `Id_padre` int(11) DEFAULT NULL,
   `Id_genero` int(11) DEFAULT NULL,
   PRIMARY KEY (`Id_paciente`)
-) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -92,7 +42,7 @@ CREATE TABLE `t_01paciente` (
 
 LOCK TABLES `t_01paciente` WRITE;
 /*!40000 ALTER TABLE `t_01paciente` DISABLE KEYS */;
-INSERT INTO `t_01paciente` VALUES (1,'Ana','García','12345678','2010-05-15','2023-07-01','Sin alergias conocidas',1,2),(2,'Juan','López','23456789','2012-08-20','2023-07-05','Problemas de concentración en clase',2,1),(3,'María','Martínez','34567890','2011-03-10','2023-07-10','Fobia a los espacios cerrados',3,2),(4,'Pedro','Rodríguez','45678901','2013-11-25','2023-07-15','Intereses en música y arte',4,1),(5,'Luisa','Pérez','56789012','2010-07-30','2023-07-20','Dificultades en matemáticas',5,2),(6,'Carlos','Gómez','67890123','2012-01-12','2023-07-25','Historial de déficit de atención',2,1),(7,'Laura','Díaz','78901234','2013-06-05','2023-08-01','Intereses en deportes y actividad física',6,2),(8,'José','Hernández','89012345','2011-09-18','2023-08-05','Experiencias de ansiedad social',7,1),(9,'Sofía','Ramírez','90123456','2010-12-08','2023-08-10','Dificultades en lectura comprensiva',8,2),(10,'Andrés','Torres','01234567','2012-02-28','2023-08-15','Historial de terapia de lenguaje',9,1),(16,'carlos','tevez','142432','2014-07-10','2024-08-08','as',NULL,1);
+INSERT INTO `t_01paciente` VALUES (1,'Ana','García','12345678','2010-05-15','2023-07-01','Sin alergias conocidas',1,2),(2,'Juan','López','23456789','2012-08-20','2023-07-05','Problemas de concentración en clase',2,1),(3,'María','Martínez','34567890','2011-03-10','2023-07-10','Fobia a los espacios cerrados',3,2),(4,'Pedro','Rodríguez','45678901','2013-11-25','2023-07-15','Intereses en música y arte',4,1),(5,'Luisa','Pérez','56789012','2010-07-30','2023-07-20','Dificultades en matemáticas',5,2),(6,'Carlos','Gómez','67890123','2012-01-12','2023-07-25','Historial de déficit de atención',2,1),(7,'Laura','Díaz','78901234','2013-06-05','2023-08-01','Intereses en deportes y actividad física',6,2),(8,'José','Hernández','89012345','2011-09-18','2023-08-05','Experiencias de ansiedad social',7,1),(9,'Sofía','Ramírez','90123456','2010-12-08','2023-08-10','Dificultades en lectura comprensiva',8,2),(10,'Andrés','Torres','01234567','2012-02-28','2023-08-15','Historial de terapia de lenguaje',8,1),(16,'carlos','tevez','142432','2014-07-10','2024-08-08','as',NULL,1),(17,'santiago','umeres','410037566','1998-03-31','2024-08-15','minecraft',NULL,1);
 /*!40000 ALTER TABLE `t_01paciente` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -151,33 +101,37 @@ INSERT INTO `t_02genero` VALUES (1,'Masculino'),(2,'Femenino'),(4,'Otro');
 UNLOCK TABLES;
 
 --
--- Table structure for table `t_03padres`
+-- Table structure for table `t_03padres_madres`
 --
 
-DROP TABLE IF EXISTS `t_03padres`;
+DROP TABLE IF EXISTS `t_03padres_madres`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `t_03padres` (
-  `id_padre` int(11) NOT NULL,
+CREATE TABLE `t_03padres_madres` (
+  `id_padre` int(11) NOT NULL AUTO_INCREMENT,
   `nombres` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `apellido` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `telefono` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `ocupacion` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `id_nivel_educacion` int(11) DEFAULT NULL,
+  `Fecha_nacimiento` date DEFAULT NULL,
+  `id_tipo_relacion` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_padre`),
   KEY `id_nivel_educacion` (`id_nivel_educacion`),
-  CONSTRAINT `t_03padres_ibfk_1` FOREIGN KEY (`id_nivel_educacion`) REFERENCES `t_05niveleseducacion` (`id_nivel`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+  KEY `fk_tipo_relacion` (`id_tipo_relacion`),
+  CONSTRAINT `fk_tipo_relacion` FOREIGN KEY (`id_tipo_relacion`) REFERENCES `t_04tipo_relacion` (`id_tipo_relacion`),
+  CONSTRAINT `t_03padres_madres_ibfk_1` FOREIGN KEY (`id_nivel_educacion`) REFERENCES `t_05niveleseducacion` (`id_nivel`)
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `t_03padres`
+-- Dumping data for table `t_03padres_madres`
 --
 
-LOCK TABLES `t_03padres` WRITE;
-/*!40000 ALTER TABLE `t_03padres` DISABLE KEYS */;
-INSERT INTO `t_03padres` VALUES (1,'Juan','García','123-456-7890','Ingeniero',4),(2,'María','López','987-654-3210','Profesora',4),(3,'Carlos','Martínez','555-123-4567','Médico',4),(4,'Laura','Rodríguez','777-888-9999','Ama de casa',2),(5,'Ana','Pérez','222-333-4444','Arquitecta',3),(6,'José','Gómez','666-777-8888','Contador',4),(7,'Sofía','Díaz','444-555-6666','Empresaria',2),(8,'Andrés','Hernández','888-999-0000','Chef',3),(9,'Luis','Ramírez','111-222-3333','Economista',4),(10,'Elena','Torres','333-444-5555','Psicóloga',3);
-/*!40000 ALTER TABLE `t_03padres` ENABLE KEYS */;
+LOCK TABLES `t_03padres_madres` WRITE;
+/*!40000 ALTER TABLE `t_03padres_madres` DISABLE KEYS */;
+INSERT INTO `t_03padres_madres` VALUES (2,'María','López','987-654-3210','Profesora',4,'1985-06-25',2),(4,'Laura','Rodríguez','777-888-9999','Ama de casa',2,'1992-09-02',2),(35,'carla','lopes','3002167','camionero',NULL,'1995-02-28',2),(36,'Juan Carlos','Pérez García','123-456-7890','Ingeniero',3,'1980-01-01',1),(37,'María Fernanda','González Rodríguez','987-654-3210','Enfermera',2,'1985-06-15',2),(38,'Carlos Alberto','López Hernández','555-123-4567','Profesor',1,'1978-03-20',1);
+/*!40000 ALTER TABLE `t_03padres_madres` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -188,7 +142,7 @@ DROP TABLE IF EXISTS `t_04direccionpadre`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `t_04direccionpadre` (
-  `id_direccion` int(11) NOT NULL,
+  `id_direccion` int(11) NOT NULL AUTO_INCREMENT,
   `id_padre` int(11) DEFAULT NULL,
   `direccion` text COLLATE utf8mb4_unicode_ci,
   `ciudad` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -196,9 +150,8 @@ CREATE TABLE `t_04direccionpadre` (
   PRIMARY KEY (`id_direccion`),
   KEY `id_padre` (`id_padre`),
   KEY `id_estado_vivienda` (`id_estado_vivienda`),
-  CONSTRAINT `t_04direccionpadre_ibfk_1` FOREIGN KEY (`id_padre`) REFERENCES `t_03padres` (`id_padre`),
   CONSTRAINT `t_04direccionpadre_ibfk_2` FOREIGN KEY (`id_estado_vivienda`) REFERENCES `t_12estadovivienda` (`id_estado`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -207,8 +160,32 @@ CREATE TABLE `t_04direccionpadre` (
 
 LOCK TABLES `t_04direccionpadre` WRITE;
 /*!40000 ALTER TABLE `t_04direccionpadre` DISABLE KEYS */;
-INSERT INTO `t_04direccionpadre` VALUES (1,1,'Calle 123, Colonia Primavera','Ciudad de México',1),(2,1,'Av. Central, Urbanización Los Pinos','Lima',2),(3,2,'Paseo del Sol, Barrio Vista Hermosa','Guadalajara',2),(4,3,'Rua das Flores, Bairro Centro','São Paulo',1),(5,4,'123 Main Street, Apartment 4B','New York',2),(6,5,'Carrera 45, Conjunto Residencial Los Laureles','Bogotá',1),(7,6,'Avenida del Deporte, Sector Los Olivos','Santiago',2),(8,7,'Calle 18, Barrio San Juan','San Salvador',1),(9,8,'Avenida Principal, Urbanización Los Robles','Caracas',2),(10,9,'Rua das Pedras, Condomínio Recanto Feliz','Rio de Janeiro',2),(11,9,'Rua das Flores, Apartamento 2C','Rio de Janeiro',2),(12,10,'Avenida Central, Edificio Azul','Lima',1),(13,10,'Calle 15, Urbanización Bella Vista','Lima',1);
+INSERT INTO `t_04direccionpadre` VALUES (3,2,'Paseo del Sol, Barrio Vista Hermosa','Guadalajara',2),(5,4,'123 Main Street, Apartment 4B','New York',2),(10,9,'Rua das Pedras, Condomínio Recanto Feliz','Rio de Janeiro',2),(11,9,'Rua das Flores, Apartamento 2C','Rio de Janeiro',2),(12,10,'Avenida Central, Edificio Azul','Lima',1),(13,10,'Calle 15, Urbanización Bella Vista','Lima',1),(14,1,'Calle 1, No. 123','Ciudad 1',1),(15,1,'Calle 2, No. 456','Ciudad 2',2),(16,2,'Avenida 3, No. 789','Ciudad 3',1),(17,3,'Calle 4, No. 1011','Ciudad 4',2);
 /*!40000 ALTER TABLE `t_04direccionpadre` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `t_04tipo_relacion`
+--
+
+DROP TABLE IF EXISTS `t_04tipo_relacion`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `t_04tipo_relacion` (
+  `id_tipo_relacion` int(11) NOT NULL,
+  `descripcion` varchar(10) DEFAULT NULL,
+  PRIMARY KEY (`id_tipo_relacion`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `t_04tipo_relacion`
+--
+
+LOCK TABLES `t_04tipo_relacion` WRITE;
+/*!40000 ALTER TABLE `t_04tipo_relacion` DISABLE KEYS */;
+INSERT INTO `t_04tipo_relacion` VALUES (1,'padre'),(2,'madre');
+/*!40000 ALTER TABLE `t_04tipo_relacion` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -264,7 +241,7 @@ CREATE TABLE `t_06datosembarazo` (
 
 LOCK TABLES `t_06datosembarazo` WRITE;
 /*!40000 ALTER TABLE `t_06datosembarazo` DISABLE KEYS */;
-INSERT INTO `t_06datosembarazo` VALUES (1,1,1,'2010-02-15','2010-10-25',35,3.25),(2,2,2,'2012-05-20','2012-12-10',38,3.70),(3,3,1,'2011-12-10','2012-07-15',32,2.90),(4,4,3,'2013-08-01','2013-03-10',40,3.80),(5,5,2,'2010-06-30','2010-03-05',37,3.45),(6,6,1,'2012-01-05','2012-09-15',38,3.60),(7,7,3,'2013-04-18','2013-12-01',39,3.75),(8,8,2,'2011-07-25','2011-04-10',36,3.30),(9,9,1,'2010-10-10','2011-05-20',34,3.15),(10,10,2,'2012-03-15','2012-11-30',40,3.90);
+INSERT INTO `t_06datosembarazo` VALUES (1,1,1,'2020-01-01','2020-08-01',30,3.50),(2,2,2,'2020-02-01','2020-09-01',32,3.80),(3,3,1,'2020-03-01','2020-10-01',35,4.00),(4,4,2,'2020-04-01','2020-11-01',30,3.20),(5,5,1,'2020-05-01','2020-12-01',33,3.60),(6,6,2,'2020-06-01','2021-01-01',31,3.40),(7,7,1,'2020-07-01','2021-02-01',34,3.90),(8,8,2,'2020-08-01','2021-03-01',29,3.10),(9,9,1,'2020-09-01','2021-04-01',36,4.20),(10,10,2,'2020-10-01','2021-05-01',30,3.50),(11,1,1,'2022-01-01','2022-10-01',40,3.50);
 /*!40000 ALTER TABLE `t_06datosembarazo` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -315,7 +292,7 @@ CREATE TABLE `t_09enfermedadesembarazo` (
 
 LOCK TABLES `t_09enfermedadesembarazo` WRITE;
 /*!40000 ALTER TABLE `t_09enfermedadesembarazo` DISABLE KEYS */;
-INSERT INTO `t_09enfermedadesembarazo` VALUES (1,1,'Hipertensión gestacional'),(2,2,'Diabetes gestacional'),(3,3,'Infección urinaria'),(4,4,'Preeclampsia'),(5,5,'Anemia'),(6,6,'Síndrome HELLP'),(7,7,'Infección vaginal'),(8,8,'Colestasis del embarazo'),(9,9,'Malformaciones fetales'),(10,10,'Hiperémesis gravídica');
+INSERT INTO `t_09enfermedadesembarazo` VALUES (1,1,'Hipertensión'),(2,2,'Gestación diabetes'),(3,3,'Anemia'),(4,4,'Infección urinaria'),(5,5,'Hipertensión'),(6,6,'Preeclampsia'),(7,7,'Gestación diabetes'),(8,8,'Anemia'),(9,9,'Infección respiratoria'),(10,10,'Hipertensión'),(11,1,'Enfermedad X');
 /*!40000 ALTER TABLE `t_09enfermedadesembarazo` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -590,4 +567,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-08-08 17:42:51
+-- Dump completed on 2024-08-30  0:55:48
