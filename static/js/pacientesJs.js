@@ -60,9 +60,16 @@ function agregarDireccion() {
 }
 
 
+
+
+// PADRES FORMULARIO
 // Funciones para manejar el modal de ver direcciones
 function abrirModalVerDirecciones() {
-    document.getElementById('modalVerDirecciones').style.display = 'block';
+    document.getElementById('modal-direccion').style.display = 'block';
+}
+
+function CerrarModalVerDirecciones() {
+    document.getElementById('modal-direccion').style.display = 'none';
 }
 
 function mostrarDirecciones() {

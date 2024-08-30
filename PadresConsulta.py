@@ -2,6 +2,7 @@ from flask import Flask, render_template
 from conexion import get_connection
 from flask import request
 from datetime import datetime
+from flask import flash
 
 app = Flask(__name__)
 
@@ -111,29 +112,40 @@ def eliminar_padre(Id_padre):
     connection = get_connection()
     cursor = connection.cursor()
     
-    # Elimina los registros relacionados en t_04direccionpadre
-    cursor.execute("DELETE FROM t_04direccionpadre WHERE id_padre = %s", (Id_padre,))
+    if request.form['eliminar'] == 'eliminar':
+        mensaje = True
+        return render_template('PadresFormulario.html', mensaje=mensaje)
     
-    # Elimina los registros relacionados en t_09enfermedadesembarazo (si existen)
-    cursor.execute("DELETE FROM t_09enfermedadesembarazo WHERE id_embarazo IN (SELECT id_embarazo FROM t_06datosembarazo WHERE id_paciente = (SELECT id_paciente FROM t_03padres_madres WHERE Id_padre = %s))", (Id_padre,))
-    # Elimina los registros relacionados en t_06datosembarazo (si existen)
-    cursor.execute("DELETE FROM t_06datosembarazo WHERE id_paciente = (SELECT id_paciente FROM t_03padres_madres WHERE Id_padre = %s)", (Id_padre,))
+    elif request.form['cancelar'] == 'cancelar':
+        return "Acción cancelada"
     
-    # Elimina el registro en t_03padres_madres
-    cursor.execute("DELETE FROM t_03padres_madres WHERE Id_padre = %s", (Id_padre,))
-    
-    # Confirma los cambios
-    connection.commit()
-    
-    # Cierra la conexión
-    cursor.close()
-    connection.close()
-    
-    # Actualiza la lista de registros
-    padres = obtener_padres()
-    
-    # Redirige a la página principal o muestra un mensaje de éxito
-    return render_template('PadresFormulario.html', padres=padres)  # o return "Registro eliminado con éxito"
+    elif request.form['confirmar'] == 'confirmar':
+        # Elimina el registro en t_03padres_madres
+        cursor.execute("DELETE FROM t_03padres_madres WHERE Id_padre = %s", (Id_padre,))
+        
+        # Elimina los registros relacionados en t_04direccionpadre
+        cursor.execute("DELETE FROM t_04direccionpadre WHERE id_padre = %s", (Id_padre,))
+        
+        # Elimina los registros relacionados en t_06datosembarazo
+        cursor.execute("DELETE FROM t_06datosembarazo WHERE id_paciente = (SELECT id_paciente FROM t_03padres_madres WHERE Id_padre = %s)", (Id_padre,))
+        
+        # Elimina los registros relacionados en t_09enfermedadesembarazo
+        cursor.execute("DELETE FROM t_09enfermedadesembarazo WHERE id_embarazo IN (SELECT id_embarazo FROM t_06datosembarazo WHERE id_paciente = (SELECT id_paciente FROM t_03padres_madres WHERE Id_padre = %s))", (Id_padre,))
+        
+        # Confirma los cambios
+        connection.commit()
+        
+        # Cierra la conexión
+        cursor.close()
+        connection.close()
+        
+        # Actualiza la lista de registros
+        padres = obtener_padres()
+        
+        mensaje = 'Registro eliminado con éxito. Puede cerrar esta pestaña.'
+        
+        # Redirige a la página principal o muestra un mensaje de éxito
+        return render_template('PadresFormulario.html', padres=padres)  # o return "Registro eliminado con éxito"
 
 
 @app.route('/padre/<int:id_padre>/datos-embarazo/', methods=['GET'])
@@ -193,6 +205,35 @@ def obtener_padre_especifico(id_padre):
     if padre is None:
         return None
     return dict(zip([column[0] for column in cursor.description], padre))
+
+@app.route('/editar-padre', methods=['POST'])
+def editar_padre_form():
+    
+        id_padre = request.form['id_padre']  # Asegúrate de que estés enviando el id_padre desde el formulario
+        padre = obtener_padre_especifico(id_padre)
+        if padre is None:
+            return 'Padre no encontrado', 404
+
+        nombres = request.form['nombres']
+        apellido = request.form['apellido']
+        telefono = request.form['telefono']
+        ocupacion = request.form['ocupacion']
+        fecha_nacimiento = request.form['fecha_nacimiento']
+        nivel_educacion = request.form['nivel_educacion']
+        tipo_relacion = request.form['tipo_relacion']
+
+        connection = get_connection()
+        cursor = connection.cursor()
+
+        # Actualizar los datos del padre en la base de datos
+        query = "UPDATE t_03padres_madres SET Nombres = %s, Apellido = %s, Telefono = %s, Ocupacion = %s, Fecha_nacimiento = %s, id_nivel_educacion = (SELECT id_nivel FROM t_05niveleseducacion WHERE nivel = %s), id_tipo_relacion = (SELECT id_tipo_relacion FROM t_04tipo_relacion WHERE descripcion = %s) WHERE Id_padre = %s"
+        cursor.execute(query, (nombres, apellido, telefono, ocupacion, fecha_nacimiento, nivel_educacion, tipo_relacion, id_padre))
+        connection.commit()
+
+        cursor.close()
+        connection.close()
+
+        return render_template('PadresFormulario.html', mensaje='Edición exitosa. Puede cerrar esta pestaña.')
 
 if __name__ == '__main__':
     app.run()

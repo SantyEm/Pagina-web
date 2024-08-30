@@ -112,7 +112,7 @@
                     
     
                     <!-- Botón para agregar dirección -->
-                    <button type="button" onclick="abrirModal()">Agregar Dirección</button><br>
+                    <button type="button" onclick="abrirModalVerDirecciones()">Agregar Dirección</button><br>
                     <!-- Botón para abrir el modal embarazo -->
                     <button type="button" onclick="abrirModalEmbarazo()">Agregar Embarazo</button><br>
                     <button type="submit">Agregar Padre</button>
@@ -122,7 +122,7 @@
             <!-- modal direcciones -->
         <div id="modal-direccion" class="modal">
         <div class="modal-content">
-        <span class="close" onclick="cerrarModal()">&times;</span>
+        <span class="close" onclick=" CerrarModalVerDirecciones('modal-direccion')">&times;</span>
              <h2>Agregar Dirección</h2>
              <form id="direccion-form">
                  <label for="direccion">Dirección:</label>
@@ -242,8 +242,19 @@
                                     <button type="submit" onclick="window.open('/padre/editar/{{ padre.Id_padre }}', 'Editar', 'width=600,height=600'); return false;">Editar</button>
                                 </form>
                                 <form action="/eliminar_padre/{{ padre.Id_padre }}" method="post">
-                                    <button type="submit">Eliminar</button>
+                                    <button type="submit" name="eliminar" value="eliminar">Eliminar</button>
                                 </form>
+                                
+                                {% if mostrar_confirmacion %}
+                                    <div>
+                                        ¿Está seguro de eliminar este registro?
+                                        <form action="" method="post">
+                                            <input type="hidden" name="id_padre" value="{{ padre.Id_padre }}">
+                                            <button type="submit" name="confirmar" value="confirmar">Confirmar</button>
+                                            <button type="submit" name="cancelar" value="cancelar">Cancelar</button>
+                                        </form>
+                                    </div>
+                                {% endif %}
                             </td>
                         </tr>
                         {% endfor %}
@@ -257,7 +268,12 @@
 
     </div>
 
-    <script src="../static/js/PadresJs"></script>
+{% if mensaje %}
+<script>alert('{{ mensaje }}');</script>
+{% endif %}
+
+
+
     <script src="../static/js/pacientesJs.js"></script>
 
 </body>

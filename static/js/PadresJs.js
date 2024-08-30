@@ -33,3 +33,4 @@ function abrirModalEmbarazo() {
 function cerrarModal() {
     document.getElementById('modal-embarazo-registro').style.display = 'none';
 }
+

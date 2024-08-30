@@ -12,6 +12,7 @@
 	<div class="blockEntrada">
         <div class="title">Edición de Datos del Padre</div>
         <form id="editar-padre" action="/editar-padre" method="post">
+            <input type="hidden" id="id_padre" name="id_padre" value="{{ padre['Id_padre'] }}">
             <label for="nombres">Nombres:</label>
             <input type="text" id="nombres" name="nombres" value="{{ padre['Nombres'] }}" required><br>
             <label for="apellido">Apellido:</label>
@@ -36,6 +37,7 @@
                 <option value="Padre" {% if padre['id_tipo_relacion'] == 1 %}selected{% endif %}>Padre</option>
                 <option value="Madre" {% if padre['id_tipo_relacion'] == 2 %}selected{% endif %}>Madre</option>
             </select>
+
             <button type="submit">Guardar Edición</button>
         </form>
     </div>
