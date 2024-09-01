@@ -68,13 +68,14 @@ def agregar_padre():
         ocupacion = request.form['ocupacion']
         nivel_educacion = request.form['nivel_educacion']
         fecha_nacimiento = request.form['fecha_nacimiento']
+        tipo_relacion = request.form['tipo_relacion']
 
         # Validar los datos
         if not nombres or not apellido or not ocupacion or not nivel_educacion:
             return 'Faltan datos', 400
 
         # Obtener el Id_nivel correspondiente al nivel de educación seleccionado
-        cursor.execute("SELECT id_nivel FROM t_05niveleseducacion WHERE nivel = %s", (nivel_educacion,))
+        cursor.execute("SELECT id_nivel FROM t_05niveleseducacion WHERE id_nivel = %s", (nivel_educacion,))
         resultado = cursor.fetchone()
         if resultado is not None:
             id_nivel = resultado[0]
@@ -89,7 +90,7 @@ def agregar_padre():
         edad = datetime.now().year - fecha_nacimiento.year - ((datetime.now().month, datetime.now().day) < (fecha_nacimiento.month, fecha_nacimiento.day))
 
         # Agregar el padre a la base de datos
-        cursor.execute("INSERT INTO t_03padres (Nombres, Apellido, Telefono, Ocupacion, id_nivel_educacion, Fecha_nacimiento) VALUES (%s, %s, %s, %s, %s, %s)", (nombres, apellido, telefono, ocupacion, id_nivel, fecha_nacimiento))
+        cursor.execute("INSERT INTO t_03padres_madres(Nombres, Apellido, Telefono, Ocupacion, id_nivel_educacion, Fecha_nacimiento) VALUES (%s, %s, %s, %s, %s, %s)", (nombres, apellido, telefono, ocupacion, id_nivel, fecha_nacimiento))
         connection.commit()
 
         # Obtener el ID del padre recién agregado
@@ -100,9 +101,19 @@ def agregar_padre():
         for direccion in direcciones:
             cursor.execute("INSERT INTO t_04direccionpadre (Id_Padre, Direccion, Ciudad, Estado_Vivienda) VALUES (%s, %s, %s, %s)", (padre_id, direccion['direccion'], direccion['ciudad'], direccion['estado_vivienda']))
             connection.commit()
+            
+       # Obtener el id_tipo_relacion correspondiente al tipo de relación seleccionado
+        cursor.execute("SELECT id_tipo_relacion FROM t_04tipo_relacion WHERE descripcion = %s", (tipo_relacion,))
+        resultado = cursor.fetchone()
+        if resultado is not None:
+            id_tipo_relacion = resultado[0]
+        else:
+            # Manejar el caso en que no se encontró ningún resultado
+            id_tipo_relacion = None
+        print(tipo_relacion)
 
         padres = obtener_padres()
-        print(padres)  # Agregar este print
+        # print(padres)  # Agregar este print
         return render_template('PadresFormulario.html', padres=padres)
     
     
@@ -112,40 +123,32 @@ def eliminar_padre(Id_padre):
     connection = get_connection()
     cursor = connection.cursor()
     
-    if request.form['eliminar'] == 'eliminar':
-        mensaje = True
-        return render_template('PadresFormulario.html', mensaje=mensaje)
+    # Elimina el registro en t_03padres_madres
+    cursor.execute("DELETE FROM t_03padres_madres WHERE Id_padre = %s", (Id_padre,))
     
-    elif request.form['cancelar'] == 'cancelar':
-        return "Acción cancelada"
+    # Elimina los registros relacionados en t_04direccionpadre
+    cursor.execute("DELETE FROM t_04direccionpadre WHERE id_padre = %s", (Id_padre,))
     
-    elif request.form['confirmar'] == 'confirmar':
-        # Elimina el registro en t_03padres_madres
-        cursor.execute("DELETE FROM t_03padres_madres WHERE Id_padre = %s", (Id_padre,))
-        
-        # Elimina los registros relacionados en t_04direccionpadre
-        cursor.execute("DELETE FROM t_04direccionpadre WHERE id_padre = %s", (Id_padre,))
-        
-        # Elimina los registros relacionados en t_06datosembarazo
-        cursor.execute("DELETE FROM t_06datosembarazo WHERE id_paciente = (SELECT id_paciente FROM t_03padres_madres WHERE Id_padre = %s)", (Id_padre,))
-        
-        # Elimina los registros relacionados en t_09enfermedadesembarazo
-        cursor.execute("DELETE FROM t_09enfermedadesembarazo WHERE id_embarazo IN (SELECT id_embarazo FROM t_06datosembarazo WHERE id_paciente = (SELECT id_paciente FROM t_03padres_madres WHERE Id_padre = %s))", (Id_padre,))
-        
-        # Confirma los cambios
-        connection.commit()
-        
-        # Cierra la conexión
-        cursor.close()
-        connection.close()
-        
-        # Actualiza la lista de registros
-        padres = obtener_padres()
-        
-        mensaje = 'Registro eliminado con éxito. Puede cerrar esta pestaña.'
-        
-        # Redirige a la página principal o muestra un mensaje de éxito
-        return render_template('PadresFormulario.html', padres=padres)  # o return "Registro eliminado con éxito"
+    # Elimina los registros relacionados en t_06datosembarazo
+    cursor.execute("DELETE FROM t_06datosembarazo WHERE id_paciente = (SELECT id_paciente FROM t_03padres_madres WHERE Id_padre = %s)", (Id_padre,))
+    
+    # Elimina los registros relacionados en t_09enfermedadesembarazo
+    cursor.execute("DELETE FROM t_09enfermedadesembarazo WHERE id_embarazo IN (SELECT id_embarazo FROM t_06datosembarazo WHERE id_paciente = (SELECT id_paciente FROM t_03padres_madres WHERE Id_padre = %s))", (Id_padre,))
+    
+    # Confirma los cambios
+    connection.commit()
+    
+    # Cierra la conexión
+    cursor.close()
+    connection.close()
+    
+    # Actualiza la lista de registros
+    padres = obtener_padres()
+    
+    mensaje = 'Registro eliminado con éxito. Puede cerrar esta pestaña.'
+    
+    # Redirige a la página principal o muestra un mensaje de éxito
+    return render_template('PadresFormulario.html', padres=padres)  # o return "Registro eliminado con éxito"
 
 
 @app.route('/padre/<int:id_padre>/datos-embarazo/', methods=['GET'])

@@ -106,15 +106,15 @@
 
                     <label for="tipo_relacion">Tipo de Relación:</label>
                     <select id="tipo_relacion" name="tipo_relacion">
-                        <option value="Padre">Padre</option>
-                        <option value="Madre">Madre</option>
+                        <option value="1">Padre</option>
+                        <option value="2">Madre</option>
                     </select>
                     
     
                     <!-- Botón para agregar dirección -->
-                    <button type="button" onclick="abrirModalVerDirecciones()">Agregar Dirección</button><br>
+                    <button type="button" onclick="abrirModalVerDirecciones()">Nuevo Dirección</button><br>
                     <!-- Botón para abrir el modal embarazo -->
-                    <button type="button" onclick="abrirModalEmbarazo()">Agregar Embarazo</button><br>
+                    <button type="button" onclick="abrirModalEmbarazo()">Datos de Embarazo</button><br>
                     <button type="submit">Agregar Padre</button>
                 </form>
             </div>
@@ -242,7 +242,7 @@
                                     <button type="submit" onclick="window.open('/padre/editar/{{ padre.Id_padre }}', 'Editar', 'width=600,height=600'); return false;">Editar</button>
                                 </form>
                                 <form action="/eliminar_padre/{{ padre.Id_padre }}" method="post">
-                                    <button type="submit" name="eliminar" value="eliminar">Eliminar</button>
+                                    <button type="submit" name="eliminar" value="eliminar" onclick="return confirmarEliminacion()">Eliminar</button>
                                 </form>
                                 
                                 {% if mostrar_confirmacion %}
@@ -271,8 +271,6 @@
 {% if mensaje %}
 <script>alert('{{ mensaje }}');</script>
 {% endif %}
-
-
 
     <script src="../static/js/pacientesJs.js"></script>
 

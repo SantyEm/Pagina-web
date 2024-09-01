@@ -85,3 +85,11 @@ function mostrarDirecciones() {
 function cerrarModal() {
     document.getElementById('modal-embarazo-registro').style.display = 'none';
 }
+
+function confirmarEliminacion() {
+    if (confirm("¿Estás seguro de eliminar este registro?")) {
+      return true; // Envía el formulario
+    } else {
+      return false; // No envía el formulario
+    }
+  }
