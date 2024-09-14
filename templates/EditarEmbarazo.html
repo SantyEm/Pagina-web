@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/stiloEditarPadre.css') }}">
+
+	<title>Edición de Datos del Embarazo</title>
+</head>
+<body>
+    <div class="ventanaEmbarazos-content">
+        <h2 class="title">Información de Embarazos</h2>
+        <form id="editar-embarazo" action="/embarazo/editar/{{ embarazo_id }}" method="post">
+            <!-- Campos del formulario -->
+            <input type="hidden" id="id_embarazo" name="id_embarazo" value="{{ embarazo['id_embarazo'] }}">
+            <label for="inicio_del_embarazo">Inicio del Embarazo:</label>
+            <input type="date" id="inicio_del_embarazo" name="inicio_del_embarazo" value="{{ embarazo['inicio_del_embarazo'] }}" required>
+            <label for="fecha_fin_del_embarazo">Fecha Fin del Embarazo:</label>
+            <input type="date" id="fecha_fin_del_embarazo" name="fecha_fin_del_embarazo" value="{{ embarazo['fecha_fin_del_embarazo'] }}" required><br>
+            <label for="tipo_parto">Tipo de Parto:</label>
+            <select id="tipo_parto" name="tipo_parto">
+                <option value="1" {% if embarazo['tipo_parto'] == 1 %}selected{% endif %}>Parto Natural</option>
+                <option value="2" {% if embarazo['tipo_parto'] == 2 %}selected{% endif %}>Cesárea</option>
+                <option value="3" {% if embarazo['tipo_parto'] == 3 %}selected{% endif %}>Parto Inducido</option>
+                <option value="4" {% if embarazo['tipo_parto'] == 4 %}selected{% endif %}>Parto por Fórceps</option>
+                <option value="5" {% if embarazo['tipo_parto'] == 5 %}selected{% endif %}>Parto en el Agua</option>
+            </select>
+            <label for="semana_gestacion">Semana de Gestación:</label>
+            <input type="number" id="semana_gestacion" name="semana_gestacion" value="{{ embarazo['semana_gestacion'] }}" required><br>
+            <label for="peso_al_nacer">Peso al Nacer:</label>
+            <input type="number" id="peso_al_nacer" name="peso_al_nacer" value="{{ embarazo['peso_al_nacer'] }}" required><br>
+            <label for="enfermedad">Enfermedad:</label>
+            <input type="text" id="enfermedad" name="enfermedad" value="{{ embarazo['enfermedad'] }}" required><br>
+
+            <button type="submit">Guardar Edición</button>
+        </form>
+    </div>
+</body>

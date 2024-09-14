@@ -237,6 +237,40 @@ def editar_padre_form():
         connection.close()
 
         return render_template('PadresFormulario.html', mensaje='Edición exitosa. Puede cerrar esta pestaña.')
+    
+    
+    # NO GUARDA EDICION SOLO MUESTRA
+@app.route('/embarazo/editar/<int:embarazo_id>', methods=['GET', 'POST'])
+def editar_embarazo(embarazo_id):
+    datos_embarazo = obtener_datos_embarazo(embarazo_id)
+    
+    if request.method == 'POST':
+        print(request.form)  # Agregar print aquí
+        # Procesar los datos del formulario
+        inicio_del_embarazo = request.form['inicio_del_embarazo']
+        fecha_fin_del_embarazo = request.form['fecha_fin_del_embarazo']
+        tipo_parto = request.form['tipo_parto']
+        semana_gestacion = request.form['semana_gestacion']
+        peso_al_nacer = request.form['peso_al_nacer']
+        enfermedad = request.form['enfermedad']
+        
+        connection = get_connection()
+        cursor = connection.cursor()
+
+        query = "UPDATE t_embarazos SET inicio_del_embarazo = %s, fecha_fin_del_embarazo = %s, tipo_parto = %s, semana_gestacion = %s, peso_al_nacer = %s, enfermedad = %s WHERE id_embarazo = %s"
+        cursor.execute(query, (inicio_del_embarazo, fecha_fin_del_embarazo, tipo_parto, semana_gestacion, peso_al_nacer, enfermedad, embarazo_id))
+        connection.commit()
+        
+        # Obtener los datos actualizados
+        datos_embarazo = obtener_datos_embarazo(embarazo_id)
+        
+        return render_template('EditarEmbarazo.html', embarazo=datos_embarazo[0])
+    
+    else:
+        # Renderizar el formulario para edición
+        return render_template('EditarEmbarazo.html', embarazo=datos_embarazo[0])
+    
+    
 
 if __name__ == '__main__':
     app.run()

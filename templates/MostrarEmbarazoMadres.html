@@ -106,9 +106,10 @@
                     <td>{{ embarazo['semana_gestacion'] }}</td>
                     <td>{{ embarazo['peso_al_nacer'] }}</td>
                     <td>{{ embarazo['enfermedad'] }}</td>
-                    <td class="acciones" >
-                        <!-- Acciones para cada padre -->
-                        <button type="submit">Editar</button>
+                    <td class="acciones">
+                        <form action="/embarazo/editar/{{ embarazo['id_embarazo'] }}" method="post" target="_blank">
+                            <button onclick="window.open('/embarazo/editar/{{ embarazo.id_embarazo }}', 'Editar', 'width=600,height=600');">Editar</button>
+                        </form>
                     </td>
                 </tr>
                 {% endfor %}
