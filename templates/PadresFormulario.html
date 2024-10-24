@@ -19,10 +19,12 @@
                     <a href="/volver_inicio" class="nav__link" >Inicio</a>
                  </li>
                  <li class="nav__item">
-                    <a href="#" class="nav__link" >Padres</a>
+                    <li class="nav__item">
+                        <a href="/padres" class="nav__link" >Padres</a>
+                     </li>
                  </li>
                  <li class="nav__item">
-                    <a href="/datos_pacientes" class="nav__link" >Paciente</a>
+                    <a href="/pacientes" class="nav__link" >Paciente</a>
                  </li>
                  <li class="nav__item">
                     <a href="#" class="nav__link">Desarrollo</a>
@@ -109,77 +111,11 @@
                         <option value="1">Padre</option>
                         <option value="2">Madre</option>
                     </select>
-                    
-    
-                    <!-- Botón para agregar dirección -->
-                    <button type="button" onclick="abrirModalVerDirecciones()">Nuevo Dirección</button><br>
-                    <!-- Botón para abrir el modal embarazo -->
-                    <button type="button" onclick="abrirModalEmbarazo()">Datos de Embarazo</button><br>
+
                     <button type="submit">Agregar Padre</button>
                 </form>
             </div>
-
-            <!-- modal direcciones -->
-        <div id="modal-direccion" class="modal">
-        <div class="modal-content">
-        <span class="close" onclick=" CerrarModalVerDirecciones('modal-direccion')">&times;</span>
-             <h2>Agregar Dirección</h2>
-             <form id="direccion-form">
-                 <label for="direccion">Dirección:</label>
-                 <input type="text" id="direccion" name="direccion" required><br>
-                 <label for="ciudad">Ciudad:</label>
-                 <input type="text" id="ciudad" name="ciudad" required><br>
-                 <label for="estado_vivienda">Estado de Vivienda:</label>
-                 <div>
-                 <select id="estado_vivienda" name="estado_vivienda">
-                     <!-- Opciones para el estado de vivienda -->
-                     <option value="1">Buen estado</option>
-                     <option value="2">Regular estado</option>
-                     <option value="3">Mal estado</option>
-                 </select>
-                 </div>
-                 <button type="submit">Agregar Dirección</button>
-             </form>
-         </div>
-     </div>
-
-        <!-- Modal embarazo -->
-        <div id="modal-embarazo-registro" class="modal">
-        <div class="modal-content">
-        <span class="close" onclick="cerrarModal()">&times;</span>
-        <h2>Registrar Embarazo</h2>
-        <form id="embarazo-form">
-            <!-- Campos de la tabla t_06datosembarazo -->
-            <label for="inicio_del_embarazo">Inicio del Embarazo:</label>
-            <input type="date" id="inicio_del_embarazo" name="inicio_del_embarazo" required>
-            <label for="fecha_fin_del_embarazo">Fecha Fin del Embarazo:</label>
-            <input type="date" id="fecha_fin_del_embarazo" name="fecha_fin_del_embarazo" required>
-            <label for="semana_gestacion">Semanas de Gestación:</label>
-            <input type="number" id="semana_gestacion" name="semana_gestacion" required>
-            <label for="peso_al_nacer">Peso al Nacer:</label>
-            <input type="decimal" id="peso_al_nacer" name="peso_al_nacer" required>
-            
-            <!-- Select para tipo de parto (t_08tipoparto) -->
-            <label for="id_tipo_parto">Tipo de Parto:</label>
-            <select id="id_tipo_parto" name="id_tipo_parto">
-              <!-- Opciones para el estado de vivienda -->
-              <option value="1">Parto Natural</option>
-              <option value="2">Cesárea</option>
-              <option value="3">Parto Inducido</option>
-              <option value="4">Parto por Fórceps</option>
-              <option value="5">Parto en el Agua</option>
-            <!-- Opciones generadas desde la tabla t_08tipoparto -->
-            </select>
-            
-            <!-- Campo para enfermedades del embarazo (t_09enfermedadesembarazo) -->
-            <label for="enfermedades">Enfermedades del Embarazo:</label>
-            <textarea id="enfermedades" name="enfermedades"></textarea>
-            
-            <button type="submit">Registrar Embarazo</button>
-        </form>
-        </div>
-    </div>
-
+       
      <div class="blockTabla">
         <div class="title">Tabla De Registros de Padres</div>
         <form action="/padres" method="post">
@@ -200,6 +136,7 @@
                             <th>Tipo de Relacion</th>
                             <th>Datos de Embarazo</th>
                             <th>Direcciones</th>
+                            <th>Datos de Embarazo</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -235,6 +172,17 @@
                                 <form action="/padre/direcciones/{{ padre.Id_padre }}" method="get" onsubmit="mostrarIdPadre(this); return false;">
                                     <button type="submit" onclick="window.open('/padre/direcciones/{{ padre.Id_padre }}', 'Direcciones', 'width=400,height=200'); return false;">Ver direcciones</button>
                                 </form>
+                                <form action="/agregar-direccion/{{  padre.Id_padre  }}" method="get" target="_blank">
+                                    <button type="submit" class="btn btn-primary">Agregar Dirección</button>
+                                  </form> 
+                            </td>
+                            <td class="Embarazo" >   
+                                <form action="/padres/Datos_de_Embarazo/{{ padre.Id_padre }}" method="get">
+                                    <button type="submit">Ver Embarazo</button>
+                                  </form>
+                                  <form action="/agregar_Datos de Embarazo/{{ adre.Id_padre }}" method="get" target="_blank">
+                                    <button type="submit" class="btn btn-primary">Agregar datos embarazo</button>
+                                  </form>
                             </td>
                             <td class="acciones" >
                                 <!-- Acciones para cada padre -->

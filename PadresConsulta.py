@@ -116,6 +116,30 @@ def agregar_padre():
         # print(padres)  # Agregar este print
         return render_template('PadresFormulario.html', padres=padres)
     
+@app.route('/agregar-direccion/<int:id_padre>', methods=['GET', 'POST'])
+def agregar_direccion(id_padre):
+    # Validar que el id_padre exista en la base de datos
+    padre = Padre.query.get(id_padre)
+    if not padre:
+        return 'Padre no encontrado', 404
+
+    if request.method == 'POST':
+        # Guardar la dirección asociada al id_padre
+        direccion = Direccion(
+            id_padre=id_padre,
+            direccion=request.form['direccion'],
+            ciudad=request.form['ciudad'],
+            estado_vivienda=request.form['estado_vivienda']
+            
+            cursor.execute("INSERT INTO t_04direccionpadre (Id_Padre, Direccion, Ciudad, Estado_Vivienda) VALUES (%s, %s, %s, %s)", (padre_id, direccion['direccion'], direccion['ciudad'], direccion['estado_vivienda']))
+            connection.commit()
+        )
+        db.session.add(direccion)
+        db.session.commit()
+        return 'Dirección agregada con éxito'
+
+    return render_template('agregar_direccion.html', id_padre=id_padre)
+    
     
 @app.route('/eliminar_padre/<int:Id_padre>', methods=['POST'])
 def eliminar_padre(Id_padre):

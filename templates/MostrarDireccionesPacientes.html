@@ -72,6 +72,7 @@
         <table class="table">
             <thead>
                 <tr>
+                    <th>Direccion</th>
                     <th>Ciudad</th>
                     <th>Estado</th>
                     <th>Código postal</th>
@@ -80,6 +81,7 @@
             <tbody>
                 {% for direccion in direcciones %}
                 <tr>
+                    <td>{{ direccion['direccion'] }}</td>
                     <td>{{ direccion['ciudad'] }}</td>
                     <td>{{ direccion['estado'] }}</td>
                     <td>{{ direccion['codigo_postal'] }}</td>

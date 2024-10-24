@@ -97,9 +97,11 @@ button:hover {
     background-color: #f2f2f2;
     border-radius: 10px;
     text-align: center;
-    margin-right: 20px; /* Espacio derecho entre bloques */
-    display: inline-block; /* Mostrar como bloque en línea */
-    vertical-align: top; /* Alinea los bloques en la parte superior */
+    margin-right: 20px; 
+    display: inline-block; 
+    vertical-align: top; 
+    position: relative;
+    top: 80px; /* Ajusta el valor según sea necesario */
 }
 
 .blockTabla .title {
@@ -110,16 +112,17 @@ button:hover {
 }
 
 .blockTabla {
-    width: 1100px; /* Ancho fijo para la tabla */
+    width: 1100px; 
     height: 450px;
     border-radius: 10px;
     text-align: center;
-    margin-right: 20px; /* Espacio derecho entre bloques */
-    display: inline-block; /* Mostrar como bloque en línea */
-    vertical-align: top; /* Alinea los bloques en la parte superior */
-    overflow-y: auto; /* Agrega scroll vertical si es necesario */
+    margin-right: 20px; 
+    display: inline-block; 
+    vertical-align: top; 
+    overflow-y: auto; 
+    position: relative;
+    top: 80px; /* Ajusta el valor según sea necesario */
 }
-
 
 @media (max-width: 768px) {
     .blockEntrada, .blockTabla {

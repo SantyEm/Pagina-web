@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agregar Dirección</title>
+</head>
+<body>
+  <form action="/agregar-direccion" method="post">
+    {% if paciente %}
+      <input type="hidden" name="id_paciente" value="{{ paciente.id_paciente }}">
+    {% endif %}
+    <h2>Agregar Dirección</h2>
+    
+    <label for="direccion">Dirección:</label>
+    <input type="text" id="direccion" name="direccion"><br>
+    
+    <label for="ciudad">Ciudad:</label>
+    <input type="text" id="ciudad" name="ciudad"><br>
+    
+    <label for="estado">Estado:</label>
+    <input type="text" id="estado" name="estado"><br>
+    
+    <label for="codigo_postal">Código Postal:</label>
+    <input type="text" id="codigo_postal" name="codigo_postal"><br>
+    
+    <button type="submit">Agregar Dirección</button>
+  </form>
+</body>
+</html>

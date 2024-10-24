@@ -172,3 +172,8 @@
 #personal-info-form button:hover {
     background-color: #0056b3;
 }
+
+.table tbody tr.seleccionada {
+  background-color: #f2f2f2;
+  color: #337ab7;
+}

@@ -34,16 +34,10 @@ def AcercaDe():
     # Aquí podrías realizar consultas adicionales del acerca de
     return render_template('acercaDe.html')
 
-@app.route('/datos_pacientes')
-def pacientes():
-    # Aquí podrías realizar consultas adicionales del paciente formulario xd
-    return render_template('PacienteFormulario.html')
-
 @app.route('/volver_inicio')
 def inicio():
     # Aquí podrías realizar consultas adicionales del paciente formulario xd
     return render_template('home.html')
-
 
 @app.route("/cerrar-sesion", methods=['GET', 'POST'])
 def logout():

@@ -42,23 +42,17 @@ function agregarDireccion() {
 }
 
 
-// Función para abrir el modal
-function abrirModal() {
-    document.getElementById('modal-direccion').style.display = 'block';
-}
+$('[id^="agregar-direccion-"]').click(function() {
+    console.log("Se ejecutó el evento de clic");
+    var idPaciente = $(this).attr('id').split('-')[2];
+    $('#id-paciente').val(idPaciente);
+    document.getElementById('agregarDireccionModal').style.display = 'block';
+  });
 
 // Función para cerrar el modal
 function cerrarModal() {
     document.getElementById('modal-direccion').style.display = 'none';
 }
-
-// Función para agregar dirección desde el modal
-function agregarDireccion() {
-    // Aquí puedes implementar la lógica para obtener los valores del modal
-    // y agregar dinámicamente una nueva entrada de dirección al formulario principal (#datos-paciente)
-    cerrarModal(); // Cerrar el modal después de agregar la dirección
-}
-
 
 
 
@@ -92,4 +86,21 @@ function confirmarEliminacion() {
     } else {
       return false; // No envía el formulario
     }
+  }
+
+ // Seleccionar fila
+$('.seleccionar-fila').on('change', function() {
+    var idPaciente = $(this).val();
+    var seleccionado = $(this).is(':checked');
+  
+    if (seleccionado) {
+      // Abrir modal para agregar dirección
+      $('#modal-direccion').show();
+      // Asignar ID del paciente seleccionado a una variable
+      $('#id-paciente-direccion').val(idPaciente);
+    }
+});
+  
+  function agregarDireccion() {
+  
   }

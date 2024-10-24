@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <h2>Registrar Embarazo</h2>
+    <form id="embarazo-form">
+        <!-- Campos de la tabla t_06datosembarazo -->
+        <label for="inicio_del_embarazo">Inicio del Embarazo:</label>
+        <input type="date" id="inicio_del_embarazo" name="inicio_del_embarazo" required>
+        <label for="fecha_fin_del_embarazo">Fecha Fin del Embarazo:</label>
+        <input type="date" id="fecha_fin_del_embarazo" name="fecha_fin_del_embarazo" required>
+        <label for="semana_gestacion">Semanas de Gestación:</label>
+        <input type="number" id="semana_gestacion" name="semana_gestacion" required>
+        <label for="peso_al_nacer">Peso al Nacer:</label>
+        <input type="decimal" id="peso_al_nacer" name="peso_al_nacer" required>
+        
+        <!-- Select para tipo de parto (t_08tipoparto) -->
+        <label for="id_tipo_parto">Tipo de Parto:</label>
+        <select id="id_tipo_parto" name="id_tipo_parto">
+          <!-- Opciones para el estado de vivienda -->
+          <option value="1">Parto Natural</option>
+          <option value="2">Cesárea</option>
+          <option value="3">Parto Inducido</option>
+          <option value="4">Parto por Fórceps</option>
+          <option value="5">Parto en el Agua</option>
+        <!-- Opciones generadas desde la tabla t_08tipoparto -->
+        </select>
+        
+        <!-- Campo para enfermedades del embarazo (t_09enfermedadesembarazo) -->
+        <label for="enfermedades">Enfermedades del Embarazo:</label>
+        <textarea id="enfermedades" name="enfermedades"></textarea>
+        
+        <button type="submit">Registrar Embarazo</button>
+</body>
+</html>
