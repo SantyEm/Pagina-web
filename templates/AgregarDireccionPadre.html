@@ -6,27 +6,22 @@
   <title>Agregar Dirección</title>
 </head>
 <body>
-  <form action="/agregar-direccion" method="post">
-    {% if paciente %}
-      <input type="hidden" name="id_paciente" value="{{ paciente.id_paciente }}">
-    {% endif %}
-
+  <form action="/agregar-direccion/{{ id_padre }}" method="post">
     <h2>Agregar Dirección</h2>
-    <form id="direccion-form">
-        <label for="direccion">Dirección:</label>
-        <input type="text" id="direccion" name="direccion" required><br>
-        <label for="ciudad">Ciudad:</label>
-        <input type="text" id="ciudad" name="ciudad" required><br>
-        <label for="estado_vivienda">Estado de Vivienda:</label>
-        <div>
-        <select id="estado_vivienda" name="estado_vivienda">
-            <!-- Opciones para el estado de vivienda -->
-            <option value="1">Buen estado</option>
-            <option value="2">Regular estado</option>
-            <option value="3">Mal estado</option>
-        </select>
-        </div>
-        <button type="submit">Agregar Dirección</button>
-    </form>
+    <label for="direccion">Dirección:</label>
+    <input type="text" id="direccion" name="direccion" required><br>
+    <label for="ciudad">Ciudad:</label>
+    <input type="text" id="ciudad" name="ciudad" required><br>
+    <label for="estado_vivienda">Estado de Vivienda:</label>
+    <div>
+    <select id="estado_vivienda" name="estado_vivienda">
+        <!-- Opciones para el estado de vivienda -->
+        <option value="1">Buen estado</option>
+        <option value="2">Regular estado</option>
+        <option value="3">Mal estado</option>
+    </select>
+    </div>
+    <button type="submit">Agregar Dirección</button>
+</form>
 </body>
 </html>

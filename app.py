@@ -3,6 +3,7 @@ import LoginConsultas
 import HomeProcesos
 import PadresConsulta
 import pacientesConsultas
+import DesarrolloConsultas
 
 
 app = Flask(__name__)
@@ -23,7 +24,6 @@ app.add_url_rule('/informacion_personal', 'informacion_personal', LoginConsultas
 app.add_url_rule('/opciones_usuario', 'opciones_usuario', HomeProcesos.opciones_usuario, methods=['GET', 'POST'])
 app.add_url_rule('/cerrar-sesion', 'logout', HomeProcesos.logout, methods=['GET', 'POST'])
 app.add_url_rule('/acerca-de', 'AcercaDe', HomeProcesos.AcercaDe)
-app.add_url_rule('/datos_pacientes', 'pacientes', HomeProcesos.pacientes)
 app.add_url_rule('/volver_inicio', 'home', LoginConsultas.home)
 
  # procesos del padres
@@ -32,6 +32,9 @@ app.add_url_rule('/padres', 'mostrar_padres', PadresConsulta.mostrar_padres)
 
 # procesos del padres
 app.add_url_rule('/pacientes', "mostrar_pacientes", pacientesConsultas.mostrar_pacientes)
+
+# procesos del desarrollo
+app.add_url_rule('/Desarrollo', "mostrar_desarrollo", DesarrolloConsultas.mostrar_desarrollo)
 
 
 

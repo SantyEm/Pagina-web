@@ -80,6 +80,7 @@
                     <th>Dirección</th>
                     <th>Ciudad</th>
                     <th>Estado</th>
+                    <th>Editar</th>
                 </tr>
             </thead>
             <tbody>
@@ -87,7 +88,12 @@
                 <tr>
                     <td>{{ direccion['direccion'] }}</td>
                     <td>{{ direccion['ciudad'] }}</td>
-                    <td>{{ direccion['id_estado_vivienda'] }}</td>
+                    <td>{{ direccion['estado_vivienda'] }}</td>
+                    <td class="acciones">
+                        <form action="/direcciones/editar/{{ embarazo['id_embarazo'] }}" method="post" target="_blank">
+                            <button onclick="window.open('/direcciones/editar/{{ direcciones.id_embarazo }}', 'Editar', 'width=600,height=600');">Editar</button>
+                        </form>
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>

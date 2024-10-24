@@ -27,7 +27,7 @@
                     <a href="/pacientes" class="nav__link" >Paciente</a>
                  </li>
                  <li class="nav__item">
-                    <a href="#" class="nav__link">Desarrollo</a>
+                    <a href="/Desarrollo" class="nav__link">Desarrollo</a>
                  </li>
               </ul>
               <div class="nav__close" id="nav-close">
@@ -68,7 +68,7 @@
        </form>
 
        <div class="contenedor-busqueda">
-        <form>
+        <form action="/buscar" method="post">
           <div class="busqueda">
             <button type="submit">Buscar</button>
             <input type="text" name="buscar" placeholder="Buscar...">
@@ -177,10 +177,10 @@
                                   </form> 
                             </td>
                             <td class="Embarazo" >   
-                                <form action="/padres/Datos_de_Embarazo/{{ padre.Id_padre }}" method="get">
+                                <form action="/padre/{{ padre.Id_padre }}/datos-embarazo/" method="get" target="_blank">
                                     <button type="submit">Ver Embarazo</button>
-                                  </form>
-                                  <form action="/agregar_Datos de Embarazo/{{ adre.Id_padre }}" method="get" target="_blank">
+                                </form>
+                                  <form action="/agregar_Datos de Embarazo/{{ padre.Id_padre }}" method="get" target="_blank">
                                     <button type="submit" class="btn btn-primary">Agregar datos embarazo</button>
                                   </form>
                             </td>

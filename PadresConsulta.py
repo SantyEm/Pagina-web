@@ -27,11 +27,21 @@ def obtener_direcciones_padre(id_padre):
     try:
         connection = get_connection()
         cursor = connection.cursor()
-        cursor.execute("SELECT * FROM t_04direccionpadre WHERE Id_padre = %s", (id_padre,))
+        
+        cursor.execute("""
+            SELECT d.*, ev.estado_vivienda 
+            FROM t_04direccionpadre d 
+            INNER JOIN t_12estadovivienda ev ON d.id_estado_vivienda = ev.id_estado 
+            WHERE d.Id_padre = %s
+        """, (id_padre,))
+        
         direcciones = cursor.fetchall()
+        
         if direcciones is None:
             return []
+        
         return [dict(zip([column[0] for column in cursor.description], row)) for row in direcciones]
+    
     except Exception as e:
         print(f"Error al obtener direcciones: {e}")
         return []
@@ -95,13 +105,7 @@ def agregar_padre():
 
         # Obtener el ID del padre recién agregado
         padre_id = cursor.lastrowid
-
-        # Agregar las direcciones del padre
-        direcciones = request.form.getlist('direccion')
-        for direccion in direcciones:
-            cursor.execute("INSERT INTO t_04direccionpadre (Id_Padre, Direccion, Ciudad, Estado_Vivienda) VALUES (%s, %s, %s, %s)", (padre_id, direccion['direccion'], direccion['ciudad'], direccion['estado_vivienda']))
-            connection.commit()
-            
+        
        # Obtener el id_tipo_relacion correspondiente al tipo de relación seleccionado
         cursor.execute("SELECT id_tipo_relacion FROM t_04tipo_relacion WHERE descripcion = %s", (tipo_relacion,))
         resultado = cursor.fetchone()
@@ -118,27 +122,38 @@ def agregar_padre():
     
 @app.route('/agregar-direccion/<int:id_padre>', methods=['GET', 'POST'])
 def agregar_direccion(id_padre):
-    # Validar que el id_padre exista en la base de datos
-    padre = Padre.query.get(id_padre)
-    if not padre:
-        return 'Padre no encontrado', 404
+
+     # Obtener la conexión y el cursor
+    connection = get_connection()
+    cursor = connection.cursor()
 
     if request.method == 'POST':
         # Guardar la dirección asociada al id_padre
-        direccion = Direccion(
-            id_padre=id_padre,
-            direccion=request.form['direccion'],
-            ciudad=request.form['ciudad'],
-            estado_vivienda=request.form['estado_vivienda']
-            
-            cursor.execute("INSERT INTO t_04direccionpadre (Id_Padre, Direccion, Ciudad, Estado_Vivienda) VALUES (%s, %s, %s, %s)", (padre_id, direccion['direccion'], direccion['ciudad'], direccion['estado_vivienda']))
-            connection.commit()
-        )
-        db.session.add(direccion)
-        db.session.commit()
-        return 'Dirección agregada con éxito'
 
-    return render_template('agregar_direccion.html', id_padre=id_padre)
+        direccion = {
+            'id_padre': id_padre,
+            'direccion': request.form['direccion'],
+            'ciudad': request.form['ciudad'],
+            'estado_vivienda': request.form['estado_vivienda']
+}
+        
+        # Obtener el ID del estado de vivienda
+        estado_vivienda_id = request.form['estado_vivienda']
+
+        # Validar que el estado de vivienda exista
+        cursor.execute("SELECT 1 FROM t_12estadovivienda WHERE id_estado = %s", (estado_vivienda_id,))
+        if cursor.fetchone() is None:
+            # Manejar el caso en que no se encontró ningún resultado
+            return "Estado de vivienda no encontrado", 404
+
+        # Insertar los datos en la base de datos
+        cursor.execute("INSERT INTO t_04direccionpadre (Id_Padre, Direccion, Ciudad, id_estado_vivienda) VALUES (%s, %s, %s, %s)", 
+                    (id_padre, request.form['direccion'], request.form['ciudad'], estado_vivienda_id))
+        connection.commit()
+        
+        return 'Dirección agregada con éxito, puede cerrar esta pestaña'
+
+    return render_template('AgregarDireccionPadre.html', id_padre=id_padre)
     
     
 @app.route('/eliminar_padre/<int:Id_padre>', methods=['POST'])
@@ -236,6 +251,7 @@ def obtener_padre_especifico(id_padre):
 @app.route('/editar-padre', methods=['POST'])
 def editar_padre_form():
     
+    
         id_padre = request.form['id_padre']  # Asegúrate de que estés enviando el id_padre desde el formulario
         padre = obtener_padre_especifico(id_padre)
         if padre is None:
@@ -294,7 +310,41 @@ def editar_embarazo(embarazo_id):
         # Renderizar el formulario para edición
         return render_template('EditarEmbarazo.html', embarazo=datos_embarazo[0])
     
-    
+
+    # Código para manejar la búsqueda
+    pass
+
+@app.route('/buscar', methods=['POST'])
+def buscar():
+    buscar = request.form['buscar']
+    parametro = request.form['parametro']
+
+    connection = get_connection()
+    cursor = connection.cursor()
+
+    # Consulta SQL con filtro
+    query = """
+        SELECT p.Id_padre, p.Nombres, p.Apellido, p.Telefono, p.Ocupacion, e.nivel, p.Fecha_nacimiento, p.id_tipo_relacion 
+        FROM t_03padres_madres p 
+        LEFT JOIN t_05niveleseducacion e ON p.id_nivel_educacion = e.id_nivel 
+        WHERE {} LIKE '%{}%'
+    """.format(parametro, buscar)
+
+    cursor.execute(query)
+    resultados = cursor.fetchall()
+
+    # Convertir resultados a diccionario
+    resultados = [dict(zip([column[0] for column in cursor.description], row)) for row in resultados]
+
+    # Agregar columna edad
+    for resultado in resultados:
+        resultado['edad'] = calcular_edad(resultado['Fecha_nacimiento'])
+
+    cursor.close()
+    connection.close()
+    print(resultados)
+
+    return render_template('BusquedaPadreFormulario.html', resultados=resultados)
 
 if __name__ == '__main__':
     app.run()

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="../static/css/stiloMenu.css">
+    <link rel="stylesheet" href="../static/css/stiloPacienteForm.css">
+</head>
+
+<body>
+    <header class="header" id="header">
+        <nav class="nav container">
+           <span class="puntito">.</span>
+           <a href="#" class="logo">Clínica de Psicopedagogía</a>
+           <div class="nav__menu" id="nav-menu">
+              <ul class="nav__list">
+                 <li class="nav__item">
+                    <a href="/volver_inicio" class="nav__link" >Inicio</a>
+                 </li>
+                 <li class="nav__item">
+                    <li class="nav__item">
+                        <a href="/padres" class="nav__link" >Padres</a>
+                     </li>
+                 </li>
+                 <li class="nav__item">
+                    <a href="/pacientes" class="nav__link" >Paciente</a>
+                 </li>
+                 <li class="nav__item">
+                    <a href="/Desarrollo" class="nav__link">Desarrollo</a>
+                 </li>
+              </ul>
+              <div class="nav__close" id="nav-close">
+                 <i class="ri-close-line"></i>
+              </div>
+           </div>
+           
+           <div class="nav__actions">
+              <div class="dropdown">
+                 <button class="dropdown__button" onclick="toggleDropdown('config-dropdown')">
+                     <i class="fas fa-cog"></i> Configuración
+                 </button>
+                 <div class="dropdown__content" id="config-dropdown">
+                    <a href="usuario-info">Usuarios</a>
+                     <a href="acerca-de">Acerca de</a>
+                 </div>
+             </div>
+             
+             <div class="dropdown">
+              <button class="dropdown__button" onclick="toggleDropdown('profile-dropdown')">
+                  <i class="fas fa-user"></i> Perfil
+              </button>
+              <div class="dropdown__content" id="profile-dropdown">
+                  <a href="opciones_usuario">Opciones de Usuario</a>
+                  <a href="/cerrar-sesion?confirm_logout=true">Cerrar sesión</a>
+              </div>
+          </div>
+          
+          </div>
+          
+          </div>
+        </nav>
+        
+     </header>
+
+     <div class="blockEntrada">
+      <div class="title">Ingreso de Datos de Sesión</div>
+      <form id="datos-sesion" action="/agregar-sesion" method="post">
+          <label for="id_paciente">Paciente:</label>
+          <select id="id_paciente" name="id_paciente" required>
+              <!-- Opciones para seleccionar paciente -->
+              <option value="1">Paciente 1</option>
+              <option value="2">Paciente 2</option>
+              <!-- ... -->
+          </select><br>
+          
+          <label for="fecha_sesion">Fecha de Sesión:</label>
+          <input type="date" id="fecha_sesion" name="fecha_sesion" required><br>
+          
+          <label for="hora_sesion">Hora de Sesión:</label>
+          <input type="time" id="hora_sesion" name="hora_sesion" required><br>
+          
+          <label for="duracion">Duración (minutos):</label>
+          <input type="number" id="duracion" name="duracion" required><br>
+          
+          <label for="id_tipo_sesion">Tipo de Sesión:</label>
+          <select id="id_tipo_sesion" name="id_tipo_sesion" required>
+              <!-- Opciones para seleccionar tipo de sesión -->
+              {% for tipo_sesion in tipos_sesion %}
+              <option value="{{ tipo_sesion.id_tipo_sesion }}">{{ tipo_sesion.nombre_tipo }}</option>
+              {% endfor %}
+          </select><br>
+          
+          <label for="id_desarrollo_psicomotor">Desarrollo Psicomotor:</label>
+          <select id="id_desarrollo_psicomotor" name="id_desarrollo_psicomotor" required>
+              <!-- Opciones para seleccionar desarrollo psicomotor -->
+              {% for desarrollo_psicomotor in desarrollos_psicomotores %}
+              <option value="{{ desarrollo_psicomotor.id_desarrollo_psicomotor }}">{{ desarrollo_psicomotor.descripcion }}</option>
+              {% endfor %}
+          </select><br>
+          
+          <label for="id_desarrollo_lenguaje">Desarrollo Lenguaje:</label>
+          <select id="id_desarrollo_lenguaje" name="id_desarrollo_lenguaje" required>
+              <!-- Opciones para seleccionar desarrollo lenguaje -->
+              {% for desarrollo_lenguaje in desarrollos_lenguaje %}
+              <option value="{{ desarrollo_lenguaje.id_desarrollo_lenguaje }}">{{ desarrollo_lenguaje.descripcion }}</option>
+              {% endfor %}
+          </select><br>
+          
+          <label for="observacion">Observación:</label>
+          <textarea id="observacion" name="observacion" required></textarea><br>
+          
+          <button type="submit">Agregar Sesión</button>
+      </form>
+  </div>
+
+  <div class="blockTabla">
+   <div class="title">Tabla de Registros de Sesiones</div>
+   <table class="table">
+       <!-- Encabezados de la tabla -->
+       <thead>
+           <tr>
+               <th style="display: none;">ID</th>
+               <th>Paciente</th>
+               <th>Fecha de Sesión</th>
+               <th>Hora de Sesión</th>
+               <th>Duración</th>
+               <th>Tipo de Sesión</th>
+               <th>Desarrollo Psicomotor</th>
+               <th>Desarrollo Lenguaje</th>
+               <th>Observación</th>
+               <th>Acciones</th>
+           </tr>
+       </thead>
+       
+       <tbody>
+           {% for sesion in sesiones %}
+           <tr>
+               <td style="display: none;">{{ sesion.id_sesiones }}</td>
+               <td>{{ sesion.id_paciente }}</td>
+               <td>{{ sesion.fecha_sesion }}</td>
+               <td>{{ sesion.hora_sesion }}</td>
+               <td>{{ sesion.duracion }}</td>
+               <td>{{ sesion.id_tipo_sesion }}</td>
+               <td>{{ sesion.id_desarrollo_psicomotor }}</td>
+               <td>{{ sesion.id_desarrollo_lenguaje }}</td>
+               <td>{{ sesion.observacion }}</td>
+               <td class="acciones">
+                   <!-- Acciones para cada sesión -->
+                   <form action="/sesion/editar/{{ sesion.id_sesiones }}" method="get">
+                       <button type="submit" onclick="window.open('/sesion/editar/{{ sesion.id_sesiones }}', 'Editar', 'width=600,height=600'); return false;">Editar</button>
+                   </form>
+                   <form action="/sesion/eliminar/{{ sesion.id_sesiones }}" method="post">
+                       <button type="submit" name="eliminar" value="eliminar" onclick="return confirmarEliminacion()">Eliminar</button>
+                   </form>
+                   {% if mostrar_confirmacion %}
+                       <div>
+                           ¿Está seguro de eliminar este registro?
+                           <form action="" method="post">
+                               <input type="hidden" name="id_sesion" value="{{ sesion.id_sesiones }}">
+                               <button type="submit" name="confirmar" value="confirmar">Confirmar</button>
+                               <button type="submit" name="cancelar" value="cancelar">Cancelar</button>
+                           </form>
+                       </div>
+                   {% endif %}
+               </td>
+           </tr>
+           {% endfor %}
+       </tbody>
+   </table>
+</div>
+
+    </body>
+    </html>
