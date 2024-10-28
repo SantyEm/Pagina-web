@@ -101,6 +101,14 @@ def agregar_paciente():
 
     return render_template('PacienteFormulario.html', pacientes=pacientes)
 
+def obtener_paciente_por_id(id_paciente):
+    connection = get_connection()
+    cursor = connection.cursor()
+    cursor.execute("SELECT * FROM t_01paciente WHERE Id_paciente = %s", (id_paciente,))
+    paciente = cursor.fetchone()
+    cursor.close()
+    connection.close()
+    return paciente
 
 @app.route('/agregar-direccion/<id_paciente>', methods=['GET', 'POST'])
 def agregar_direccion(id_paciente):
@@ -113,7 +121,7 @@ def agregar_direccion(id_paciente):
         cursor = connection.cursor()
         
         # Recibir los datos del formulario
-        paciente = obtener_pacientes(id_paciente)
+        paciente = obtener_paciente_por_id(id_paciente)
         print(f"Paciente: {paciente}")
         direccion = request.form['direccion']
         ciudad = request.form['ciudad']
@@ -137,7 +145,7 @@ def agregar_direccion(id_paciente):
         
         return render_template('agregarDireccionPaciente.html', paciente=paciente, mensaje="Dirección agregada con éxito")
     else:
-        paciente = obtener_pacientes(id_paciente)
+        paciente = obtener_paciente_por_id(id_paciente)
         return render_template('agregarDireccionPaciente.html', paciente=paciente)
 
 @app.route('/editar_paciente/<int:id_paciente>', methods=['GET', 'POST'])

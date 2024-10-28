@@ -30,7 +30,7 @@ app.add_url_rule('/volver_inicio', 'home', LoginConsultas.home)
 app.add_url_rule('/padres', 'mostrar_padres', PadresConsulta.mostrar_padres)
 
 
-# procesos del padres
+# procesos del pacientes
 app.add_url_rule('/pacientes', "mostrar_pacientes", pacientesConsultas.mostrar_pacientes)
 
 # procesos del desarrollo

@@ -10,59 +10,61 @@
 <body>
     <header class="header" id="header">
         <nav class="nav container">
-            <span class="puntito">.</span>
-            <a href="#" class="logo">Clínica de Psicopedagogía</a>
-            <div class="nav__menu" id="nav-menu">
-                <ul class="nav__list">
+           <span class="puntito">.</span>
+           <a href="#" class="logo">Clínica de Psicopedagogía</a>
+           <div class="nav__menu" id="nav-menu">
+              <ul class="nav__list">
+                 <li class="nav__item">
+                    <a href="/volver_inicio" class="nav__link" >Inicio</a>
+                 </li>
+                 <li class="nav__item">
                     <li class="nav__item">
-                        <a href="/volver_inicio" class="nav__link" >Inicio</a>
-                    </li>
-                    <li class="nav__item">
-                        <a href="/datos_pacientes" class="nav__link" >Paciente</a>
-                    </li>
-                    <li class="nav__item">
-                        <a href="#" class="nav__link" >Padres</a>
-                    </li>
-                    <li class="nav__item">
-                        <a href="#" class="nav__link">Desarrollo</a>
-                    </li>
-                    <li class="nav__item">
-                        <a href="#" class="nav__link" >Facturación</a>
-                    </li>
-                </ul>
-                <div class="nav__close" id="nav-close">
-                    <i class="ri-close-line"></i>
-                </div>
-            </div>
-            
-            <div class="nav__actions">
-                <div class="dropdown">
-                    <button class="dropdown__button" onclick="toggleDropdown('config-dropdown')">
-                        <i class="fas fa-cog"></i> Configuración
-                    </button>
-                    <div class="dropdown__content" id="config-dropdown">
-                        <a href="usuario-info">Usuarios</a>
-                        <a href="acerca-de">Acerca de</a>
-                    </div>
-                </div>
-                
-                <div class="dropdown">
-                    <button class="dropdown__button" onclick="toggleDropdown('profile-dropdown')">
-                        <i class="fas fa-user"></i> Perfil
-                    </button>
-                    <div class="dropdown__content" id="profile-dropdown">
-                        <a href="opciones_usuario">Opciones de Usuario</a>
-                        <a href="/cerrar-sesion?confirm_logout=true">Cerrar sesión</a>
-                    </div>
-                </div>
-            </div>
+                        <a href="/padres" class="nav__link" >Padres</a>
+                     </li>
+                 </li>
+                 <li class="nav__item">
+                    <a href="/pacientes" class="nav__link" >Paciente</a>
+                 </li>
+                 <li class="nav__item">
+                    <a href="/Desarrollo" class="nav__link">Desarrollo</a>
+                 </li>
+              </ul>
+              <div class="nav__close" id="nav-close">
+                 <i class="ri-close-line"></i>
+              </div>
+           </div>
+           
+           <div class="nav__actions">
+              <div class="dropdown">
+                 <button class="dropdown__button" onclick="toggleDropdown('config-dropdown')">
+                     <i class="fas fa-cog"></i> Configuración
+                 </button>
+                 <div class="dropdown__content" id="config-dropdown">
+                    <a href="usuario-info">Usuarios</a>
+                     <a href="acerca-de">Acerca de</a>
+                 </div>
+             </div>
+             
+             <div class="dropdown">
+              <button class="dropdown__button" onclick="toggleDropdown('profile-dropdown')">
+                  <i class="fas fa-user"></i> Perfil
+              </button>
+              <div class="dropdown__content" id="profile-dropdown">
+                  <a href="opciones_usuario">Opciones de Usuario</a>
+                  <a href="/cerrar-sesion?confirm_logout=true">Cerrar sesión</a>
+              </div>
+          </div>
+          
+          </div>
+          
+          </div>
         </nav>
-    </header>
-    
-    <!-- Formulario alternativo para cerrar sesión -->
-    <form action="/cerrar-sesion" method="POST">
-        <button type="submit">Cerrar sesión</button>
-    </form>
+        
+     </header>
+          <!-- Formulario alternativo para cerrar sesión -->
+          <form action="/cerrar-sesion" method="POST">
+              <button type="submit">Cerrar sesión</button>
+           </form>
     
     <div class="contenedorBody">
         <div class="item1">

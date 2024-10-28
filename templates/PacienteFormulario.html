@@ -67,6 +67,17 @@
           <button type="submit">Cerrar sesión</button>
        </form>
     
+       <div class="contenedor-busqueda">
+        <form action="/buscarPaciente" method="post">
+          <div class="busqueda">
+            <button type="submit">Buscar</button>
+            <input type="text" name="buscar" placeholder="Buscar...">
+            <select name="parametro">
+
+            </select>
+          </div>
+        </form>
+      </div>
             <div class="blockEntrada">
                 <div class="title">Ingreso de Datos</div>
                 <form id="datos-paciente" action="/agregar-paciente" method="post">
@@ -140,27 +151,18 @@
                     <td>{{ paciente.Fecha_registro }}</td>
                     <td class="observaciones">{{ paciente.Observaciones }}</td>
                     <td>
-                      <form action="/paciente/direcciones/{{ paciente.Id_paciente }}" method="get" onsubmit="mostrarIdPaciente(this); return false;">
-                        <button type="submit" onclick="window.open('/paciente/direcciones/{{ paciente.Id_paciente }}', 'Direcciones', 'width=400,height=200'); return false;">Ver direcciones</button>
+                      <form action="/paciente/direcciones/{{ paciente.Id_paciente }}" method="get" target="_blank">
+                        <button type="submit" onclick="window.open('/paciente/direcciones/{{ paciente.Id_paciente }}', 'Direcciones', 'width=800,height=800'); return false;">Ver direcciones</button>
                       </form>
-                      <form action="/agregar-direccion/{{ paciente.Id_paciente }}" method="get" target="_blank">
-                        <button type="submit" class="btn btn-primary">Agregar Dirección</button>
-                      </form> 
                     </td>
                     <td>
                       <form action="/paciente/historial_educacion/{{ paciente.Id_paciente }}" method="get">
                         <button type="submit">Ver Historial Educación</button>
                       </form>
-                      <form action="/agregar-HistorialEducacion/{{ paciente.Id_paciente }}" method="get" target="_blank">
-                        <button type="submit" class="btn btn-primary">Agregar Historial Educación</button>
-                      </form>
                     </td>
                     <td>
                       <form action="/paciente/informacion_familiar/{{ paciente.Id_paciente }}" method="get">
                         <button type="submit">Ver Información Familiar</button>
-                      </form>
-                      <form action="/agregar-InformacionFamiliar/{{ paciente.Id_paciente }}" method="get" target="_blank">
-                        <button type="submit" class="btn btn-primary">Agregar Historial Educación</button>
                       </form>
                     </td>
                     <td>

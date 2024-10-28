@@ -4,75 +4,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/remixicon.css" rel="stylesheet">
-    <style>
-        /* Aquí va tu estilo */
-        .ventanaDireccciones-content {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 400px;
-            height: 200px;
-            background-color: #fff;
-            border: 1px solid #ddd;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-            max-width: 400px; /* Fija el ancho máximo */
-            max-height: 200px; /* Fija el alto máximo */
-            min-width: 400px; /* Fija el ancho mínimo */
-            min-height: 200px; /* Fija el alto mínimo */
-            resize: none; /* Impide redimensionar la ventana */
-        }
-
-        .ventanaDireccciones-content .title {
-            font-size: 1.5rem;
-            font-weight: bold;
-            margin-bottom: 10px;
-            text-align: center; /* Alineación centrada del título */
-        }
-
-        .ventanaDireccciones-content .table {
-            width: 100%;
-            border-collapse: collapse; /* Colapsa los bordes de la tabla */
-            background-color: #fff; /* Color de fondo de la tabla */
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra ligera alrededor de la tabla */
-            border-radius: 8px; /* Borde redondeado para la tabla */
-        }
-
-        .ventanaDireccciones-content .table th,
-        .ventanaDireccciones-content .table td {
-            padding: 10px; /* Ajusta el padding de las celdas según sea necesario */
-            border: 1px solid #9b9a9a; /* Añade bordes a las celdas */
-            text-align: center; /* Alinea el contenido al centro */
-            white-space: nowrap; /* Evita que el texto se envuelva */
-            vertical-align: middle; /* Alinea el contenido verticalmente */
-            height: 10px; /* Ajusta la altura deseada para las celdas */
-            line-height: 10px; /* Ajusta la altura de línea igual a la altura para centrar el texto verticalmente */
-        }
-
-        .ventanaDireccciones-content .table th {
-            background-color: #f0f0f0; /* Color de fondo para las celdas de encabezado */
-        }
-
-        .ventanaDireccciones-content .table tbody tr:nth-child(even) {
-            background-color: #f9f9f9; /* Color de fondo para filas pares */
-        }
-
-        .ventanaDireccciones-content .table tbody tr:hover {
-            background-color: #e0e0e0; /* Color de fondo al pasar el mouse sobre una fila */
-        }
-
-        body {
-            background: url('../img/fon-config.jpg') no-repeat;
-            background-repeat: no-repeat;
-            background-size: cover;
-            background-attachment: fixed;
-        }
-    </style>
+    <link rel="stylesheet" href="/static/css/stiloPacienteForm.css">
 </head>
 
 <body>
-    <div class="ventanaDireccciones-content">
+    <div class="blockEntrada">
+        <form id="embarazo-form" action="/registrar-embarazo" method="post">
+            <label for="inicio_del_embarazo">Fecha Inicio del Embarazo:</label>
+            <input type="date" id="inicio_del_embarazo" name="inicio_del_embarazo" required>
+            <label for="fecha_fin_del_embarazo">Fecha Fin del Embarazo:</label>
+            <input type="date" id="fecha_fin_del_embarazo" name="fecha_fin_del_embarazo" required>
+            <label for="semana_gestacion">Semanas de Gestación:</label>
+            <input type="number" id="semana_gestacion" name="semana_gestacion" required>
+            <label for="peso_al_nacer">Peso al Nacer:</label>
+            <input type="number" step="0.01" id="peso_al_nacer" name="peso_al_nacer" required>
+            
+            <!-- Select para tipo de parto (t_08tipoparto) -->
+            <label for="id_tipo_parto">Tipo de Parto:</label>
+            <select id="id_tipo_parto" name="id_tipo_parto">
+                <option value="1" selected>Parto Natural</option>
+                <option value="2">Cesárea</option>
+                <option value="3">Parto Inducido</option>
+                <option value="4">Parto por Fórceps</option>
+                <option value="5">Parto en el Agua</option>
+            </select>
+            
+            <!-- Campo para enfermedades del embarazo (t_09enfermedadesembarazo) -->
+            <label for="enfermedades">Enfermedades del Embarazo:</label>
+            <textarea id="enfermedades" name="enfermedades"></textarea>
+            
+            <button type="submit">Registrar Embarazo</button>
+        </form>
+    </div>
+
+    <div class="blockTabla">
         <h2 class="title">Direcciones de los padres</h2>
         <table class="table">
             <thead>
@@ -90,8 +55,8 @@
                     <td>{{ direccion['ciudad'] }}</td>
                     <td>{{ direccion['estado_vivienda'] }}</td>
                     <td class="acciones">
-                        <form action="/direcciones/editar/{{ embarazo['id_embarazo'] }}" method="post" target="_blank">
-                            <button onclick="window.open('/direcciones/editar/{{ direcciones.id_embarazo }}', 'Editar', 'width=600,height=600');">Editar</button>
+                        <form action="/direcciones/editar/{{ direccion.id_direccion }}" method="post" target="_blank">
+                            <button onclick="window.open('/direcciones/editar/{{ direccion.id_direccion }}', 'Editar', 'width=600,height=600');">Editar</button>
                         </form>
                     </td>
                 </tr>

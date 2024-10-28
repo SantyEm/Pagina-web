@@ -102,7 +102,7 @@
                             <option value="1">Educación Inicial</option>
                             <option value="2">Educación Primaria</option>
                             <option value="3">Educación Secundaria</option>
-                            <option value="3">Educación Superior</option>
+                            <option value="4">Educación Superior</option>
                         </select>
                     </div>
 
@@ -116,102 +116,67 @@
                 </form>
             </div>
        
-     <div class="blockTabla">
-        <div class="title">Tabla De Registros de Padres</div>
-        <form action="/padres" method="post">
-            <!-- Contenido del formulario -->
-            <div>
-                <table class="table">
-                    <!-- Encabezados de la tabla -->
-                    <thead>
-                        <tr>
-                            <th style="display: none;">ID</th>
-                            <th>Nombres</th>
-                            <th>Apellido</th>
-                            <th>Teléfono</th>
-                            <th>Ocupación</th>
-                            <th>Nivel de Educación</th>
-                            <th>Edad</th> <!-- Edad en la posición 7 -->
-                            <th>Fecha de nacimiento</th> <!-- Fecha de nacimiento en la posición 8 -->
-                            <th>Tipo de Relacion</th>
-                            <th>Datos de Embarazo</th>
-                            <th>Direcciones</th>
-                            <th>Datos de Embarazo</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    
-                    <tbody>
-                        {% for padre in padres %}
-                        <tr>
-                            <td style="display: none;">{{ padre.Id_padre }}</td>
-                            <td>{{ padre.Nombres }}</td>
-                            <td>{{ padre.Apellido }}</td>
-                            <td>{{ padre.Telefono }}</td>
-                            <td>{{ padre.Ocupacion }}</td>
-                            <td>{{ padre.nivel }}</td>
-                            <td>{{ padre.edad }}</td> <!-- Edad en la posición 7 -->
-                            <td>{{ padre.Fecha_nacimiento }}</td> <!-- Fecha de nacimiento en la posición 8 -->
-                            <td>
-                                {% if padre.id_tipo_relacion == 1 %}
-                                    Padre
-                                {% elif padre.id_tipo_relacion == 2 %}
-                                    Madre
-                                {% else %}
-                                    Desconocido
-                                {% endif %}
-                            </td>
-                            <td>
-                                {% if padre.id_tipo_relacion == 2 %}
-                                <form action="/padre/{{ padre.Id_padre }}/datos-embarazo/" method="get" target="_blank">
-                                    <button type="submit" onclick="window.open('/padre/{{ padre.Id_padre }}/datos-embarazo/', 'Datos de Embarazo', 'width=1083,height=393');">Ver datos de embarazo</button>
-                                </form>
-                                {% endif %}
-                            </td>
-                            <td class="Direcciones" >   
-                                <form action="/padre/direcciones/{{ padre.Id_padre }}" method="get" onsubmit="mostrarIdPadre(this); return false;">
-                                    <button type="submit" onclick="window.open('/padre/direcciones/{{ padre.Id_padre }}', 'Direcciones', 'width=400,height=200'); return false;">Ver direcciones</button>
-                                </form>
-                                <form action="/agregar-direccion/{{  padre.Id_padre  }}" method="get" target="_blank">
-                                    <button type="submit" class="btn btn-primary">Agregar Dirección</button>
-                                  </form> 
-                            </td>
-                            <td class="Embarazo" >   
-                                <form action="/padre/{{ padre.Id_padre }}/datos-embarazo/" method="get" target="_blank">
-                                    <button type="submit">Ver Embarazo</button>
-                                </form>
-                                  <form action="/agregar_Datos de Embarazo/{{ padre.Id_padre }}" method="get" target="_blank">
-                                    <button type="submit" class="btn btn-primary">Agregar datos embarazo</button>
-                                  </form>
-                            </td>
-                            <td class="acciones" >
-                                <!-- Acciones para cada padre -->
-                                <form action="/padre/editar/{{ padre.Id_padre }}" method="get">
-                                    <button type="submit" onclick="window.open('/padre/editar/{{ padre.Id_padre }}', 'Editar', 'width=600,height=600'); return false;">Editar</button>
-                                </form>
-                                <form action="/eliminar_padre/{{ padre.Id_padre }}" method="post">
+            <div class="blockTabla">
+                <div class="title">Tabla De Registros de Padres</div>
+                <form action="/padres" method="post">
+                    <table class="table">
+                        <!-- Encabezados de la tabla -->
+                        <thead>
+                            <tr>
+                                <th style="display: none;">ID</th>
+                                <th>Nombres</th>
+                                <th>Apellido</th>
+                                <th>Teléfono</th>
+                                <th>Ocupación</th>
+                                <th>Nivel de Educación</th>
+                                <th>Edad</th> 
+                                <th>Fecha de nacimiento</th> 
+                                <th>Tipo de Relacion</th>
+                                <th>Datos de Embarazo</th>
+                                <th>Direcciones</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        
+                        <tbody>
+                            {% for padre in padres %}
+                            <tr>
+                                <td style="display: none;">{{ padre.Id_padre }}</td>
+                                <td>{{ padre.Nombres }}</td>
+                                <td>{{ padre.Apellido }}</td>
+                                <td>{{ padre.Telefono }}</td>
+                                <td>{{ padre.Ocupacion }}</td>
+                                <td>{{ padre.nivel }}</td>
+                                <td>{{ padre.edad }}</td> 
+                                <td>{{ padre.Fecha_nacimiento }}</td> 
+                                <td>
+                                    {% if padre.id_tipo_relacion == 1 %}
+                                        Padre
+                                    {% elif padre.id_tipo_relacion == 2 %}
+                                        Madre
+                                    {% else %}
+                                        Desconocido
+                                    {% endif %}
+                                </td>
+                                <td class="Embarazo">   
+                                    <button type="button" onclick="window.open('/padre/direcciones/{{ padre.Id_padre }}', 'Direcciones', 'width=400,height=200'); return false;">Direcciones</button>
+                                </td>
+                                <td class= "Direcciones" >   
+                                    {% if padre.id_tipo_relacion == 2 %}
+                                    <button type="button" onclick="window.open('/padre/{{ padre.Id_padre }}/datos-embarazo/', 'Datos de Embarazo', 'width=600,height=600'); return false;">Ver Embarazo</button>
+                                    {% endif %}
+                                </td>
+                                <td class="acciones" >
+                                    <!-- Acciones para cada padre -->
+                                    <button type="button" onclick="window.open('/padre/editar/{{ padre.Id_padre }}', 'Editar', 'width=600,height=600'); return false;">Editar</button>
                                     <button type="submit" name="eliminar" value="eliminar" onclick="return confirmarEliminacion()">Eliminar</button>
-                                </form>
-                                
-                                {% if mostrar_confirmacion %}
-                                    <div>
-                                        ¿Está seguro de eliminar este registro?
-                                        <form action="" method="post">
-                                            <input type="hidden" name="id_padre" value="{{ padre.Id_padre }}">
-                                            <button type="submit" name="confirmar" value="confirmar">Confirmar</button>
-                                            <button type="submit" name="cancelar" value="cancelar">Cancelar</button>
-                                        </form>
-                                    </div>
-                                {% endif %}
-                            </td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-
-                </table>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </form>
             </div>
-        </form>
-    </div>
     
 
     </div>
