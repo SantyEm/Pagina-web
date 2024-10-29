@@ -148,6 +148,117 @@ def agregar_direccion(id_paciente):
         paciente = obtener_paciente_por_id(id_paciente)
         return render_template('agregarDireccionPaciente.html', paciente=paciente)
 
+@app.route('/paciente/historial_educacion/<int:id_paciente>', methods=['GET', 'POST'])
+def historial_educacion(id_paciente):
+    # Código para manejar la ruta
+    registros = obtener_historial_educativo(id_paciente)
+    return render_template('HistorialEducativoPaciente.html', registros=registros)
+
+
+def obtener_historial_educativo(id_paciente):
+    # Cursor para ejecutar consultas
+    connection = get_connection()
+    cursor = connection.cursor()
+    
+    # Consulta SQL
+    query = """
+    SELECT 
+        he.id_historial, 
+        p.Nombre AS paciente, 
+        ci.institucion AS institucion, 
+        he.adaptacion, 
+        he.relacion_docentes, 
+        he.relacion_compañeros, 
+        he.repitencia_escolar, 
+        he.cambios_escuelas, 
+        he.cambios_maestros
+    FROM 
+        t_10historialeducativo he
+    INNER JOIN 
+        t_01paciente p ON he.id_paciente = p.Id_paciente
+    INNER JOIN 
+        t_11caracteristicainstitu ci ON he.id_institucion = ci.id_institucion
+    WHERE 
+        he.id_paciente = %s
+"""
+    
+    # Ejecutar consulta
+    cursor.execute(query, (id_paciente,))
+    
+    # Obtener resultados
+    resultados = cursor.fetchone()
+    
+    print(resultados)  # Imprimir los resultados en la consola
+    
+    # Procesar resultados
+    if resultados:
+        campos = [column[0] for column in cursor.description]
+        respuesta = [dict(zip(campos, resultados))]
+    else:
+        respuesta = []
+    
+    # Cerrar cursor y conexión
+    cursor.close()
+    connection.close()
+    
+    return respuesta
+
+@app.route('/paciente/informacion_familiar/<int:id_paciente>', methods=['GET', 'POST'])
+def informacion_familiar(id_paciente):
+    # Código para manejar la ruta
+    registros = obtener_informacion_familiar(id_paciente)
+    return render_template('InfoFamiliarPaciente.html', registros=registros)
+
+
+def obtener_informacion_familiar(id_paciente):
+    # Cursor para ejecutar consultas
+    connection = get_connection()
+    cursor = connection.cursor()
+    
+    # Consulta SQL
+    query = """
+SELECT 
+    info_familiar.id_informacion_familiar,
+    p.Nombre AS paciente,
+    info_familiar.ambiente_familiar,
+    info_familiar.union_estable,
+    info_familiar.tiempo_convivencia,
+    info_familiar.ingresos_padre,
+    info_familiar.ingresos_madre,
+    info_familiar.expectativas_padres,
+    info_familiar.dia_comun_menor,
+    ev.estado_vivienda
+FROM 
+    t_12infofamiliar info_familiar
+INNER JOIN 
+    t_01paciente p ON info_familiar.id_paciente = p.Id_paciente
+INNER JOIN 
+    t_12estadovivienda ev ON info_familiar.id_estado_vivienda = ev.id_estado
+WHERE 
+    info_familiar.id_paciente = %s
+"""
+    
+    # Ejecutar consulta
+    cursor.execute(query, (id_paciente,))
+    
+    # Obtener resultados
+    resultados = cursor.fetchall()
+    
+    print(resultados)  # Imprimir los resultados en la consola
+    
+    # Procesar resultados
+    if resultados:
+        campos = [column[0] for column in cursor.description]
+        respuesta = [dict(zip(campos, registro)) for registro in resultados]
+    else:
+        respuesta = []
+    
+    # Cerrar cursor y conexión
+    cursor.close()
+    connection.close()
+    
+    return respuesta
+
 @app.route('/editar_paciente/<int:id_paciente>', methods=['GET', 'POST'])
 def editar_paciente(id_paciente):
     connection = get_connection()
@@ -165,8 +276,19 @@ def editar_paciente(id_paciente):
 def eliminar_paciente(id_paciente):
     connection = get_connection()
     cursor = connection.cursor()
-    cursor.execute("DELETE FROM pacientes WHERE id_paciente = %s", (id_paciente,))
+    
+    # Eliminar registros relacionados
+    cursor.execute("DELETE FROM t_02direccionpaciente WHERE Id_paciente = %s", (id_paciente,))
+    cursor.execute("DELETE FROM t_06datosembarazo WHERE Id_paciente = %s", (id_paciente,))
+    cursor.execute("DELETE FROM t_10historialeducativo WHERE Id_paciente = %s", (id_paciente,))
+    cursor.execute("DELETE FROM t_12infofamiliar WHERE Id_paciente = %s", (id_paciente,))
+    cursor.execute("DELETE FROM t_13datosesion WHERE Id_paciente = %s", (id_paciente,))
+    
+    # Eliminar registro de paciente
+    cursor.execute("DELETE FROM t_01paciente WHERE Id_paciente = %s", (id_paciente,))
+    
     connection.commit()
+    connection.close()
     return render_template('PacienteFormulario.html')
 
 if __name__ == '__main__':
