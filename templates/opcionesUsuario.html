@@ -9,7 +9,6 @@
 
 </head>
 <body>
-
     <header class="header" id="header">
         <nav class="nav container">
            <span class="puntito">.</span>
@@ -20,16 +19,15 @@
                     <a href="/volver_inicio" class="nav__link" >Inicio</a>
                  </li>
                  <li class="nav__item">
-                    <a href="/datos_pacientes" class="nav__link" >Paciente</a>
+                    <li class="nav__item">
+                        <a href="/padres" class="nav__link" >Padres</a>
+                     </li>
                  </li>
                  <li class="nav__item">
-                    <a href="#" class="nav__link" >Padres</a>
+                    <a href="/pacientes" class="nav__link" >Paciente</a>
                  </li>
                  <li class="nav__item">
-                    <a href="#" class="nav__link">Desarrollo</a>
-                 </li>
-                 <li class="nav__item">
-                    <a href="#" class="nav__link" >Facturación</a>
+                    <a href="/Desarrollo" class="nav__link">Sesion</a>
                  </li>
               </ul>
               <div class="nav__close" id="nav-close">
@@ -64,10 +62,10 @@
         </nav>
         
      </header>
-      <!-- Formulario alternativo para cerrar sesión -->
-      <form action="/cerrar-sesion" method="POST">
-          <button type="submit">Cerrar sesión</button>
-       </form>
+          <!-- Formulario alternativo para cerrar sesión -->
+          <form action="/cerrar-sesion" method="POST">
+              <button type="submit">Cerrar sesión</button>
+           </form>
 
        {% if datos_usuario %}
             <p>Nombre: {{ datos_usuario.NombreUsuario }}</p>

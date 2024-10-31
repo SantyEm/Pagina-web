@@ -104,8 +104,27 @@ def agregar_paciente():
 def obtener_paciente_por_id(id_paciente):
     connection = get_connection()
     cursor = connection.cursor()
-    cursor.execute("SELECT * FROM t_01paciente WHERE Id_paciente = %s", (id_paciente,))
+    cursor.execute("""
+        SELECT 
+            p.Id_paciente, 
+            p.Nombre, 
+            p.Apellido, 
+            p.DNI, 
+            g.Nombre AS Genero, 
+            p.Fecha_nacimiento, 
+            p.Fecha_registro, 
+            p.Observaciones, 
+            p.Id_padre 
+        FROM 
+            t_01paciente p 
+        INNER JOIN 
+            t_02genero g ON p.Id_genero = g.Id_genero 
+        WHERE 
+            p.Id_paciente = %s
+    """, (id_paciente,))
     paciente = cursor.fetchone()
+    columns = [column[0] for column in cursor.description]
+    paciente = dict(zip(columns, paciente))
     cursor.close()
     connection.close()
     return paciente
@@ -265,12 +284,27 @@ def editar_paciente(id_paciente):
     cursor = connection.cursor()
 
     if request.method == 'POST':
-        nombre = request.form['Nombre']
-        apellido = request.form['Apellido']
-        cursor.execute("UPDATE pacientes SET nombre = %s, apellido = %s WHERE id_paciente = %s", (nombre, apellido, id_paciente))
+        nombre = request.form['nombre']
+        apellido = request.form['apellido']
+        dni = request.form['dni']
+        id_genero = request.form['id_genero']
+        fecha_nacimiento = request.form['fecha_nacimiento']
+        fecha_registro = request.form['fecha_registro']
+        observaciones = request.form['observaciones']
+        id_padre = request.form['id_padre']
+
+        cursor.execute("UPDATE t_01paciente SET nombre=%s, apellido=%s, DNI=%s, id_genero=%s, fecha_nacimiento=%s, fecha_registro=%s, observaciones=%s, id_padre=%s WHERE id_paciente=%s", 
+                (nombre, apellido, dni, id_genero, fecha_nacimiento, fecha_registro, observaciones, id_padre, id_paciente))
         connection.commit()
-        return redirect(url_for('index'))
-    return render_template('editar_paciente.html')
+        connection.close()
+        return render_template('editar_paciente.html')
+
+    
+    paciente = obtener_paciente_por_id(id_paciente)
+    if paciente is None:
+        return 'Paciente no encontrado', 404
+    print(paciente)
+    return render_template('editar_paciente.html', paciente=paciente)
 
 @app.route('/eliminar_paciente/<int:id_paciente>', methods=['POST'])
 def eliminar_paciente(id_paciente):

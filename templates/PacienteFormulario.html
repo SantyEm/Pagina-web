@@ -27,7 +27,7 @@
                 <a href="/pacientes" class="nav__link" >Paciente</a>
              </li>
              <li class="nav__item">
-                <a href="/Desarrollo" class="nav__link">Desarrollo</a>
+                <a href="/Desarrollo" class="nav__link">Sesion</a>
              </li>
           </ul>
           <div class="nav__close" id="nav-close">
@@ -73,7 +73,10 @@
             <button type="submit">Buscar</button>
             <input type="text" name="buscar" placeholder="Buscar...">
             <select name="parametro">
-
+              <option value="nombre">Nombre</option>
+              <option value="apellido">Apellido</option>
+              <option value="dni">DNI</option>
+              <option value="fecha_nacimiento">Fecha de nacimiento</option>
             </select>
           </div>
         </form>
@@ -166,7 +169,7 @@
                       </form>
                     </td>
                     <td>
-                      <form action="/editar_paciente/{{ paciente.Id_paciente }}" method="get">
+                      <form action="/editar_paciente/{{ paciente.Id_paciente }}" method="get" target="_blank">
                         <button type="submit">Editar</button>
                       </form>
                       <form action="/eliminar_paciente/{{ paciente.Id_paciente }}" method="post">

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="../static/css/styleFormEditar.css">
+    <title>Edición de Datos del Paciente</title>
+</head>
+<body>
+    <div class="container">
+        <h1 class="title">Edición de Datos del Paciente</h1>
+        <form id="editar-paciente" action="/editar-paciente" method="post">
+            <div class="form-group">
+                <label for="nombre" class="label">Nombre:</label>
+                <input type="text" id="nombre" name="nombre" value="{{ paciente['Nombre'] }}" required>
+            </div>
+            <div class="form-group">
+                <label for="apellido" class="label">Apellido:</label>
+                <input type="text" id="apellido" name="apellido" value="{{ paciente['Apellido'] }}" required>
+            </div>
+            <div class="form-group">
+                <label for="dni" class="label">DNI:</label>
+                <input type="text" id="dni" name="dni" value="{{ paciente['DNI'] }}" maxlength="20" required>
+            </div>
+            <div class="form-group">
+                <label for="id_genero">Género:</label>
+            <input type="text" id="id_genero" name="id_genero" value="{{ paciente['Genero'] }}" required>
+            </div>
+            <div class="form-group">
+                <label for="fecha_nacimiento" class="label">Fecha de Nacimiento:</label>
+                <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" value="{{ paciente['Fecha_nacimiento'] }}" required>
+            </div>
+            <div class="form-group">
+                <label for="fecha_registro" class="label">Fecha de Registro:</label>
+                <input type="date" id="fecha_registro" name="fecha_registro" value="{{ paciente['Fecha_registro'] }}" required>
+            </div>
+            <div class="form-group">
+                <label for="observaciones" class="label">Observaciones:</label>
+                <textarea id="observaciones" name="observaciones" required>{{ paciente['Observaciones'] }}</textarea>
+            </div>
+            <div class="form-group">
+                <label for="id_padre" class="label">ID Padre:</label>
+                <input type="number" id="id_padre" name="id_padre" value="{{ paciente['Id_padre'] }}" required>
+            </div>
+            <button type="submit" class="btn-submit">Guardar Edición</button>
+        </form>
+    </div>
+</body>
+</html>

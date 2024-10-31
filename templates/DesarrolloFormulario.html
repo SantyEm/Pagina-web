@@ -27,7 +27,7 @@
                     <a href="/pacientes" class="nav__link" >Paciente</a>
                  </li>
                  <li class="nav__item">
-                    <a href="/Desarrollo" class="nav__link">Desarrollo</a>
+                    <a href="/Desarrollo" class="nav__link">Sesión</a>
                  </li>
               </ul>
               <div class="nav__close" id="nav-close">
@@ -69,6 +69,15 @@
 
      <div class="contenedor-busqueda">
         <!-- Formulario de búsqueda -->
+        <form action="/buscarPaciente" method="post">
+            <div class="busqueda">
+              <button type="submit">Buscar</button>
+              <input type="text" name="buscar" placeholder="Buscar...">
+              <select name="parametro">
+                <option value="nombre">Nombre</option>
+              </select>
+            </div>
+          </form>
     </div>
 
      <div class="blockEntrada">
@@ -197,6 +206,7 @@
 
     </form>
  </div>
-
+ <script src="../static/js/menu.js"></script>
+ <script src="../static/js/pacientesJs.js"></script>
     </body>
     </html>
