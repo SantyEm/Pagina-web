@@ -24,16 +24,16 @@ DROP TABLE IF EXISTS `t_01paciente`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `t_01paciente` (
   `Id_paciente` int(11) NOT NULL AUTO_INCREMENT,
-  `Nombre` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `Apellido` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `DNI` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `Nombre` varchar(50) DEFAULT NULL,
+  `Apellido` varchar(50) DEFAULT NULL,
+  `DNI` varchar(20) DEFAULT NULL,
   `Fecha_nacimiento` date DEFAULT NULL,
   `Fecha_registro` date DEFAULT NULL,
-  `Observaciones` text COLLATE utf8mb4_unicode_ci,
+  `Observaciones` text,
   `Id_padre` int(11) DEFAULT NULL,
   `Id_genero` int(11) DEFAULT NULL,
   PRIMARY KEY (`Id_paciente`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COMMENT='Tabla almacena información básica de los pacientes, incluyendo datos personales, fechas importantes y relaciones con otros registros (padre y género)';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,7 +42,7 @@ CREATE TABLE `t_01paciente` (
 
 LOCK TABLES `t_01paciente` WRITE;
 /*!40000 ALTER TABLE `t_01paciente` DISABLE KEYS */;
-INSERT INTO `t_01paciente` VALUES (1,'Ana','García','12345678','2010-05-15','2023-07-01','Sin alergias conocidas',1,2),(2,'Juan','López','23456789','2012-08-20','2023-07-05','Problemas de concentración en clase',2,1),(3,'María','Martínez','34567890','2011-03-10','2023-07-10','Fobia a los espacios cerrados',3,2),(4,'Pedro','Rodríguez','45678901','2013-11-25','2023-07-15','Intereses en música y arte',4,1),(5,'Luisa','Pérez','56789012','2010-07-30','2023-07-20','Dificultades en matemáticas',5,2),(6,'Carlos','Gómez','67890123','2012-01-12','2023-07-25','Historial de déficit de atención',2,1),(7,'Laura','Díaz','78901234','2013-06-05','2023-08-01','Intereses en deportes y actividad física',6,2),(8,'José','Hernández','89012345','2011-09-18','2023-08-05','Experiencias de ansiedad social',7,1),(9,'Sofía','Ramírez','90123456','2010-12-08','2023-08-10','Dificultades en lectura comprensiva',8,2),(10,'Andrés','Torres','01234567','2012-02-28','2023-08-15','Historial de terapia de lenguaje',8,1),(16,'carlos','tevez','142432','2014-07-10','2024-08-08','as',NULL,1),(17,'santiago','umeres','410037566','1998-03-31','2024-08-15','minecraft',NULL,1);
+INSERT INTO `t_01paciente` VALUES (1,'Ana','García','12345678','2010-05-15','2023-07-01','Sin alergias conocidas',1,2),(2,'Juan','López','23456789','2012-08-20','2023-07-05','Problemas de concentración en clase',2,1),(3,'María','Martínez','34567890','2011-03-10','2023-07-10','Fobia a los espacios cerrados',3,2),(4,'Pedro','Rodríguez','45678901','2013-11-25','2023-07-15','Intereses en música y arte',4,1),(5,'Luisa','Pérez','56789012','2010-07-30','2023-07-20','Dificultades en matemáticas',5,2),(6,'Carlos','Gómez','67890123','2012-01-12','2023-07-25','Historial de déficit de atención',2,1),(7,'Laura','Díaz','78901234','2013-06-05','2023-08-01','Intereses en deportes y actividad física',6,2),(8,'José','Hernández','89012345','2011-09-18','2023-08-05','Experiencias de ansiedad social',7,1),(9,'Sofía','Ramírez','90123456','2010-12-08','2023-08-10','Dificultades en lectura comprensiva',8,2),(10,'Andrés','Torres','01234567','2012-02-28','2023-08-15','Historial de terapia de lenguaje',8,1),(16,'carlos','tevez','142432','2014-07-10','2024-08-08','as',NULL,1),(17,'santiago','umeres','410037566','1998-03-31','2024-08-15','minecraft',NULL,1),(18,'carlos','villan','142432','2010-04-25','2024-10-15','',NULL,1);
 /*!40000 ALTER TABLE `t_01paciente` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -54,16 +54,16 @@ DROP TABLE IF EXISTS `t_02direccionpaciente`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `t_02direccionpaciente` (
-  `id_direccion` int(11) NOT NULL,
+  `id_direccion` int(11) NOT NULL AUTO_INCREMENT,
   `id_paciente` int(11) DEFAULT NULL,
-  `direccion` text COLLATE utf8mb4_unicode_ci,
-  `ciudad` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `estado` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `codigo_postal` varchar(10) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `direccion` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `ciudad` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `estado` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `codigo_postal` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id_direccion`),
   KEY `id_paciente` (`id_paciente`),
   CONSTRAINT `t_02direccionpaciente_ibfk_1` FOREIGN KEY (`id_paciente`) REFERENCES `t_01paciente` (`Id_paciente`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COMMENT='Tabla almacena la información de las direcciones de los pacientes, incluyendo la relación con el paciente correspondiente';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -85,9 +85,9 @@ DROP TABLE IF EXISTS `t_02genero`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `t_02genero` (
   `Id_genero` int(11) NOT NULL,
-  `Nombre` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `Nombre` varchar(50) DEFAULT NULL,
   PRIMARY KEY (`Id_genero`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Tabla se relaciona con la tabla "t_01paciente" a través de la columna "Id_genero", lo que permite asignar un género a cada paciente.';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -109,10 +109,10 @@ DROP TABLE IF EXISTS `t_03padres_madres`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `t_03padres_madres` (
   `id_padre` int(11) NOT NULL AUTO_INCREMENT,
-  `nombres` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `apellido` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `telefono` varchar(20) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `ocupacion` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nombres` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `apellido` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `telefono` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ocupacion` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `id_nivel_educacion` int(11) DEFAULT NULL,
   `Fecha_nacimiento` date DEFAULT NULL,
   `id_tipo_relacion` int(11) DEFAULT NULL,
@@ -121,7 +121,7 @@ CREATE TABLE `t_03padres_madres` (
   KEY `fk_tipo_relacion` (`id_tipo_relacion`),
   CONSTRAINT `fk_tipo_relacion` FOREIGN KEY (`id_tipo_relacion`) REFERENCES `t_04tipo_relacion` (`id_tipo_relacion`),
   CONSTRAINT `t_03padres_madres_ibfk_1` FOREIGN KEY (`id_nivel_educacion`) REFERENCES `t_05niveleseducacion` (`id_nivel`)
-) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8mb4 COMMENT='Tabla almacena información detallada sobre los padres y madres de los pacientes, incluyendo datos personales, ocupación, nivel de educación y tipo de relación con el paciente.';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -130,7 +130,7 @@ CREATE TABLE `t_03padres_madres` (
 
 LOCK TABLES `t_03padres_madres` WRITE;
 /*!40000 ALTER TABLE `t_03padres_madres` DISABLE KEYS */;
-INSERT INTO `t_03padres_madres` VALUES (2,'María','López','987-654-3210','Profesora',4,'1985-06-25',2),(4,'Laura','Rodríguez','777-888-9999','Ama de casa',2,'1992-09-02',2),(35,'carla','lopes','3002167','camionero',NULL,'1995-02-28',2),(36,'Juan Carlos','Pérez García','123-456-7890','Ingeniero',3,'1980-01-01',1),(37,'María Fernanda','González Rodríguez','987-654-3210','Enfermera',2,'1985-06-15',2),(38,'Carlos Alberto','López Hernández','555-123-4567','Profesor',1,'1978-03-20',1);
+INSERT INTO `t_03padres_madres` VALUES (2,'María','López','987-654-3210','Profesora',4,'1985-06-25',2),(4,'Laura','Rodríguez','777-888-9999','Ama de casa',2,'1992-09-02',2),(35,'carla','lopes','3002167','camionero',NULL,'1995-02-28',2),(39,'Juan','Sanchez','3777874562','Soldado',NULL,'1990-12-08',1),(41,'Maria','Lopez','3777675402','Maestra',3,'1995-10-09',NULL),(42,'Lourdes','Quiroz','246598','Abogada',3,'1989-09-09',NULL),(43,'Valeria','Fernandez','3777986545','Comerciante',3,'1998-12-07',NULL),(44,'Alma','chaz','1255123','Vendedora',3,'2000-08-08',NULL),(45,'Maria','villan','12541351','Maestra',3,'1998-07-09',NULL),(46,'lucas','afas','12412','panadero',3,'1998-03-09',NULL),(47,'sdfsd','afas','3777896572','Maestra',3,'1990-05-12',NULL),(48,'Maria','afas','12412','Maestra',3,'1998-10-09',NULL);
 /*!40000 ALTER TABLE `t_03padres_madres` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -144,14 +144,14 @@ DROP TABLE IF EXISTS `t_04direccionpadre`;
 CREATE TABLE `t_04direccionpadre` (
   `id_direccion` int(11) NOT NULL AUTO_INCREMENT,
   `id_padre` int(11) DEFAULT NULL,
-  `direccion` text COLLATE utf8mb4_unicode_ci,
-  `ciudad` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `direccion` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `ciudad` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `id_estado_vivienda` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_direccion`),
   KEY `id_padre` (`id_padre`),
   KEY `id_estado_vivienda` (`id_estado_vivienda`),
   CONSTRAINT `t_04direccionpadre_ibfk_2` FOREIGN KEY (`id_estado_vivienda`) REFERENCES `t_12estadovivienda` (`id_estado`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COMMENT='Tabla almacena la información de las direcciones de los padres y madres, incluyendo la relación con el padre o madre correspondiente. Es similar a la tabla "t_02direccionpaciente", pero para los padres y madres en lugar de los pacientes.';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -160,7 +160,7 @@ CREATE TABLE `t_04direccionpadre` (
 
 LOCK TABLES `t_04direccionpadre` WRITE;
 /*!40000 ALTER TABLE `t_04direccionpadre` DISABLE KEYS */;
-INSERT INTO `t_04direccionpadre` VALUES (3,2,'Paseo del Sol, Barrio Vista Hermosa','Guadalajara',2),(5,4,'123 Main Street, Apartment 4B','New York',2),(10,9,'Rua das Pedras, Condomínio Recanto Feliz','Rio de Janeiro',2),(11,9,'Rua das Flores, Apartamento 2C','Rio de Janeiro',2),(12,10,'Avenida Central, Edificio Azul','Lima',1),(13,10,'Calle 15, Urbanización Bella Vista','Lima',1),(14,1,'Calle 1, No. 123','Ciudad 1',1),(15,1,'Calle 2, No. 456','Ciudad 2',2),(16,2,'Avenida 3, No. 789','Ciudad 3',1),(17,3,'Calle 4, No. 1011','Ciudad 4',2);
+INSERT INTO `t_04direccionpadre` VALUES (3,2,'Paseo del Sol, Barrio Vista Hermosa','Guadalajara',2),(5,4,'123 Main Street, Apartment 4B','New York',2),(10,9,'Rua das Pedras, Condomínio Recanto Feliz','Rio de Janeiro',2),(11,9,'Rua das Flores, Apartamento 2C','Rio de Janeiro',2),(12,10,'Avenida Central, Edificio Azul','Lima',1),(13,10,'Calle 15, Urbanización Bella Vista','Lima',1),(14,1,'Calle 1, No. 123','Ciudad 1',1),(15,1,'Calle 2, No. 456','Ciudad 2',2),(16,2,'Avenida 3, No. 789','Ciudad 3',1),(17,3,'Calle 4, No. 1011','Ciudad 4',2),(18,39,'barrio margarita','goya',2);
 /*!40000 ALTER TABLE `t_04direccionpadre` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -173,9 +173,9 @@ DROP TABLE IF EXISTS `t_04tipo_relacion`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `t_04tipo_relacion` (
   `id_tipo_relacion` int(11) NOT NULL,
-  `descripcion` varchar(10) DEFAULT NULL,
+  `descripcion` varchar(10) CHARACTER SET latin1 DEFAULT NULL,
   PRIMARY KEY (`id_tipo_relacion`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Tabla almacena la información de los tipos de relación que un padre o madre puede tener con un paciente.';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -197,9 +197,9 @@ DROP TABLE IF EXISTS `t_05niveleseducacion`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `t_05niveleseducacion` (
   `id_nivel` int(11) NOT NULL,
-  `nivel` text COLLATE utf8mb4_unicode_ci,
+  `nivel` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   PRIMARY KEY (`id_nivel`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Tabla almacena la información de los diferentes niveles de educación que pueden tener los padres o madres de los pacientes. ';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -232,7 +232,7 @@ CREATE TABLE `t_06datosembarazo` (
   KEY `id_tipo_parto` (`id_tipo_parto`),
   CONSTRAINT `t_06datosembarazo_ibfk_1` FOREIGN KEY (`id_paciente`) REFERENCES `t_01paciente` (`Id_paciente`),
   CONSTRAINT `t_06datosembarazo_ibfk_2` FOREIGN KEY (`id_tipo_parto`) REFERENCES `t_08tipoparto` (`id_tipo_parto`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Tabla almacena la información relacionada con el embarazo de las madres, incluyendo la fecha de inicio y fin del embarazo, el tipo de parto, la semana de gestación y el peso del bebé al nacer. Como mencionas, esta tabla solo sería relevante para las madres.';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -256,7 +256,7 @@ CREATE TABLE `t_08tipoparto` (
   `id_tipo_parto` int(11) NOT NULL,
   `tipo` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id_tipo_parto`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Tabla almacena la información de los diferentes tipos de parto que pueden ocurrir.';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -279,11 +279,11 @@ DROP TABLE IF EXISTS `t_09enfermedadesembarazo`;
 CREATE TABLE `t_09enfermedadesembarazo` (
   `id_enfermedad` int(11) NOT NULL,
   `id_embarazo` int(11) DEFAULT NULL,
-  `enfermedad` text COLLATE utf8mb4_unicode_ci,
+  `enfermedad` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   PRIMARY KEY (`id_enfermedad`),
   KEY `id_embarazo` (`id_embarazo`),
   CONSTRAINT `t_09enfermedadesembarazo_ibfk_1` FOREIGN KEY (`id_embarazo`) REFERENCES `t_06datosembarazo` (`id_embarazo`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Tabla almacena la información de las enfermedades que ocurrieron durante el embarazo de cada madre. La relación con la tabla "t_06datosembarazo" permite vincular cada enfermedad con el embarazo correspondiente.';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -307,18 +307,18 @@ CREATE TABLE `t_10historialeducativo` (
   `id_historial` int(11) NOT NULL,
   `id_paciente` int(11) DEFAULT NULL,
   `id_institucion` int(11) DEFAULT NULL,
-  `adaptacion` text COLLATE utf8mb4_unicode_ci,
-  `relacion_docentes` text COLLATE utf8mb4_unicode_ci,
-  `relacion_compañeros` text COLLATE utf8mb4_unicode_ci,
-  `repitencia_escolar` text COLLATE utf8mb4_unicode_ci,
-  `cambios_escuelas` text COLLATE utf8mb4_unicode_ci,
-  `cambios_maestros` text COLLATE utf8mb4_unicode_ci,
+  `adaptacion` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `relacion_docentes` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `relacion_compañeros` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `repitencia_escolar` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `cambios_escuelas` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `cambios_maestros` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   PRIMARY KEY (`id_historial`),
   KEY `id_paciente` (`id_paciente`),
   KEY `id_institucion` (`id_institucion`),
   CONSTRAINT `t_10historialeducativo_ibfk_1` FOREIGN KEY (`id_paciente`) REFERENCES `t_01paciente` (`Id_paciente`),
   CONSTRAINT `t_10historialeducativo_ibfk_2` FOREIGN KEY (`id_institucion`) REFERENCES `t_11caracteristicainstitu` (`id_institucion`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Tabla almacena la información detallada sobre el historial educativo de cada paciente, incluyendo su adaptación, relaciones con docentes y compañeros, repitencia escolar, y cambios en escuelas y maestros.';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -340,9 +340,9 @@ DROP TABLE IF EXISTS `t_11caracteristicainstitu`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `t_11caracteristicainstitu` (
   `id_institucion` int(11) NOT NULL,
-  `institucion` text COLLATE utf8mb4_unicode_ci,
+  `institucion` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   PRIMARY KEY (`id_institucion`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Tabla "t_11caracteristicainstitu" podría ser utilizada para almacenar información sobre el tipo de institución educativa, como si es pública o privada.';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -364,9 +364,9 @@ DROP TABLE IF EXISTS `t_12estadovivienda`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `t_12estadovivienda` (
   `id_estado` int(11) NOT NULL,
-  `estado_vivienda` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `estado_vivienda` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id_estado`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Tabla almacena la información sobre el estado de la vivienda de los pacientes, lo que puede ser útil para evaluar su situación habitacional y cómo puede afectar su salud o bienestar.';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -389,20 +389,20 @@ DROP TABLE IF EXISTS `t_12infofamiliar`;
 CREATE TABLE `t_12infofamiliar` (
   `id_informacion_familiar` int(11) NOT NULL,
   `id_paciente` int(11) DEFAULT NULL,
-  `ambiente_familiar` text COLLATE utf8mb4_unicode_ci,
-  `union_estable` enum('Sí','No') COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `tiempo_convivencia` text COLLATE utf8mb4_unicode_ci,
+  `ambiente_familiar` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `union_estable` enum('Sí','No') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `tiempo_convivencia` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `ingresos_padre` decimal(10,2) DEFAULT NULL,
   `ingresos_madre` decimal(10,2) DEFAULT NULL,
-  `expectativas_padres` text COLLATE utf8mb4_unicode_ci,
-  `dia_comun_menor` text COLLATE utf8mb4_unicode_ci,
+  `expectativas_padres` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `dia_comun_menor` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `id_estado_vivienda` int(11) DEFAULT NULL,
   PRIMARY KEY (`id_informacion_familiar`),
   KEY `id_paciente` (`id_paciente`),
   KEY `id_estado_vivienda` (`id_estado_vivienda`),
   CONSTRAINT `t_12infofamiliar_ibfk_1` FOREIGN KEY (`id_paciente`) REFERENCES `t_01paciente` (`Id_paciente`),
   CONSTRAINT `t_12infofamiliar_ibfk_2` FOREIGN KEY (`id_estado_vivienda`) REFERENCES `t_12estadovivienda` (`id_estado`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Tabla almacena información detallada sobre la situación familiar de cada paciente, incluyendo el ambiente familiar, la unión estable, el tiempo de convivencia, los ingresos de los padres, las expectativas de los padres, y el estado de la vivienda familiar. ';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -411,7 +411,7 @@ CREATE TABLE `t_12infofamiliar` (
 
 LOCK TABLES `t_12infofamiliar` WRITE;
 /*!40000 ALTER TABLE `t_12infofamiliar` DISABLE KEYS */;
-INSERT INTO `t_12infofamiliar` VALUES (1,1,'Ambiente familiar cálido y acogedor.','Sí','4 años',1500.00,1200.00,'Esperan que el menor destaque en sus estudios.','Día común incluye actividades escolares y juegos.',1),(2,2,'Hogar con armonía y respeto.','Sí','8 años',1800.00,900.00,'Desean que el menor sea autodisciplinado.','Día común implica actividades escolares y lectura.',2),(3,3,'Ambiente familiar lleno de amor y apoyo.','Sí','6 años',2000.00,1600.00,'Esperan que el menor desarrolle habilidades sociales.','Día común involucra juegos, tareas escolares y salidas.',2),(4,4,'Hogar con respeto a la individualidad.','No','10 años',2200.00,2000.00,'Desean que el menor tenga éxito académico.','Día común abarca estudio, deportes y tiempo en familia.',2),(5,5,'Ambiente familiar con comunicación abierta.','Sí','5 años',1800.00,1100.00,'Esperan que el menor sea creativo.','Día común incluye estudio, juegos y actividades al aire libre.',1),(6,1,'Ambiente tranquilo y afectuoso en casa','Sí','10 años',1500.00,1200.00,'Esperamos que termine su educación secundaria','Jugar en el parque',1),(7,2,'Hogar con gran participación en actividades culturales','No','7 años',2000.00,1800.00,'Queremos que aprenda un idioma extranjero','Ver películas en familia',2),(8,3,'Familia unida y comprometida con actividades deportivas','Sí','12 años',1800.00,1600.00,'Esperamos que destaque en el ámbito escolar','Visitar a los abuelos los fines de semana',3),(9,4,'Ambiente tenso debido a diferencias entre los padres','No','5 años',1400.00,1300.00,'Queremos que mejore su rendimiento académico','Jugar videojuegos',1),(20,5,'Casa con muchas actividades al aire libre','Sí','8 años',1700.00,1500.00,'Esperamos que sea un líder en su grupo escolar','Salir en bicicleta los domingos',2);
+INSERT INTO `t_12infofamiliar` VALUES (1,1,'Ambiente familiar cálido y acogedor.','Sí','4 años',1500.00,1200.00,'Esperan que el menor destaque en sus estudios.','Día común incluye actividades escolares y juegos.',1),(2,2,'Hogar con armonía y respeto.','Sí','8 años',1800.00,900.00,'Desean que el menor sea autodisciplinado.','Día común implica actividades escolares y lectura.',2),(3,3,'Ambiente familiar lleno de amor y apoyo.','Sí','6 años',2000.00,1600.00,'Esperan que el menor desarrolle habilidades sociales.','Día común involucra juegos, tareas escolares y salidas.',2),(4,4,'Hogar con respeto a la individualidad.','No','10 años',2200.00,2000.00,'Desean que el menor tenga éxito académico.','Día común abarca estudio, deportes y tiempo en familia.',2),(5,5,'Ambiente familiar con comunicación abierta.','Sí','5 años',1800.00,1100.00,'Esperan que el menor sea creativo.','Día común incluye estudio, juegos y actividades al aire libre.',1),(6,6,'Ambiente tranquilo y afectuoso en casa','Sí','10 años',1500.00,1200.00,'Esperamos que termine su educación secundaria','Jugar en el parque',1),(7,7,'Hogar con gran participación en actividades culturales','No','7 años',2000.00,1800.00,'Queremos que aprenda un idioma extranjero','Ver películas en familia',2),(8,8,'Familia unida y comprometida con actividades deportivas','Sí','12 años',1800.00,1600.00,'Esperamos que destaque en el ámbito escolar','Visitar a los abuelos los fines de semana',3),(9,9,'Ambiente tenso debido a diferencias entre los padres','No','5 años',1400.00,1300.00,'Queremos que mejore su rendimiento académico','Jugar videojuegos',1),(20,10,'Casa con muchas actividades al aire libre','Sí','8 años',1700.00,1500.00,'Esperamos que sea un líder en su grupo escolar','Salir en bicicleta los domingos',2);
 /*!40000 ALTER TABLE `t_12infofamiliar` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -431,7 +431,7 @@ CREATE TABLE `t_13datosesion` (
   `id_tipo_sesion` int(11) DEFAULT NULL,
   `id_desarrollo_psicomotor` int(11) DEFAULT NULL,
   `id_desarrollo_lenguaje` int(11) DEFAULT NULL,
-  `observacion` text COLLATE utf8mb4_unicode_ci,
+  `observacion` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   PRIMARY KEY (`id_sesiones`),
   KEY `id_paciente` (`id_paciente`),
   KEY `id_tipo_sesion` (`id_tipo_sesion`),
@@ -441,7 +441,7 @@ CREATE TABLE `t_13datosesion` (
   CONSTRAINT `t_13datosesion_ibfk_2` FOREIGN KEY (`id_tipo_sesion`) REFERENCES `t_14tipossesion` (`id_tipo_sesion`),
   CONSTRAINT `t_13datosesion_ibfk_3` FOREIGN KEY (`id_desarrollo_psicomotor`) REFERENCES `t_16desarrollopsicomotor` (`id_desarrollo_psicomotor`),
   CONSTRAINT `t_13datosesion_ibfk_4` FOREIGN KEY (`id_desarrollo_lenguaje`) REFERENCES `t_15desarrollolenguaje` (`id_desarrollo_lenguaje`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Tabla almacena información detallada sobre cada sesión de terapia o evaluación del paciente, incluyendo la fecha, hora, duración, tipo de sesión, desarrollo psicomotor y del lenguaje, y observaciones adicionales. ';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -463,9 +463,9 @@ DROP TABLE IF EXISTS `t_14tipossesion`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `t_14tipossesion` (
   `id_tipo_sesion` int(11) NOT NULL,
-  `nombre_tipo` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nombre_tipo` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id_tipo_sesion`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Tabla almacena la información de los diferentes tipos de sesiones que se pueden realizar con los pacientes.';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -487,9 +487,9 @@ DROP TABLE IF EXISTS `t_15desarrollolenguaje`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `t_15desarrollolenguaje` (
   `id_desarrollo_lenguaje` int(11) NOT NULL,
-  `descripcion` text COLLATE utf8mb4_unicode_ci,
+  `descripcion` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   PRIMARY KEY (`id_desarrollo_lenguaje`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Tabla almacena la información de los diferentes niveles de desarrollo del lenguaje que pueden presentar los pacientes';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -511,9 +511,9 @@ DROP TABLE IF EXISTS `t_16desarrollopsicomotor`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `t_16desarrollopsicomotor` (
   `id_desarrollo_psicomotor` int(11) NOT NULL,
-  `descripcion` text COLLATE utf8mb4_unicode_ci,
+  `descripcion` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   PRIMARY KEY (`id_desarrollo_psicomotor`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Tabla almacena la información de los diferentes niveles de desarrollo psicomotor que pueden presentar los pacientes.';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -535,17 +535,16 @@ DROP TABLE IF EXISTS `usuario`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `usuario` (
   `UsuarioID` int(11) NOT NULL AUTO_INCREMENT,
-  `NombreUsuario` varchar(255) NOT NULL,
-  `Apellido` varchar(255) DEFAULT NULL,
-  `Contraseña` varchar(255) NOT NULL,
-  `RolID` int(11) DEFAULT NULL,
-  `Email` varchar(255) NOT NULL,
-  `PreguntaSeguridad` varchar(255) DEFAULT NULL,
-  `RespuestaSeguridad` varchar(255) DEFAULT NULL,
+  `NombreUsuario` varchar(255) CHARACTER SET latin1 NOT NULL,
+  `Apellido` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
+  `Contraseña` varchar(255) CHARACTER SET latin1 NOT NULL,
+  `Email` varchar(255) CHARACTER SET latin1 NOT NULL,
+  `PreguntaSeguridad` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
+  `RespuestaSeguridad` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
   `FechaRegistro` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `IntentosFallidos` int(11) DEFAULT '0',
+  `UltimoIntentoFallido` int(11) DEFAULT '0',
   PRIMARY KEY (`UsuarioID`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COMMENT='Tabla "usuario" es fundamental para el proceso de inicio de sesión y la seguridad del sistema.';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -554,7 +553,7 @@ CREATE TABLE `usuario` (
 
 LOCK TABLES `usuario` WRITE;
 /*!40000 ALTER TABLE `usuario` DISABLE KEYS */;
-INSERT INTO `usuario` VALUES (1,'santi','umeres','qwert',1,'santiago@gmail.com','¿Color favorito?','Rojo','2024-06-13 00:55:26',0),(9,'santy112',NULL,'123456',2,'santy@gmail.com','¿animal favorito?','gatos','2024-06-13 04:07:25',0),(12,'santiago','umeres','P@ssw0rd!2023',NULL,'tonta@gmail.com','¿En qué ciudad naciste?','goya','2024-07-05 04:45:25',0);
+INSERT INTO `usuario` VALUES (1,'santi','umeres','qwert','santiago@gmail.com','¿Color favorito?','Rojo','2024-06-13 00:55:26',0),(9,'santy112',NULL,'123456','santy@gmail.com','¿animal favorito?','gatos','2024-06-13 04:07:25',0),(12,'santiago','umeres','P@ssw0rd!2023','tonta@gmail.com','¿En qué ciudad naciste?','goya','2024-07-05 04:45:25',0);
 /*!40000 ALTER TABLE `usuario` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -567,4 +566,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-08-30  0:55:48
+-- Dump completed on 2024-10-31 17:57:19
