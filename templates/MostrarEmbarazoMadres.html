@@ -32,8 +32,17 @@
             </select>
             
             <!-- Campo para enfermedades del embarazo (t_09enfermedadesembarazo) -->
-            <label for="enfermedades">Enfermedades del Embarazo:</label>
-            <textarea id="enfermedades" name="enfermedades"></textarea>
+            <label for="enfermedad">Enfermedad del Embarazo:</label>
+            <select id="enfermedad" name="enfermedad">
+                <option value="1">Hipertensión</option>
+                <option value="2">Gestación diabetes</option>
+                <option value="3">Anemia</option>
+                <option value="4">Infección urinaria</option>
+                <option value="5">Preeclampsia</option>
+                <option value="6">Infección respiratoria</option>
+                <option value="7">Enfermedad X</option>
+                <!-- Agrega más opciones según sea necesario -->
+            </select>
             
             <button type="submit">Registrar Embarazo</button>
         </form>
@@ -66,7 +75,10 @@
                             <td>{{ embarazo['enfermedad'] }}</td>
                             <td class="acciones">
                                 <form action="/embarazo/editar/{{ embarazo['id_embarazo'] }}" method="post" target="_blank">
-                                    <button onclick="window.open('/embarazo/editar/{{ embarazo.id_embarazo }}', 'Editar', 'width=600,height=600');">Editar</button>
+                                    <button type="submit">Editar</button>
+                                </form>
+                                <form action="/embarazo/eliminar/{{ embarazo['id_embarazo'] }}" method="post" target="_blank">
+                                    <button type="submit">eliminar</button>
                                 </form>
                             </td>
                         </tr>

@@ -39,6 +39,11 @@ def inicio():
     # Aquí podrías realizar consultas adicionales del paciente formulario xd
     return render_template('home.html')
 
+@app.route('/backup', methods=['GET', 'POST'])
+def backup():
+    # Código para manejar el formulario de backup
+    return render_template('backup.html')
+
 @app.route("/cerrar-sesion", methods=['GET', 'POST'])
 def logout():
     confirm_logout = request.args.get("confirm_logout")

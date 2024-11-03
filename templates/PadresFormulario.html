@@ -41,7 +41,7 @@
                      <i class="fas fa-cog"></i> Configuración
                  </button>
                  <div class="dropdown__content" id="config-dropdown">
-                    <a href="usuario-info">Usuarios</a>
+                    <a href="/backup">Seguridad y Backup</a>
                      <a href="acerca-de">Acerca de</a>
                  </div>
              </div>
@@ -158,10 +158,10 @@
                                         Desconocido
                                     {% endif %}
                                 </td>
-                                <td class="Embarazo">   
-                                    <button type="button" onclick="window.open('/padre/direcciones/{{ padre.Id_padre }}', 'Direcciones', 'width=400,height=200'); return false;">Direcciones</button>
+                                <td class="Direcciones">   
+                                    <button type="button" onclick="window.open('/padre/direcciones/{{ padre.Id_padre }}', '_blank'); return false;">Direcciones</button>
                                 </td>
-                                <td class= "Direcciones" >   
+                                <td class= "Embarazo" >   
                                     {% if padre.id_tipo_relacion == 2 %}
                                     <button type="button" onclick="window.open('/padre/{{ padre.Id_padre }}/datos-embarazo/', 'Datos de Embarazo', 'width=600,height=600'); return false;">Ver Embarazo</button>
                                     {% endif %}
@@ -186,6 +186,7 @@
 {% endif %}
 
     <script src="../static/js/pacientesJs.js"></script>
+    <script src="../static/js/menu.js"></script>
 
 </body>
 </html>

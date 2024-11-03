@@ -21,6 +21,7 @@ def mostrar_direcciones_padre(id_padre):
     # Obtener las direcciones del padre con el ID especificado
     direcciones = obtener_direcciones_padre(id_padre)
     # Renderizar la plantilla con la tabla de direcciones
+    print(obtener_direcciones_padre(id_padre))
     return render_template('MostrarDireccionesPadres.html', direcciones=direcciones)
 
 def obtener_direcciones_padre(id_padre):
@@ -45,6 +46,35 @@ def obtener_direcciones_padre(id_padre):
     except Exception as e:
         print(f"Error al obtener direcciones: {e}")
         return []
+    
+@app.route('/direcciones/editar/<int:id_direccion>', methods=['GET', 'POST'])
+def editar_direccion(id_direccion):
+    try:
+        connection = get_connection()
+        cursor = connection.cursor()
+        
+        # Consulta para mostrar los datos de la dirección
+        query_mostrar = """
+            SELECT d.*, ev.estado_vivienda 
+            FROM t_04direccionpadre d 
+            INNER JOIN t_12estadovivienda ev ON d.id_estado_vivienda = ev.id_estado 
+            WHERE d.id_direccion = %s
+        """
+        params_mostrar = (id_direccion,)
+        
+        cursor.execute(query_mostrar, params_mostrar)
+        
+        direccion = cursor.fetchone()
+        result = dict(zip([column[0] for column in cursor.description], direccion)) if direccion else None
+        
+        cursor.close()
+        connection.close()
+        
+        return render_template('editar_direccion_padre.html', direccion=result)
+    
+    except Exception as e:
+        print(f"Error: {str(e)}")
+        return "Error"
     
 def obtener_padres():
     connection = get_connection()
@@ -120,40 +150,36 @@ def agregar_padre():
         # print(padres)  # Agregar este print
         return render_template('PadresFormulario.html', padres=padres)
     
-@app.route('/agregar-direccion/<int:id_padre>', methods=['GET', 'POST'])
-def agregar_direccion(id_padre):
+ # Este codigo de agregar direcciones no funciona   
 
-     # Obtener la conexión y el cursor
-    connection = get_connection()
-    cursor = connection.cursor()
+# no funciona para agregar un nueva
+@app.route('/direcciones/agregar', methods=['POST'])
+def agregar_direccion():
+    id_padre = request.form['id_padre']
+    direccion = request.form['direccion']
+    ciudad = request.form['ciudad']
+    estado = request.form['estado']
+    id_padre = request.form.get('id_padre', None)
+    if id_padre is None or id_padre == '':
+        return "Error: ID Padre no puede ser vacío"
 
-    if request.method == 'POST':
-        # Guardar la dirección asociada al id_padre
+    try:
+        connection = get_connection()
+        cursor = connection.cursor()
 
-        direccion = {
-            'id_padre': id_padre,
-            'direccion': request.form['direccion'],
-            'ciudad': request.form['ciudad'],
-            'estado_vivienda': request.form['estado_vivienda']
-}
-        
-        # Obtener el ID del estado de vivienda
-        estado_vivienda_id = request.form['estado_vivienda']
+        cursor.execute("""
+            INSERT INTO t_04direccionpadre (id_padre, direccion, ciudad, id_estado_vivienda)
+            VALUES (%s, %s, %s, %s)
+        """, (id_padre, direccion, ciudad, estado))
 
-        # Validar que el estado de vivienda exista
-        cursor.execute("SELECT 1 FROM t_12estadovivienda WHERE id_estado = %s", (estado_vivienda_id,))
-        if cursor.fetchone() is None:
-            # Manejar el caso en que no se encontró ningún resultado
-            return "Estado de vivienda no encontrado", 404
-
-        # Insertar los datos en la base de datos
-        cursor.execute("INSERT INTO t_04direccionpadre (Id_Padre, Direccion, Ciudad, id_estado_vivienda) VALUES (%s, %s, %s, %s)", 
-                    (id_padre, request.form['direccion'], request.form['ciudad'], estado_vivienda_id))
         connection.commit()
-        
-        return 'Dirección agregada con éxito, puede cerrar esta pestaña'
+        return render_template("MostrarDireccionesPadres.html")
 
-    return render_template('AgregarDireccionPadre.html', id_padre=id_padre)
+    except Exception as e:
+        print(f"Error al agregar dirección: {e}")
+        return "Error al agregar dirección"
+
+    
     
     
 @app.route('/eliminar_padre/<int:Id_padre>', methods=['POST'])
@@ -250,8 +276,6 @@ def obtener_padre_especifico(id_padre):
 
 @app.route('/editar-padre', methods=['POST'])
 def editar_padre_form():
-    
-    
         id_padre = request.form['id_padre']  # Asegúrate de que estés enviando el id_padre desde el formulario
         padre = obtener_padre_especifico(id_padre)
         if padre is None:
@@ -277,9 +301,50 @@ def editar_padre_form():
         connection.close()
 
         return render_template('PadresFormulario.html', mensaje='Edición exitosa. Puede cerrar esta pestaña.')
-    
-    
     # NO GUARDA EDICION SOLO MUESTRA
+
+ # Este codigo de agregar datos del embarazo no funciona
+
+@app.route('/registrar-embarazo', methods=['POST'])
+def Agregar_embarazo():
+    print("Llegó a la ruta")
+    try:
+        # Obtener datos del formulario
+        inicio_del_embarazo = request.form['inicio_del_embarazo']
+        fecha_fin_del_embarazo = request.form['fecha_fin_del_embarazo']
+        semana_gestacion = request.form['semana_gestacion']
+        peso_al_nacer = request.form['peso_al_nacer']
+        id_tipo_parto = request.form['id_tipo_parto']
+        enfermedad = request.form['enfermedad']
+
+        # Conectar a la base de datos
+        connection = get_connection()
+        cursor = connection.cursor()
+
+        # Insertar datos en la tabla t_06datosembarazo
+        cursor.execute("""
+            INSERT INTO t_06datosembarazo 
+            (inicio_del_embarazo, fecha_fin_del_embarazo, semana_gestacion, peso_al_nacer, id_tipo_parto)
+            VALUES (%s, %s, %s, %s, %s)
+        """, (inicio_del_embarazo, fecha_fin_del_embarazo, semana_gestacion, peso_al_nacer, id_tipo_parto))
+
+        # Obtener el ID del embarazo recién insertado
+        id_embarazo = cursor.lastrowid
+
+       # Insertar datos en la tabla t_09enfermedadesembarazo
+        cursor.execute("""
+            INSERT INTO t_09enfermedadesembarazo 
+            (id, id_embarazo, enfermedad)
+            VALUES (NULL, %s, %s)
+        """, (id_embarazo, enfermedad))
+        # Commit de la transacción
+        connection.commit()
+
+        return "Embarazo registrado correctamente"
+    except Exception as e:
+        print(f"Error al registrar embarazo: {e}")
+        return "Error al registrar embarazo"
+    
 @app.route('/embarazo/editar/<int:embarazo_id>', methods=['GET', 'POST'])
 def editar_embarazo(embarazo_id):
     datos_embarazo = obtener_datos_embarazo(embarazo_id)
