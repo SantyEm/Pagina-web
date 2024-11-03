@@ -130,7 +130,7 @@ def obtener_paciente_por_id(id_paciente):
     return paciente
 
 @app.route('/agregar-direccion/<id_paciente>', methods=['GET', 'POST'])
-def agregar_direccion(id_paciente):
+def agregar_direccion_paciente(id_paciente):
     if request.method == 'POST':
         print(request.form)  # Imprime los datos del formulario
         print(request.headers)  # Imprime los headers de la solicitud
