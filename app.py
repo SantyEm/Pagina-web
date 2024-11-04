@@ -32,7 +32,7 @@ app.add_url_rule('/padres', 'mostrar_padres', PadresConsulta.mostrar_padres)
 app.add_url_rule('/padre/direcciones/<int:id_padre>', 'mostrar_direcciones_padre', PadresConsulta.mostrar_direcciones_padre)
 app.add_url_rule('/direcciones/editar/<int:id_direccion>', 'editar_direccion', PadresConsulta.editar_direccion)
 app.add_url_rule('/direcciones/agregar', 'agregar_direccion', PadresConsulta.agregar_direccion)
-app.add_url_rule('/agregar-padre', 'agregar_padre', PadresConsulta.agregar_padre)
+app.add_url_rule('/agregar-padre', 'agregar_padre_registro', PadresConsulta.agregar_padre_registro, methods=['POST'])
 app.add_url_rule('/padres', 'obtener_padres', PadresConsulta.obtener_padres)
 app.add_url_rule('/eliminar_padre/<int:Id_padre>', 'eliminar_padre', PadresConsulta.eliminar_padre, methods=['POST'])
 app.add_url_rule('/padre/<int:id_padre>/datos-embarazo/', 'mostrar_datos_embarazo', PadresConsulta.mostrar_datos_embarazo, methods=['GET'])
@@ -52,7 +52,7 @@ app.add_url_rule('/paciente/historial_educacion/<int:id_paciente>', 'historial_e
 app.add_url_rule('/paciente/informacion_familiar/<int:id_paciente>', 'informacion_familiar', pacientesConsultas.informacion_familiar, methods=['GET', 'POST'])
 app.add_url_rule('/editar_paciente/<int:id_paciente>', 'editar_paciente', pacientesConsultas.editar_paciente, methods=['GET', 'POST'])
 app.add_url_rule('/eliminar_paciente/<int:id_paciente>', 'eliminar_paciente', pacientesConsultas.eliminar_paciente, methods=['POST'])
-app.add_url_rule('/busqueda_sesiones', 'buscar_sesiones', pacientesConsultas.buscar_sesiones, methods=['POST'])
+app.add_url_rule('/buscarPaciente', 'buscar_paciente', pacientesConsultas.buscar_paciente, methods=['POST'])
 
 
 # procesos del desarrollo

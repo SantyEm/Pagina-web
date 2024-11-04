@@ -13,6 +13,7 @@
         <h1 class="title">Edición de Datos del Padre</h1>
         <form id="editar-padre" action="/editar-padre" method="post">
             <div class="form-group">
+                <input type="hidden" name="id_padre" value="{{ padre['Id_padre'] }}">
                 <label for="nombres" class="label">Nombres:</label>
                 <input type="text" id="nombres" name="nombres" value="{{ padre['Nombres'] }}" required>
             </div>

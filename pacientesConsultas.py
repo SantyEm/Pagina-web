@@ -325,46 +325,43 @@ def eliminar_paciente(id_paciente):
     connection.close()
     return render_template('PacienteFormulario.html')
 
-@app.route('/busqueda_sesiones', methods=['POST'])
-def buscar_sesiones():
+@app.route('/buscarPaciente', methods=['POST'])
+def buscar_paciente():
     parametro = request.form['parametro']
     buscar = request.form['buscar']
-    
+
     connection = get_connection()
     cursor = connection.cursor()
-    
+
     query = """
         SELECT 
-            s.id_sesiones,
-            p.nombre,
-            s.fecha_sesion,
-            s.hora_sesion,
-            s.duracion,
-            ts.nombre_tipo,
-            dps.descripcion AS descripcion_psicomotor,
-            dl.descripcion AS descripcion_lenguaje,
-            s.observacion
+            p.Id_paciente, 
+            p.Nombre, 
+            p.Apellido, 
+            p.DNI, 
+            g.Nombre AS Genero, 
+            p.Fecha_nacimiento, 
+            p.Fecha_registro, 
+            p.Observaciones
         FROM 
-            t_13datosesion s
-        INNER JOIN 
-            t_01paciente p ON s.id_paciente = p.id_paciente
-        INNER JOIN 
-            t_14tipossesion ts ON s.id_tipo_sesion = ts.id_tipo_sesion
-        INNER JOIN 
-            t_16desarrollopsicomotor dps ON s.id_desarrollo_psicomotor = dps.id_desarrollo_psicomotor
-        INNER JOIN 
-            t_15desarrollolenguaje dl ON s.id_desarrollo_lenguaje = dl.id_desarrollo_lenguaje
+            t_01paciente p 
+        JOIN 
+            t_02genero g ON p.Id_genero = g.Id_genero
         WHERE 
             p.{} LIKE '%{}%'
     """.format(parametro, buscar)
-    
+
     cursor.execute(query)
     resultados = cursor.fetchall()
-    
+
     # Convertir resultados a diccionario
     resultados = [dict(zip([column[0] for column in cursor.description], row)) for row in resultados]
-    
-    return render_template('busqueda_sesiones.html', sesiones=resultados)
+
+    # Agregar una columna adicional para la edad
+    for paciente in resultados:
+        paciente['edad'] = calcular_edad_pacientes(paciente['Fecha_nacimiento'])
+
+    return render_template('busqueda_paciente.html', pacientes=resultados)
 
 if __name__ == '__main__':
     app.run()

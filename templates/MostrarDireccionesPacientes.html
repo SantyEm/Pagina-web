@@ -35,6 +35,7 @@
           <th>Ciudad</th>
           <th>Estado</th>
           <th>Código Postal</th>
+          <th>Acciones</th>
         </tr>
       </thead>
       <tbody>
@@ -44,10 +45,14 @@
           <td>{{ direccion.ciudad }}</td>
           <td>{{ direccion.estado }}</td>
           <td>{{ direccion.codigo_postal }}</td>
+          <td>
+            <button class="btn btn-primary">Editar</button>
+            <button class="btn btn-danger">Eliminar</button>
+          </td>
         </tr>
         {% endfor %}
       </tbody>
     </table>
-  </div>
+</div>
 </body>
 </html>

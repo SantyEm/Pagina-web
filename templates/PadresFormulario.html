@@ -169,7 +169,9 @@
                                 <td class="acciones" >
                                     <!-- Acciones para cada padre -->
                                     <button type="button" onclick="window.open('/padre/editar/{{ padre.Id_padre }}', 'Editar', 'width=600,height=600'); return false;">Editar</button>
-                                    <button type="submit" name="eliminar" value="eliminar" onclick="return confirmarEliminacion()">Eliminar</button>
+                                    <form action="/eliminar_padre/{{ padre.Id_padre }}" method="POST">
+                                        <button type="submit" name="eliminar" value="eliminar" onclick="return confirmarEliminacion()">Eliminar</button>
+                                    </form>
                                 </td>
                             </tr>
                             {% endfor %}

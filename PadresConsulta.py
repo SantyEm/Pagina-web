@@ -96,7 +96,7 @@ def obtener_padres():
 
 
 @app.route('/agregar-padre', methods=['POST'])
-def agregar_padre():
+def agregar_padre_registro():
         # Obtener la conexión y el cursor
         connection = get_connection()
         cursor = connection.cursor()
@@ -184,6 +184,8 @@ def agregar_direccion():
     
 @app.route('/eliminar_padre/<int:Id_padre>', methods=['POST'])
 def eliminar_padre(Id_padre):
+    print("Eliminando padre con ID:", Id_padre)
+    
     # Conecta a la base de datos
     connection = get_connection()
     cursor = connection.cursor()
@@ -374,8 +376,6 @@ def editar_embarazo(embarazo_id):
     else:
         # Renderizar el formulario para edición
         return render_template('EditarEmbarazo.html', embarazo=datos_embarazo[0])
-    
-
     # Código para manejar la búsqueda
     pass
 
