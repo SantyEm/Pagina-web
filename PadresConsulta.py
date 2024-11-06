@@ -22,7 +22,7 @@ def mostrar_direcciones_padre(id_padre):
     direcciones = obtener_direcciones_padre(id_padre)
     # Renderizar la plantilla con la tabla de direcciones
     print(obtener_direcciones_padre(id_padre))
-    return render_template('MostrarDireccionesPadres.html', direcciones=direcciones)
+    return render_template('MostrarDireccionesPadres.html', direcciones=direcciones, id_padre=id_padre)
 
 def obtener_direcciones_padre(id_padre):
     try:
@@ -70,11 +70,80 @@ def editar_direccion(id_direccion):
         cursor.close()
         connection.close()
         
-        return render_template('editar_direccion_padre.html', direccion=result)
+        return render_template('editar_direccion_padre.html', direccion=result, id_direccion=id_direccion)
     
     except Exception as e:
         print(f"Error: {str(e)}")
         return "Error"
+    
+@app.route('/direcciones/actualizar/<int:id_direccion>', methods=['POST'])
+def actualizar_direccion(id_direccion):
+    try:
+        connection = get_connection()
+        cursor = connection.cursor()
+        
+        # Consulta para actualizar los datos de la dirección
+        query_actualizar = """
+            UPDATE t_04direccionpadre 
+            SET direccion = %s, ciudad = %s, id_estado_vivienda = %s 
+            WHERE id_direccion = %s
+        """
+        params_actualizar = (
+            request.form['direccion'],
+            request.form['ciudad'],
+            request.form['estado'],
+            id_direccion
+        )
+        
+        cursor.execute(query_actualizar, params_actualizar)
+        connection.commit()
+        
+        cursor.close()
+        connection.close()
+        
+        return render_template('MostrarDireccionesPadres.html', id_direccion=id_direccion, mensaje="Dirección actualizada con éxito")
+    
+    except Exception as e:
+        return f"Error: {str(e)}"
+    
+@app.route('/direcciones/eliminar/<int:id_direccion>', methods=['POST'])
+def eliminar_direccion(id_direccion):
+    try:
+        connection = get_connection()
+        cursor = connection.cursor()
+        
+        query_eliminar = "DELETE FROM t_04direccionpadre WHERE id_direccion = %s"
+        params_eliminar = (id_direccion,)
+        
+        cursor.execute(query_eliminar, params_eliminar)
+        connection.commit()
+        
+        cursor.close()
+        connection.close()
+        
+        # Consulta para obtener las direcciones actualizadas
+        connection = get_connection()
+        cursor = connection.cursor()
+        
+        query_direcciones = """
+            SELECT d.*, ev.estado_vivienda 
+            FROM t_04direccionpadre d 
+            INNER JOIN t_12estadovivienda ev ON d.id_estado_vivienda = ev.id_estado
+        """
+        
+        cursor.execute(query_direcciones)
+        
+        direcciones = cursor.fetchall()
+        result = [dict(zip([column[0] for column in cursor.description], row)) for row in direcciones]
+        
+        cursor.close()
+        connection.close()
+        
+        return render_template('MostrarDireccionesPadres.html', mensaje="Dirección eliminada con éxito")
+    
+    except Exception as e:
+        return f"Error: {str(e)}"
+    
     
 def obtener_padres():
     connection = get_connection()
@@ -149,17 +218,16 @@ def agregar_padre_registro():
         padres = obtener_padres()
         # print(padres)  # Agregar este print
         return render_template('PadresFormulario.html', padres=padres)
-    
- # Este codigo de agregar direcciones no funciona   
 
-# no funciona para agregar un nueva
-@app.route('/direcciones/agregar', methods=['POST'])
-def agregar_direccion():
+
+@app.route('/direcciones/agregar/<id_padre>', methods=['POST'])
+def agregar_direccion(id_padre):
     id_padre = request.form['id_padre']
     direccion = request.form['direccion']
     ciudad = request.form['ciudad']
     estado = request.form['estado']
     id_padre = request.form.get('id_padre', None)
+    print("ID del padre:", id_padre)
     if id_padre is None or id_padre == '':
         return "Error: ID Padre no puede ser vacío"
 
@@ -173,13 +241,12 @@ def agregar_direccion():
         """, (id_padre, direccion, ciudad, estado))
 
         connection.commit()
-        return render_template("MostrarDireccionesPadres.html")
+        return render_template("MostrarDireccionesPadres.html", mensaje='Direccion agregada correctamente. Puede cerrar esta pestaña.')
 
     except Exception as e:
         print(f"Error al agregar dirección: {e}")
         return "Error al agregar dirección"
 
-    
     
     
 @app.route('/eliminar_padre/<int:Id_padre>', methods=['POST'])

@@ -51,7 +51,7 @@
                             <button type="submit">Editar</button>
                         </form>
                         <form action="/direcciones/eliminar/{{ direccion.id_direccion }}" method="post" target="_blank">
-                            <button type="submit">eliminar</button>
+                            <button type="submit" onclick="return confirm('¿Estás seguro de eliminar esta dirección?')">Eliminar</button>
                         </form>
                     </td>
                 </tr>
@@ -59,6 +59,8 @@
             </tbody>
         </table>
     </div>
-
+    {% if mensaje %}
+    <div class="alert alert-success">{{ mensaje }}</div>
+  {% endif %}
 </body>
 </html>

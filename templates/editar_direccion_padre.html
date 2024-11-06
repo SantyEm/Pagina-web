@@ -10,7 +10,7 @@
 <body>
     <div class="container">
         <h1 class="title">Edición de Dirección</h1>
-        <form action="" method="post">
+        <form action="/direcciones/actualizar/{{ id_direccion }}" method="post">
             <input type="hidden" name="id_direccion" value="{{ direccion.id_direccion }}">
             <label>Dirección:</label>
             <input type="text" name="direccion" value="{{ direccion.direccion }}" required>
@@ -25,7 +25,7 @@
                 <option value="3" {{ 'selected' if direccion.id_estado_vivienda == 3 else '' }}>Mal estado</option>
             </select>
             <br>
-            <button type="submit">Editar</button>
+            <button type="submit">Guardar Edicion</button>
         </form>
     </div>
 </body>

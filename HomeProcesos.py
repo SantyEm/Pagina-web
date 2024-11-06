@@ -1,5 +1,9 @@
 from flask import Flask, render_template, request, url_for, redirect, session, make_response
 from conexion import get_connection
+from flask import send_file
+from io import BytesIO
+import sqlite3
+from datetime import datetime
 
 app = Flask(__name__)
 app.secret_key = 'XD'
@@ -59,6 +63,8 @@ def logout():
         response.headers['Pragma'] = 'no-cache'
         response.headers['Expires'] = '0'
         return response
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
