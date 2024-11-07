@@ -10,7 +10,7 @@
 <body>
     <main class="blockEntrada">
         <div class="title">Agregar Registro Educativo</div>
-        <form id="historial-educativo-form" action="/agregar-historial-educativo" method="post">
+        <form id="historial-educativo-form" action="/agregar-historial-educativo/{{ paciente.Id_paciente }}" method="post">
             <!-- Campos de entrada de registro educativo -->
             <label for="institucion">Institución:</label>
             <select id="institucion" name="id_institucion" required>
@@ -66,6 +66,9 @@
                         <!-- Acciones para cada registro -->
                         <form action="/historial-educativo/editar/{{ registro.id_historial }}" method="get">
                             <button type="submit" onclick="window.open('/historial-educativo/editar/{{ registro.id_historial }}', 'Editar', 'width=600,height=600'); return false;">Editar</button>
+                        </form>
+                        <form action=" method=">
+                            <button type="submit">Eliminar</button>
                         </form>
                     </td>
                 </tr>
