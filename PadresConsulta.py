@@ -148,16 +148,29 @@ def eliminar_direccion(id_direccion):
 def obtener_padres():
     connection = get_connection()
     cursor = connection.cursor()
-    cursor.execute('SELECT p.Id_padre, p.Nombres, p.Apellido, p.Telefono, p.Ocupacion, e.nivel, p.Fecha_nacimiento, p.id_tipo_relacion FROM t_03padres_madres p LEFT JOIN t_05niveleseducacion e ON p.id_nivel_educacion = e.id_nivel')
+    cursor.execute('''
+        SELECT 
+            p.Id_padre, 
+            p.Nombres, 
+            p.Apellido, 
+            p.Telefono, 
+            p.Ocupacion, 
+            e.nivel, 
+            p.Fecha_nacimiento, 
+            p.tipo_relacion 
+        FROM 
+            t_03padres_madres p 
+        LEFT JOIN 
+            t_05niveleseducacion e 
+        ON 
+            p.id_nivel_educacion = e.id_nivel
+    ''')
     padres = cursor.fetchall()
     padres = [dict(zip([column[0] for column in cursor.description], row)) for row in padres]
 
     # Agregar una columna adicional para la edad
     for padre in padres:
         padre['edad'] = calcular_edad(padre['Fecha_nacimiento'])
-        
-    for padre in padres:
-        print(padre['nivel'])  # Accede a la columna 'nivel'
 
     cursor.close()
     connection.close()
@@ -337,7 +350,25 @@ def editar_padre(padre_id):
 def obtener_padre_especifico(id_padre):
     connection = get_connection()
     cursor = connection.cursor()
-    cursor.execute('SELECT p.Id_padre, p.Nombres, p.Apellido, p.Telefono, p.Ocupacion, e.nivel, p.Fecha_nacimiento, p.id_tipo_relacion FROM t_03padres_madres p LEFT JOIN t_05niveleseducacion e ON p.id_nivel_educacion = e.id_nivel WHERE p.Id_padre = %s', (id_padre,))
+    cursor.execute('''
+        SELECT 
+            p.Id_padre, 
+            p.Nombres, 
+            p.Apellido, 
+            p.Telefono, 
+            p.Ocupacion, 
+            e.nivel, 
+            p.Fecha_nacimiento, 
+            p.tipo_relacion 
+        FROM 
+            t_03padres_madres p 
+        LEFT JOIN 
+            t_05niveleseducacion e 
+        ON 
+            p.id_nivel_educacion = e.id_nivel 
+        WHERE 
+            p.Id_padre = %s
+    ''', (id_padre,))
     padre = cursor.fetchone()
     if padre is None:
         return None
@@ -345,74 +376,118 @@ def obtener_padre_especifico(id_padre):
 
 @app.route('/editar-padre', methods=['POST'])
 def editar_padre_form():
-        id_padre = request.form['id_padre']  # Asegúrate de que estés enviando el id_padre desde el formulario
-        padre = obtener_padre_especifico(id_padre)
-        if padre is None:
-            return 'Padre no encontrado', 404
+    id_padre = request.form['id_padre']  
+    padre = obtener_padre_especifico(id_padre)
+    if padre is None:
+        return 'Padre no encontrado', 404
 
-        nombres = request.form['nombres']
-        apellido = request.form['apellido']
-        telefono = request.form['telefono']
-        ocupacion = request.form['ocupacion']
-        fecha_nacimiento = request.form['fecha_nacimiento']
-        nivel_educacion = request.form['nivel_educacion']
-        tipo_relacion = request.form['tipo_relacion']
+    nombres = request.form['nombres']
+    apellido = request.form['apellido']
+    telefono = request.form['telefono']
+    ocupacion = request.form['ocupacion']
+    fecha_nacimiento = request.form['fecha_nacimiento']
+    nivel_educacion = request.form['nivel_educacion']
+    tipo_relacion = request.form['tipo_relacion']
 
-        connection = get_connection()
-        cursor = connection.cursor()
+    connection = get_connection()
+    cursor = connection.cursor()
 
-        # Actualizar los datos del padre en la base de datos
-        query = "UPDATE t_03padres_madres SET Nombres = %s, Apellido = %s, Telefono = %s, Ocupacion = %s, Fecha_nacimiento = %s, id_nivel_educacion = (SELECT id_nivel FROM t_05niveleseducacion WHERE nivel = %s), id_tipo_relacion = (SELECT id_tipo_relacion FROM t_04tipo_relacion WHERE descripcion = %s) WHERE Id_padre = %s"
-        cursor.execute(query, (nombres, apellido, telefono, ocupacion, fecha_nacimiento, nivel_educacion, tipo_relacion, id_padre))
-        connection.commit()
+    # Actualizar los datos del padre en la base de datos
+    query = """
+        UPDATE 
+            t_03padres_madres 
+        SET 
+            Nombres = %s, 
+            Apellido = %s, 
+            Telefono = %s, 
+            Ocupacion = %s, 
+            Fecha_nacimiento = %s, 
+            id_nivel_educacion = (SELECT id_nivel FROM t_05niveleseducacion WHERE nivel = %s), 
+            tipo_relacion = %s 
+        WHERE 
+            Id_padre = %s
+    """
+    cursor.execute(query, (nombres, apellido, telefono, ocupacion, fecha_nacimiento, nivel_educacion, tipo_relacion, id_padre))
+    connection.commit()
 
-        cursor.close()
-        connection.close()
+    cursor.close()
+    connection.close()
 
-        return render_template('PadresFormulario.html', mensaje='Edición exitosa. Puede cerrar esta pestaña.')
-    # NO GUARDA EDICION SOLO MUESTRA
+    return render_template('PadresFormulario.html', mensaje='Edición exitosa. Puede cerrar esta pestaña.')
 
  # Este codigo de agregar datos del embarazo no funciona
 
 @app.route('/registrar-embarazo', methods=['POST'])
-def Agregar_embarazo():
-    print("Llegó a la ruta")
+def agregar_embarazo():
     try:
         # Obtener datos del formulario
-        inicio_del_embarazo = request.form['inicio_del_embarazo']
-        fecha_fin_del_embarazo = request.form['fecha_fin_del_embarazo']
-        semana_gestacion = request.form['semana_gestacion']
-        peso_al_nacer = request.form['peso_al_nacer']
-        id_tipo_parto = request.form['id_tipo_parto']
-        enfermedad = request.form['enfermedad']
-
+        datos_embarazo = {
+            'inicio_del_embarazo': request.form['inicio_del_embarazo'],
+            'fecha_fin_del_embarazo': request.form['fecha_fin_del_embarazo'],
+            'semana_gestacion': request.form['semana_gestacion'],
+            'peso_al_nacer': request.form['peso_al_nacer'],
+            'id_tipo_parto': request.form['id_tipo_parto'],
+            'enfermedad': request.form['enfermedad']
+        }
+        
+        # Validar datos
+        if not validar_datos(datos_embarazo):
+            return "Datos inválidos", 400
+        
         # Conectar a la base de datos
         connection = get_connection()
         cursor = connection.cursor()
-
-        # Insertar datos en la tabla t_06datosembarazo
+        
+        # Inserción de datos en t_06datosembarazo
         cursor.execute("""
             INSERT INTO t_06datosembarazo 
             (inicio_del_embarazo, fecha_fin_del_embarazo, semana_gestacion, peso_al_nacer, id_tipo_parto)
             VALUES (%s, %s, %s, %s, %s)
-        """, (inicio_del_embarazo, fecha_fin_del_embarazo, semana_gestacion, peso_al_nacer, id_tipo_parto))
-
+        """, (
+            datos_embarazo['inicio_del_embarazo'],
+            datos_embarazo['fecha_fin_del_embarazo'],
+            datos_embarazo['semana_gestacion'],
+            datos_embarazo['peso_al_nacer'],
+            datos_embarazo['id_tipo_parto']
+        ))
+        
         # Obtener el ID del embarazo recién insertado
         id_embarazo = cursor.lastrowid
-
-       # Insertar datos en la tabla t_09enfermedadesembarazo
+        
+        # Inserción de datos en t_09enfermedadesembarazo
         cursor.execute("""
             INSERT INTO t_09enfermedadesembarazo 
             (id, id_embarazo, enfermedad)
             VALUES (NULL, %s, %s)
-        """, (id_embarazo, enfermedad))
+        """, (id_embarazo, datos_embarazo['enfermedad']))
+        
         # Commit de la transacción
         connection.commit()
-
+        
         return "Embarazo registrado correctamente"
     except Exception as e:
         print(f"Error al registrar embarazo: {e}")
-        return "Error al registrar embarazo"
+        return "Error al registrar embarazo", 500
+
+
+def validar_datos(datos):
+    # Validar fechas
+    if not validar_fecha(datos['inicio_del_embarazo']) or not validar_fecha(datos['fecha_fin_del_embarazo']):
+        return False
+    
+    # Validar números
+    if not datos['semana_gestacion'].isdigit() or not datos['peso_al_nacer'].replace('.', '', 1).isdigit():
+        return False
+    
+    return True
+
+
+def validar_fecha(fecha):
+    try:
+        datetime.strptime(fecha, '%Y-%m-%d')
+        return True
+    except ValueError:
+        return False
     
 @app.route('/embarazo/editar/<int:embarazo_id>', methods=['GET', 'POST'])
 def editar_embarazo(embarazo_id):

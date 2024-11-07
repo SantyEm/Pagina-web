@@ -24,16 +24,16 @@ DROP TABLE IF EXISTS `t_01paciente`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `t_01paciente` (
   `Id_paciente` int(11) NOT NULL AUTO_INCREMENT,
-  `Nombre` varchar(50) DEFAULT NULL,
-  `Apellido` varchar(50) DEFAULT NULL,
-  `DNI` varchar(20) DEFAULT NULL,
+  `Nombre` varchar(50) CHARACTER SET utf8mb4 DEFAULT NULL,
+  `Apellido` varchar(50) CHARACTER SET utf8mb4 DEFAULT NULL,
+  `DNI` varchar(20) CHARACTER SET utf8mb4 DEFAULT NULL,
   `Fecha_nacimiento` date DEFAULT NULL,
   `Fecha_registro` date DEFAULT NULL,
-  `Observaciones` text,
+  `Observaciones` text CHARACTER SET utf8mb4,
   `Id_padre` int(11) DEFAULT NULL,
   `Id_genero` int(11) DEFAULT NULL,
   PRIMARY KEY (`Id_paciente`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COMMENT='Tabla almacena información básica de los pacientes, incluyendo datos personales, fechas importantes y relaciones con otros registros (padre y género)';
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8 COMMENT='Tabla almacena información básica de los pacientes, incluyendo datos personales, fechas importantes y relaciones con otros registros (padre y género)';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -42,7 +42,7 @@ CREATE TABLE `t_01paciente` (
 
 LOCK TABLES `t_01paciente` WRITE;
 /*!40000 ALTER TABLE `t_01paciente` DISABLE KEYS */;
-INSERT INTO `t_01paciente` VALUES (1,'Ana','García','12345678','2010-05-15','2023-07-01','Sin alergias conocidas',1,2),(2,'Juan','López','23456789','2012-08-20','2023-07-05','Problemas de concentración en clase',2,1),(3,'María','Martínez','34567890','2011-03-10','2023-07-10','Fobia a los espacios cerrados',3,2),(4,'Pedro','Rodríguez','45678901','2013-11-25','2023-07-15','Intereses en música y arte',4,1),(5,'Luisa','Pérez','56789012','2010-07-30','2023-07-20','Dificultades en matemáticas',5,2),(6,'Carlos','Gómez','67890123','2012-01-12','2023-07-25','Historial de déficit de atención',2,1),(7,'Laura','Díaz','78901234','2013-06-05','2023-08-01','Intereses en deportes y actividad física',6,2),(8,'José','Hernández','89012345','2011-09-18','2023-08-05','Experiencias de ansiedad social',7,1),(9,'Sofía','Ramírez','90123456','2010-12-08','2023-08-10','Dificultades en lectura comprensiva',8,2),(10,'Andrés','Torres','01234567','2012-02-28','2023-08-15','Historial de terapia de lenguaje',8,1),(16,'carlos','tevez','142432','2014-07-10','2024-08-08','as',NULL,1),(17,'santiago','umeres','410037566','1998-03-31','2024-08-15','minecraft',NULL,1),(18,'carlos','villan','142432','2010-04-25','2024-10-15','',NULL,1);
+INSERT INTO `t_01paciente` VALUES (1,'Ana','García','12345678','2010-05-15','2023-07-01','Sin alergias conocidas',1,2),(2,'Juan','López','23456789','2012-08-20','2023-07-05','Problemas de concentración en clase',2,1),(3,'María','Martínez','34567890','2011-03-10','2023-07-10','Fobia a los espacios cerrados',3,2),(4,'Pedro','Rodríguez','45678901','2013-11-25','2023-07-15','Intereses en música y arte',4,1),(5,'Luisa','Pérez','56789012','2010-07-30','2023-07-20','Dificultades en matemáticas',5,2),(6,'Carlos','Gómez','67890123','2012-01-12','2023-07-25','Historial de déficit de atención',2,1),(7,'Laura','Díaz','78901234','2013-06-05','2023-08-01','Intereses en deportes y actividad física',6,2),(8,'José','Hernández','89012345','2011-09-18','2023-08-05','Experiencias de ansiedad social',7,1),(9,'Sofía','Ramírez','90123456','2010-12-08','2023-08-10','Dificultades en lectura comprensiva',8,2),(10,'Andrés','Torres','01234567','2012-02-28','2023-08-15','Historial de terapia de lenguaje',8,1),(16,'carlos','tevez','142432','2014-07-10','2024-08-08','as',NULL,1),(17,'santiago','umeres','410037566','1998-03-31','2024-08-15','minecraft',NULL,1),(18,'carlos','villan','142432','2010-04-25','2024-10-15','',NULL,1),(19,'carlos','lopez','142432','2010-02-12','2024-06-11','minecraft',NULL,1);
 /*!40000 ALTER TABLE `t_01paciente` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -63,7 +63,7 @@ CREATE TABLE `t_02direccionpaciente` (
   PRIMARY KEY (`id_direccion`),
   KEY `id_paciente` (`id_paciente`),
   CONSTRAINT `t_02direccionpaciente_ibfk_1` FOREIGN KEY (`id_paciente`) REFERENCES `t_01paciente` (`Id_paciente`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COMMENT='Tabla almacena la información de las direcciones de los pacientes, incluyendo la relación con el paciente correspondiente';
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8 COMMENT='Tabla almacena la información de las direcciones de los pacientes, incluyendo la relación con el paciente correspondiente';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -72,7 +72,7 @@ CREATE TABLE `t_02direccionpaciente` (
 
 LOCK TABLES `t_02direccionpaciente` WRITE;
 /*!40000 ALTER TABLE `t_02direccionpaciente` DISABLE KEYS */;
-INSERT INTO `t_02direccionpaciente` VALUES (1,1,'Calle 123, Colonia Primavera','Ciudad de México','CDMX','12345'),(2,1,'Av. Central, Urbanización Los Pinos','Lima','Lima','54321'),(3,3,'Paseo del Sol, Barrio Vista Hermosa','Guadalajara','Jalisco','67890'),(4,4,'Rua das Flores, Bairro Centro','São Paulo','São Paulo','98765'),(5,5,'123 Main Street, Apartment 4B','New York','NY','54321'),(6,6,'Carrera 45, Conjunto Residencial Los Laureles','Bogotá','Bogotá','12345'),(7,7,'Avenida del Deporte, Sector Los Olivos','Santiago','Metropolitana','67890'),(8,8,'Calle 18, Barrio San Juan','San Salvador','San Salvador','98765'),(9,9,'Avenida Principal, Urbanización Los Robles','Caracas','Distrito Capital','54321'),(10,10,'Rua das Pedras, Condomínio Recanto Feliz','Rio de Janeiro','Rio de Janeiro','12345'),(11,10,'Avenida Central, Conjunto Residencial Los Pájaros','Quito','Pichincha','67890');
+INSERT INTO `t_02direccionpaciente` VALUES (1,1,'Calle 123, Colonia Primavera','Ciudad de México','CDMX','12345'),(2,1,'Av. Central, Urbanización Los Pinos','Lima','Lima','54321'),(3,3,'Paseo del Sol, Barrio Vista Hermosa','Guadalajara','Jalisco','67890'),(4,4,'Rua das Flores, Bairro Centro','São Paulo','São Paulo','98765'),(5,5,'123 Main Street, Apartment 4B','New York','NY','54321'),(6,6,'Carrera 45, Conjunto Residencial Los Laureles','Bogotá','Bogotá','12345'),(7,7,'Avenida del Deporte, Sector Los Olivos','Santiago','Metropolitana','67890'),(8,8,'Calle 18, Barrio San Juan','San Salvador','San Salvador','98765'),(9,9,'Avenida Principal, Urbanización Los Robles','Caracas','Distrito Capital','54321'),(10,10,'Rua das Pedras, Condomínio Recanto Feliz','Rio de Janeiro','Rio de Janeiro','12345'),(11,10,'Avenida Central, Conjunto Residencial Los Pájaros','Quito','Pichincha','67890'),(12,18,'barrio margarita','esquina','corrientes','3459'),(13,2,'barrio margarita','goya','corrientes','3459'),(14,16,'barrio belgrano','goya','corrientes','3459');
 /*!40000 ALTER TABLE `t_02direccionpaciente` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -85,9 +85,9 @@ DROP TABLE IF EXISTS `t_02genero`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `t_02genero` (
   `Id_genero` int(11) NOT NULL,
-  `Nombre` varchar(50) DEFAULT NULL,
+  `Nombre` varchar(50) CHARACTER SET utf8mb4 DEFAULT NULL,
   PRIMARY KEY (`Id_genero`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Tabla se relaciona con la tabla "t_01paciente" a través de la columna "Id_genero", lo que permite asignar un género a cada paciente.';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Tabla se relaciona con la tabla "t_01paciente" a través de la columna "Id_genero", lo que permite asignar un género a cada paciente.';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -115,13 +115,11 @@ CREATE TABLE `t_03padres_madres` (
   `ocupacion` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `id_nivel_educacion` int(11) DEFAULT NULL,
   `Fecha_nacimiento` date DEFAULT NULL,
-  `id_tipo_relacion` int(11) DEFAULT NULL,
+  `tipo_relacion` varchar(200) CHARACTER SET utf8mb4 DEFAULT NULL,
   PRIMARY KEY (`id_padre`),
   KEY `id_nivel_educacion` (`id_nivel_educacion`),
-  KEY `fk_tipo_relacion` (`id_tipo_relacion`),
-  CONSTRAINT `fk_tipo_relacion` FOREIGN KEY (`id_tipo_relacion`) REFERENCES `t_04tipo_relacion` (`id_tipo_relacion`),
   CONSTRAINT `t_03padres_madres_ibfk_1` FOREIGN KEY (`id_nivel_educacion`) REFERENCES `t_05niveleseducacion` (`id_nivel`)
-) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8mb4 COMMENT='Tabla almacena información detallada sobre los padres y madres de los pacientes, incluyendo datos personales, ocupación, nivel de educación y tipo de relación con el paciente.';
+) ENGINE=InnoDB AUTO_INCREMENT=53 DEFAULT CHARSET=utf8 COMMENT='Tabla almacena información detallada sobre los padres y madres de los pacientes, incluyendo datos personales, ocupación, nivel de educación y tipo de relación con el paciente.';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -130,7 +128,7 @@ CREATE TABLE `t_03padres_madres` (
 
 LOCK TABLES `t_03padres_madres` WRITE;
 /*!40000 ALTER TABLE `t_03padres_madres` DISABLE KEYS */;
-INSERT INTO `t_03padres_madres` VALUES (2,'María','López','987-654-3210','Profesora',4,'1985-06-25',2),(4,'Laura','Rodríguez','777-888-9999','Ama de casa',2,'1992-09-02',2),(35,'carla','lopes','3002167','camionero',NULL,'1995-02-28',2),(39,'Juan','Sanchez','3777874562','Soldado',NULL,'1990-12-08',1),(41,'Maria','Lopez','3777675402','Maestra',3,'1995-10-09',NULL),(42,'Lourdes','Quiroz','246598','Abogada',3,'1989-09-09',NULL),(43,'Valeria','Fernandez','3777986545','Comerciante',3,'1998-12-07',NULL),(44,'Alma','chaz','1255123','Vendedora',3,'2000-08-08',NULL),(45,'Maria','villan','12541351','Maestra',3,'1998-07-09',NULL),(46,'lucas','afas','12412','panadero',3,'1998-03-09',NULL),(47,'sdfsd','afas','3777896572','Maestra',3,'1990-05-12',NULL),(48,'Maria','afas','12412','Maestra',3,'1998-10-09',NULL);
+INSERT INTO `t_03padres_madres` VALUES (2,'María','López','987-654-3210','Profesora',4,'1985-06-25',NULL),(4,'Laura','Rodríguez','777-888-9999','Ama de casa y maestra',NULL,'1992-09-02',NULL),(41,'Maria','Lopez','3777675402','Maestra',NULL,'1995-10-09',NULL),(42,'Lourdes','Quiroz','246598','Abogada',3,'1989-09-09',NULL),(43,'Valeria','Fernandez','3777986545','Comerciante',3,'1998-12-07',NULL),(44,'Alma','chaz','1255123','Vendedora',3,'2000-08-08',NULL),(45,'Maria','villan','12541351','Maestra',3,'1998-07-09',NULL),(46,'lucas','afas','12412','panadero',3,'1998-03-09',NULL),(47,'sdfsd','afas','3777896572','Maestra',3,'1990-05-12',NULL),(48,'Maria','afas','12412','Maestra',3,'1998-10-09',NULL),(49,'sad','asd','123','wqewq',3,'1998-02-12',NULL),(50,'Tiara','Aguirres','124124','insipida',NULL,'2000-04-24',NULL),(51,'pepo','ponpin','3777896572','panadero',2,'2000-04-12',NULL),(52,'furra','tiara','12412','manca',4,'2000-04-25',NULL);
 /*!40000 ALTER TABLE `t_03padres_madres` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -151,7 +149,7 @@ CREATE TABLE `t_04direccionpadre` (
   KEY `id_padre` (`id_padre`),
   KEY `id_estado_vivienda` (`id_estado_vivienda`),
   CONSTRAINT `t_04direccionpadre_ibfk_2` FOREIGN KEY (`id_estado_vivienda`) REFERENCES `t_12estadovivienda` (`id_estado`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8mb4 COMMENT='Tabla almacena la información de las direcciones de los padres y madres, incluyendo la relación con el padre o madre correspondiente. Es similar a la tabla "t_02direccionpaciente", pero para los padres y madres en lugar de los pacientes.';
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8 COMMENT='Tabla almacena la información de las direcciones de los padres y madres, incluyendo la relación con el padre o madre correspondiente. Es similar a la tabla "t_02direccionpaciente", pero para los padres y madres en lugar de los pacientes.';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -160,32 +158,8 @@ CREATE TABLE `t_04direccionpadre` (
 
 LOCK TABLES `t_04direccionpadre` WRITE;
 /*!40000 ALTER TABLE `t_04direccionpadre` DISABLE KEYS */;
-INSERT INTO `t_04direccionpadre` VALUES (3,2,'Paseo del Sol, Barrio Vista Hermosa','Guadalajara',2),(5,4,'123 Main Street, Apartment 4B','New York',2),(10,9,'Rua das Pedras, Condomínio Recanto Feliz','Rio de Janeiro',2),(11,9,'Rua das Flores, Apartamento 2C','Rio de Janeiro',2),(12,10,'Avenida Central, Edificio Azul','Lima',1),(13,10,'Calle 15, Urbanización Bella Vista','Lima',1),(14,1,'Calle 1, No. 123','Ciudad 1',1),(15,1,'Calle 2, No. 456','Ciudad 2',2),(16,2,'Avenida 3, No. 789','Ciudad 3',1),(17,3,'Calle 4, No. 1011','Ciudad 4',2),(18,39,'barrio margarita','goya',2);
+INSERT INTO `t_04direccionpadre` VALUES (3,2,'RQWRQ','RQWRQ',1),(5,4,'ASDAS','DASDA',2),(10,9,'Rua das Pedras, Condomínio Recanto Feliz','Rio de Janeiro',2),(11,9,'Rua das Flores, Apartamento 2C','Rio de Janeiro',2),(12,10,'Avenida Central, Edificio Azul','Lima',1),(13,10,'Calle 15, Urbanización Bella Vista','Lima',1),(14,1,'Calle 1, No. 123','Ciudad 1',1),(15,1,'Calle 2, No. 456','Ciudad 2',2),(16,2,NULL,NULL,NULL),(17,3,'Calle 4, No. 1011','Ciudad 4',2);
 /*!40000 ALTER TABLE `t_04direccionpadre` ENABLE KEYS */;
-UNLOCK TABLES;
-
---
--- Table structure for table `t_04tipo_relacion`
---
-
-DROP TABLE IF EXISTS `t_04tipo_relacion`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `t_04tipo_relacion` (
-  `id_tipo_relacion` int(11) NOT NULL,
-  `descripcion` varchar(10) CHARACTER SET latin1 DEFAULT NULL,
-  PRIMARY KEY (`id_tipo_relacion`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Tabla almacena la información de los tipos de relación que un padre o madre puede tener con un paciente.';
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Dumping data for table `t_04tipo_relacion`
---
-
-LOCK TABLES `t_04tipo_relacion` WRITE;
-/*!40000 ALTER TABLE `t_04tipo_relacion` DISABLE KEYS */;
-INSERT INTO `t_04tipo_relacion` VALUES (1,'padre'),(2,'madre');
-/*!40000 ALTER TABLE `t_04tipo_relacion` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -199,7 +173,7 @@ CREATE TABLE `t_05niveleseducacion` (
   `id_nivel` int(11) NOT NULL,
   `nivel` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   PRIMARY KEY (`id_nivel`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Tabla almacena la información de los diferentes niveles de educación que pueden tener los padres o madres de los pacientes. ';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Tabla almacena la información de los diferentes niveles de educación que pueden tener los padres o madres de los pacientes. ';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -232,7 +206,7 @@ CREATE TABLE `t_06datosembarazo` (
   KEY `id_tipo_parto` (`id_tipo_parto`),
   CONSTRAINT `t_06datosembarazo_ibfk_1` FOREIGN KEY (`id_paciente`) REFERENCES `t_01paciente` (`Id_paciente`),
   CONSTRAINT `t_06datosembarazo_ibfk_2` FOREIGN KEY (`id_tipo_parto`) REFERENCES `t_08tipoparto` (`id_tipo_parto`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Tabla almacena la información relacionada con el embarazo de las madres, incluyendo la fecha de inicio y fin del embarazo, el tipo de parto, la semana de gestación y el peso del bebé al nacer. Como mencionas, esta tabla solo sería relevante para las madres.';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Tabla almacena la información relacionada con el embarazo de las madres, incluyendo la fecha de inicio y fin del embarazo, el tipo de parto, la semana de gestación y el peso del bebé al nacer. Como mencionas, esta tabla solo sería relevante para las madres.';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -254,9 +228,9 @@ DROP TABLE IF EXISTS `t_08tipoparto`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `t_08tipoparto` (
   `id_tipo_parto` int(11) NOT NULL,
-  `tipo` varchar(50) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `tipo` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id_tipo_parto`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci COMMENT='Tabla almacena la información de los diferentes tipos de parto que pueden ocurrir.';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Tabla almacena la información de los diferentes tipos de parto que pueden ocurrir.';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -277,13 +251,13 @@ DROP TABLE IF EXISTS `t_09enfermedadesembarazo`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `t_09enfermedadesembarazo` (
-  `id_enfermedad` int(11) NOT NULL,
   `id_embarazo` int(11) DEFAULT NULL,
   `enfermedad` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
-  PRIMARY KEY (`id_enfermedad`),
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`id`),
   KEY `id_embarazo` (`id_embarazo`),
   CONSTRAINT `t_09enfermedadesembarazo_ibfk_1` FOREIGN KEY (`id_embarazo`) REFERENCES `t_06datosembarazo` (`id_embarazo`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Tabla almacena la información de las enfermedades que ocurrieron durante el embarazo de cada madre. La relación con la tabla "t_06datosembarazo" permite vincular cada enfermedad con el embarazo correspondiente.';
+) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COMMENT='Tabla almacena la información de las enfermedades que ocurrieron durante el embarazo de cada madre. La relación con la tabla "t_06datosembarazo" permite vincular cada enfermedad con el embarazo correspondiente.';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -292,7 +266,7 @@ CREATE TABLE `t_09enfermedadesembarazo` (
 
 LOCK TABLES `t_09enfermedadesembarazo` WRITE;
 /*!40000 ALTER TABLE `t_09enfermedadesembarazo` DISABLE KEYS */;
-INSERT INTO `t_09enfermedadesembarazo` VALUES (1,1,'Hipertensión'),(2,2,'Gestación diabetes'),(3,3,'Anemia'),(4,4,'Infección urinaria'),(5,5,'Hipertensión'),(6,6,'Preeclampsia'),(7,7,'Gestación diabetes'),(8,8,'Anemia'),(9,9,'Infección respiratoria'),(10,10,'Hipertensión'),(11,1,'Enfermedad X');
+INSERT INTO `t_09enfermedadesembarazo` VALUES (1,'Hipertensión',1),(2,'Gestación diabetes',2),(3,'Anemia',3),(4,'Infección urinaria',4),(5,'Hipertensión',5),(6,'Preeclampsia',6),(7,'Gestación diabetes',7),(8,'Anemia',8),(9,'Infección respiratoria',9),(10,'Hipertensión',10),(1,'Enfermedad X',11);
 /*!40000 ALTER TABLE `t_09enfermedadesembarazo` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -318,7 +292,7 @@ CREATE TABLE `t_10historialeducativo` (
   KEY `id_institucion` (`id_institucion`),
   CONSTRAINT `t_10historialeducativo_ibfk_1` FOREIGN KEY (`id_paciente`) REFERENCES `t_01paciente` (`Id_paciente`),
   CONSTRAINT `t_10historialeducativo_ibfk_2` FOREIGN KEY (`id_institucion`) REFERENCES `t_11caracteristicainstitu` (`id_institucion`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Tabla almacena la información detallada sobre el historial educativo de cada paciente, incluyendo su adaptación, relaciones con docentes y compañeros, repitencia escolar, y cambios en escuelas y maestros.';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Tabla almacena la información detallada sobre el historial educativo de cada paciente, incluyendo su adaptación, relaciones con docentes y compañeros, repitencia escolar, y cambios en escuelas y maestros.';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -342,7 +316,7 @@ CREATE TABLE `t_11caracteristicainstitu` (
   `id_institucion` int(11) NOT NULL,
   `institucion` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   PRIMARY KEY (`id_institucion`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Tabla "t_11caracteristicainstitu" podría ser utilizada para almacenar información sobre el tipo de institución educativa, como si es pública o privada.';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Tabla "t_11caracteristicainstitu" podría ser utilizada para almacenar información sobre el tipo de institución educativa, como si es pública o privada.';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -366,7 +340,7 @@ CREATE TABLE `t_12estadovivienda` (
   `id_estado` int(11) NOT NULL,
   `estado_vivienda` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id_estado`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Tabla almacena la información sobre el estado de la vivienda de los pacientes, lo que puede ser útil para evaluar su situación habitacional y cómo puede afectar su salud o bienestar.';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Tabla almacena la información sobre el estado de la vivienda de los pacientes, lo que puede ser útil para evaluar su situación habitacional y cómo puede afectar su salud o bienestar.';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -402,7 +376,7 @@ CREATE TABLE `t_12infofamiliar` (
   KEY `id_estado_vivienda` (`id_estado_vivienda`),
   CONSTRAINT `t_12infofamiliar_ibfk_1` FOREIGN KEY (`id_paciente`) REFERENCES `t_01paciente` (`Id_paciente`),
   CONSTRAINT `t_12infofamiliar_ibfk_2` FOREIGN KEY (`id_estado_vivienda`) REFERENCES `t_12estadovivienda` (`id_estado`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Tabla almacena información detallada sobre la situación familiar de cada paciente, incluyendo el ambiente familiar, la unión estable, el tiempo de convivencia, los ingresos de los padres, las expectativas de los padres, y el estado de la vivienda familiar. ';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Tabla almacena información detallada sobre la situación familiar de cada paciente, incluyendo el ambiente familiar, la unión estable, el tiempo de convivencia, los ingresos de los padres, las expectativas de los padres, y el estado de la vivienda familiar. ';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -441,7 +415,7 @@ CREATE TABLE `t_13datosesion` (
   CONSTRAINT `t_13datosesion_ibfk_2` FOREIGN KEY (`id_tipo_sesion`) REFERENCES `t_14tipossesion` (`id_tipo_sesion`),
   CONSTRAINT `t_13datosesion_ibfk_3` FOREIGN KEY (`id_desarrollo_psicomotor`) REFERENCES `t_16desarrollopsicomotor` (`id_desarrollo_psicomotor`),
   CONSTRAINT `t_13datosesion_ibfk_4` FOREIGN KEY (`id_desarrollo_lenguaje`) REFERENCES `t_15desarrollolenguaje` (`id_desarrollo_lenguaje`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Tabla almacena información detallada sobre cada sesión de terapia o evaluación del paciente, incluyendo la fecha, hora, duración, tipo de sesión, desarrollo psicomotor y del lenguaje, y observaciones adicionales. ';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Tabla almacena información detallada sobre cada sesión de terapia o evaluación del paciente, incluyendo la fecha, hora, duración, tipo de sesión, desarrollo psicomotor y del lenguaje, y observaciones adicionales. ';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -463,9 +437,9 @@ DROP TABLE IF EXISTS `t_14tipossesion`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `t_14tipossesion` (
   `id_tipo_sesion` int(11) NOT NULL,
-  `nombre_tipo` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nombre_tipo` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id_tipo_sesion`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Tabla almacena la información de los diferentes tipos de sesiones que se pueden realizar con los pacientes.';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Tabla almacena la información de los diferentes tipos de sesiones que se pueden realizar con los pacientes.';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -489,7 +463,7 @@ CREATE TABLE `t_15desarrollolenguaje` (
   `id_desarrollo_lenguaje` int(11) NOT NULL,
   `descripcion` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   PRIMARY KEY (`id_desarrollo_lenguaje`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Tabla almacena la información de los diferentes niveles de desarrollo del lenguaje que pueden presentar los pacientes';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Tabla almacena la información de los diferentes niveles de desarrollo del lenguaje que pueden presentar los pacientes';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -513,7 +487,7 @@ CREATE TABLE `t_16desarrollopsicomotor` (
   `id_desarrollo_psicomotor` int(11) NOT NULL,
   `descripcion` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   PRIMARY KEY (`id_desarrollo_psicomotor`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COMMENT='Tabla almacena la información de los diferentes niveles de desarrollo psicomotor que pueden presentar los pacientes.';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Tabla almacena la información de los diferentes niveles de desarrollo psicomotor que pueden presentar los pacientes.';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -535,16 +509,16 @@ DROP TABLE IF EXISTS `usuario`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `usuario` (
   `UsuarioID` int(11) NOT NULL AUTO_INCREMENT,
-  `NombreUsuario` varchar(255) CHARACTER SET latin1 NOT NULL,
-  `Apellido` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
-  `Contraseña` varchar(255) CHARACTER SET latin1 NOT NULL,
-  `Email` varchar(255) CHARACTER SET latin1 NOT NULL,
-  `PreguntaSeguridad` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
-  `RespuestaSeguridad` varchar(255) CHARACTER SET latin1 DEFAULT NULL,
+  `NombreUsuario` varchar(50) CHARACTER SET latin1 NOT NULL,
+  `Apellido` varchar(25) CHARACTER SET latin1 DEFAULT NULL,
+  `Contraseña` varchar(20) CHARACTER SET latin1 NOT NULL,
+  `Email` varchar(35) CHARACTER SET latin1 NOT NULL,
+  `PreguntaSeguridad` varchar(50) CHARACTER SET latin1 DEFAULT NULL,
+  `RespuestaSeguridad` varchar(50) CHARACTER SET latin1 DEFAULT NULL,
   `FechaRegistro` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `UltimoIntentoFallido` int(11) DEFAULT '0',
   PRIMARY KEY (`UsuarioID`)
-) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COMMENT='Tabla "usuario" es fundamental para el proceso de inicio de sesión y la seguridad del sistema.';
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COMMENT='Tabla "usuario" es fundamental para el proceso de inicio de sesión y la seguridad del sistema.';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -566,4 +540,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-10-31 17:57:19
+-- Dump completed on 2024-11-07  0:14:23

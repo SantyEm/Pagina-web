@@ -43,11 +43,8 @@
                 </select>
             </div>
             <div class="form-group">
-                <label for="tipo_relacion" class="label">Tipo de Relación:</label>
-                <select id="tipo_relacion" name="tipo_relacion">
-                    <option value="Padre" {% if padre['id_tipo_relacion'] == 1 %}selected{% endif %}>Padre</option>
-                    <option value="Madre" {% if padre['id_tipo_relacion'] == 2 %}selected{% endif %}>Madre</option>
-                </select>
+                <label for="tipo_relacion">Tipo de Relación:</label>
+                <input type="text" id="tipo_relacion" name="tipo_relacion" required>
             </div>
             <button type="submit" class="btn-submit">Guardar Edición</button>
         </form>

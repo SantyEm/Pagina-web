@@ -96,22 +96,11 @@
                     <label for="fecha_nacimiento">Fecha de Nacimiento:</label>
                     <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" required><br>
                     <label for="nivel_educacion">Nivel de Educación:</label>
-                    <div>
-                        <select id="nivel_educacion" name="nivel_educacion">
-                            <!-- Opciones para el nivel de educación -->
-                            <option value="1">Educación Inicial</option>
-                            <option value="2">Educación Primaria</option>
-                            <option value="3">Educación Secundaria</option>
-                            <option value="4">Educación Superior</option>
-                        </select>
-                    </div>
-
+                    <input type="text" id="nivel_educacion" name="nivel_educacion" required><br>
+            
                     <label for="tipo_relacion">Tipo de Relación:</label>
-                    <select id="tipo_relacion" name="tipo_relacion">
-                        <option value="1">Padre</option>
-                        <option value="2">Madre</option>
-                    </select>
-
+                    <input type="text" id="tipo_relacion" name="tipo_relacion" required>
+            
                     <button type="submit">Agregar Padre</button>
                 </form>
             </div>
@@ -133,11 +122,10 @@
                                 <th>Fecha de nacimiento</th> 
                                 <th>Tipo de Relacion</th>
                                 <th>Direcciones</th>
-                                <th>Datos de Embarazo</th>
                                 <th>Acciones</th>
                             </tr>
                         </thead>
-                        
+
                         <tbody>
                             {% for padre in padres %}
                             <tr>
@@ -149,22 +137,9 @@
                                 <td>{{ padre.nivel }}</td>
                                 <td>{{ padre.edad }}</td> 
                                 <td>{{ padre.Fecha_nacimiento }}</td> 
-                                <td>
-                                    {% if padre.id_tipo_relacion == 1 %}
-                                        Padre
-                                    {% elif padre.id_tipo_relacion == 2 %}
-                                        Madre
-                                    {% else %}
-                                        Desconocido
-                                    {% endif %}
-                                </td>
+                                <td>{{ padre.tipo_relacion }}</td>  
                                 <td class="Direcciones">   
                                     <button type="button" onclick="window.open('/padre/direcciones/{{ padre.Id_padre }}', '_blank'); return false;">Direcciones</button>
-                                </td>
-                                <td class= "Embarazo" >   
-                                    {% if padre.id_tipo_relacion == 2 %}
-                                    <button type="button" onclick="window.open('/padre/{{ padre.Id_padre }}/datos-embarazo/', 'Datos de Embarazo', 'width=600,height=600'); return false;">Ver Embarazo</button>
-                                    {% endif %}
                                 </td>
                                 <td class="acciones" >
                                     <!-- Acciones para cada padre -->

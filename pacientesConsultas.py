@@ -2,8 +2,6 @@ from flask import Flask, render_template
 from conexion import get_connection
 from flask import request
 from datetime import datetime
-from flask import session
-from flask import current_app
 
 app = Flask(__name__)
 
@@ -20,9 +18,10 @@ def mostrar_pacientes():
 @app.route('/paciente/direcciones/<int:id_paciente>', methods=['GET'])
 def mostrar_direcciones(id_paciente):
     # Obtener las direcciones del paciente con el ID especificado
+    paciente = obtener_paciente_por_id(id_paciente)
     direcciones = obtener_direcciones(id_paciente)
     # Renderizar la plantilla con la tabla de direcciones
-    return render_template('MostrarDireccionesPacientes.html', direcciones=direcciones)
+    return render_template('MostrarDireccionesPacientes.html', paciente=paciente, direcciones=direcciones)
 
 def obtener_direcciones(id_paciente):
     try:
@@ -55,11 +54,9 @@ def obtener_pacientes():
     
 @app.route('/agregar-paciente', methods=['POST'])
 def agregar_paciente():
-    
-    # Obtener la conexión y el cursor
     connection = get_connection()
     cursor = connection.cursor()
-    
+
     # Recibir los datos del formulario
     nombre = request.form['nombre']
     apellido = request.form['apellido']
@@ -70,30 +67,32 @@ def agregar_paciente():
     observaciones = request.form['observaciones']
 
     # Validar los datos
-    if not nombre or not apellido or not dni or not genero or not fecha_nacimiento:
+    if not all([nombre, apellido, dni, genero, fecha_nacimiento]):
         return 'Faltan datos', 400
-    
+
     # Validar fecha de nacimiento
     if fecha_nacimiento > datetime.today().strftime('%Y-%m-%d'):
         return 'Fecha de nacimiento inválida', 400
-    
+
     # Obtener el Id_genero correspondiente al género seleccionado
     cursor.execute("SELECT Id_genero FROM t_02genero WHERE Nombre = %s", (genero,))
     id_genero = cursor.fetchone()[0]
-    
+
     # Convertir la fecha de nacimiento a un objeto datetime
     fecha_nacimiento = datetime.strptime(fecha_nacimiento, '%Y-%m-%d')
 
     # Calcular la edad
-    def calcular_edad_pacientes(fecha_nacimiento):
-        hoy = datetime.today()
-        edad = hoy.year - fecha_nacimiento.year - ((hoy.month, hoy.day) < (fecha_nacimiento.month, fecha_nacimiento.day))
-        return edad
-    
     edad = calcular_edad_pacientes(fecha_nacimiento)
 
     # Insertar los datos en la base de datos
-    cursor.execute("INSERT INTO t_01paciente (Id_paciente, Nombre, Apellido, DNI, Id_genero, Fecha_nacimiento, Edad, Fecha_registro, Observaciones) VALUES (NULL, %s, %s, %s, %s, %s, %s, %s, %s)", (nombre, apellido, dni, id_genero, fecha_nacimiento, edad, fecha_registro, observaciones))
+    cursor.execute("""
+        INSERT INTO 
+            t_01paciente 
+            (Id_paciente, Nombre, Apellido, DNI, Id_genero, Fecha_nacimiento, Fecha_registro, Observaciones) 
+        VALUES 
+            (NULL, %s, %s, %s, %s, %s, %s, %s)
+    """, 
+    (nombre, apellido, dni, id_genero, fecha_nacimiento, fecha_registro, observaciones))
     connection.commit()
 
     # Actualizar la tabla de pacientes
@@ -162,10 +161,97 @@ def agregar_direccion_paciente(id_paciente):
         finally:
             connection.close()  # Cerrar la conexión
         
-        return render_template('agregarDireccionPaciente.html', paciente=paciente, mensaje="Dirección agregada con éxito")
+        return render_template('MostrarDireccionesPacientes.html', paciente=paciente, mensaje="Dirección agregada con éxito")
     else:
         paciente = obtener_paciente_por_id(id_paciente)
-        return render_template('agregarDireccionPaciente.html', paciente=paciente)
+        return render_template('MostrarDireccionesPacientes.html', paciente=paciente)
+
+@app.route('/paciente/direcciones/editar/<int:id_paciente>/<int:id_direccion>', methods=['GET', 'POST'])
+def editar_direccion_paciente(id_paciente, id_direccion):
+    try:
+        connection = get_connection()
+        cursor = connection.cursor()
+        
+        query_mostrar = """
+            SELECT d.* 
+            FROM t_01paciente p 
+            INNER JOIN t_02direccionpaciente d ON p.Id_paciente = d.id_paciente 
+            WHERE p.Id_paciente = %s AND d.id_direccion = %s
+        """
+        params_mostrar = (id_paciente, id_direccion)
+        
+        cursor.execute(query_mostrar, params_mostrar)
+        
+        resultado = cursor.fetchone()
+        
+        direccion = dict(zip([column[0] for column in cursor.description], resultado))
+        
+        cursor.close()
+        connection.close()
+        
+        return render_template('editar_direccion_paciente.html', direccion=direccion)
+    
+    except Exception as e:
+        print(f"Error: {str(e)}")
+        return "Error"
+
+@app.route('/paciente/direcciones/actualizar/<int:id_paciente>/<int:id_direccion>', methods=['POST'])
+def actualizar_direccion_paciente(id_paciente, id_direccion):
+    try:
+        connection = get_connection()
+        cursor = connection.cursor()
+        
+        # Obtener los datos del formulario
+        direccion = request.form['direccion']
+        ciudad = request.form['ciudad']
+        estado = request.form['estado']
+        codigo_postal = request.form['codigo_postal']
+        
+        # Actualizar la dirección en la base de datos
+        query_actualizar = """
+            UPDATE t_02direccionpaciente
+            SET direccion = %s, ciudad = %s, estado = %s, codigo_postal = %s
+            WHERE id_paciente = %s AND id_direccion = %s
+        """
+        params_actualizar = (direccion, ciudad, estado, codigo_postal, id_paciente, id_direccion)
+        
+        cursor.execute(query_actualizar, params_actualizar)
+        connection.commit()
+        
+        cursor.close()
+        connection.close()
+        
+        # Redireccionar a la página de direcciones del paciente
+        return render_template('MostrarDireccionesPacientes.html', id_paciente=id_paciente)
+    
+    except Exception as e:
+        print(f"Error: {str(e)}")
+        return "Error"
+
+@app.route('/paciente/direcciones/eliminar/<int:id_paciente>/<int:id_direccion>', methods=['POST'])
+def eliminar_direccion_paciente(id_paciente, id_direccion):
+    try:
+        connection = get_connection()
+        cursor = connection.cursor()
+        
+        query_eliminar = """
+            DELETE FROM t_02direccionpaciente
+            WHERE id_paciente = %s AND id_direccion = %s
+        """
+        params_eliminar = (id_paciente, id_direccion)
+        
+        cursor.execute(query_eliminar, params_eliminar)
+        connection.commit()
+        
+        cursor.close()
+        connection.close()
+        
+        return render_template('MostrarDireccionesPacientes.html', id_paciente=id_paciente)
+    
+    except Exception as e:
+        print(f"Error: {str(e)}")
+        return render_template('MostrarDireccionesPacientes.html', id_paciente=id_paciente)   
+
 
 @app.route('/paciente/historial_educacion/<int:id_paciente>', methods=['GET', 'POST'])
 def historial_educacion(id_paciente):
