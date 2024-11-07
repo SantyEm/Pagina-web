@@ -40,54 +40,6 @@ button:hover {
     background-color: #45a049;
 }
 
-/* Estilos para las pestañas */
-.tab-container {
-    /* Estilos para el contenedor del tab control */
-    margin-top: 65px; /* Puedes ajustar este valor según sea necesario */
-    padding-top: 10px; /* Opcional: Añade padding si quieres espacio adicional */
-
- }
-
- .tabs {
-    display: flex;
-    background-color: #d2dae2; /* Color de fondo para las pestañas */
-}
-
-.tab-button {
-    padding: 12px 20px; /* Ajusta el padding según sea necesario */
-    font-size: 16px;
-    font-weight: bold;
-    color: #333;
-    background-color: transparent;
-    border: none;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    max-width: 300px; /* Ancho máximo para los botones */
-    text-overflow: ellipsis; /* Añade puntos suspensivos si el texto es demasiado largo */
-    white-space: nowrap; /* Evita el salto de línea del texto largo */
-    overflow: hidden; /* Oculta el desbordamiento del texto */
-}
-
-.tab-button:hover {
-    background-color: #e0e0e0; /* Color de fondo al pasar el mouse sobre el botón */
-}
-
-.tab-button.active {
-    background-color: #007bff; /* Color de fondo del botón activo */
-    color: #fff;
-}
-
-
-/* Estilos para el contenido de las pestañas */
-.tab-content {
-    display: none;
-    padding: 20px;
-}
-
-.tab-content.active {
-    display: block;
-}
-
 /* bloques */
 
 
@@ -102,13 +54,6 @@ button:hover {
     vertical-align: top; 
     position: relative;
     top: 80px; /* Ajusta el valor según sea necesario */
-}
-
-.blockTabla .title {
-    font-size: 1.5rem;
-    font-weight: bold;
-    margin-bottom: 10px;
-    text-align: center; /* Alineación centrada del título */
 }
 
 .blockTabla {
