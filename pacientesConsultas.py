@@ -255,10 +255,15 @@ def eliminar_direccion_paciente(id_paciente, id_direccion):
 
 @app.route('/paciente/historial_educacion/<int:id_paciente>', methods=['GET', 'POST'])
 def historial_educacion(id_paciente):
-    # Código para manejar la ruta
+    # Obtener datos del paciente
+    paciente = obtener_paciente_por_id(id_paciente)
+    print("Paciente:", paciente)
+    
+    # Obtener registros de historial educativo
     registros = obtener_historial_educativo(id_paciente)
-    return render_template('HistorialEducativoPaciente.html', registros=registros)
-
+    print("Registros:", registros)
+    
+    return render_template('HistorialEducativoPaciente.html', paciente=paciente, registros=registros)
 
 def obtener_historial_educativo(id_paciente):
     # Cursor para ejecutar consultas
@@ -291,14 +296,14 @@ def obtener_historial_educativo(id_paciente):
     cursor.execute(query, (id_paciente,))
     
     # Obtener resultados
-    resultados = cursor.fetchone()
+    resultados = cursor.fetchall()
     
     print(resultados)  # Imprimir los resultados en la consola
     
     # Procesar resultados
     if resultados:
         campos = [column[0] for column in cursor.description]
-        respuesta = [dict(zip(campos, resultados))]
+        respuesta = [dict(zip(campos, row)) for row in resultados]
     else:
         respuesta = []
     
@@ -307,6 +312,106 @@ def obtener_historial_educativo(id_paciente):
     connection.close()
     
     return respuesta
+
+def obtener_registro_por_id(id_historial):
+    # Cursor para ejecutar consultas
+    connection = get_connection()
+    cursor = connection.cursor()
+    
+    # Consulta SQL
+    query = """
+    SELECT 
+        he.id_historial, 
+        he.id_paciente, 
+        he.id_institucion, 
+        he.adaptacion, 
+        he.relacion_docentes, 
+        he.relacion_compañeros, 
+        he.repitencia_escolar, 
+        he.cambios_escuelas, 
+        he.cambios_maestros
+    FROM 
+        t_10historialeducativo he
+    WHERE 
+        he.id_historial = %s
+"""
+    
+    # Ejecutar consulta
+    cursor.execute(query, (id_historial,))
+    
+    # Obtener resultados
+    resultado = cursor.fetchone()
+    
+    # Cerrar cursor y conexión
+    cursor.close()
+    connection.close()
+    
+    return resultado
+
+@app.route('/agregar-historial-educativo/<int:id_paciente>', methods=['POST'])
+def agregar_historial_educativo(id_paciente):
+    # Obtener datos del formulario
+    id_institucion = request.form['id_institucion']
+    adaptacion = request.form['adaptacion']
+    relacion_docentes = request.form['relacion_docentes']
+    relacion_compañeros = request.form['relacion_compañeros']
+    repitencia_escolar = request.form['repitencia_escolar']
+    cambios_escuelas = request.form['cambios_escuelas']
+    cambios_maestros = request.form['cambios_maestros']
+
+    # Conectar a la base de datos
+    connection = get_connection()
+    cursor = connection.cursor()
+
+    # Consulta SQL para insertar datos
+    query = """
+        INSERT INTO t_10historialeducativo (
+            id_paciente,
+            id_institucion,
+            adaptacion,
+            relacion_docentes,
+            relacion_compañeros,
+            repitencia_escolar,
+            cambios_escuelas,
+            cambios_maestros
+        ) VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
+    """
+
+    # Ejecutar consulta
+    cursor.execute(query, (
+        id_paciente,
+        id_institucion,
+        adaptacion,
+        relacion_docentes,
+        relacion_compañeros,
+        repitencia_escolar,
+        cambios_escuelas,
+        cambios_maestros
+    ))
+
+    # Commit cambios
+    connection.commit()
+
+    # Cerrar cursor y conexión
+    cursor.close()
+    connection.close()
+
+    # Obtener datos del paciente
+    paciente = obtener_paciente_por_id(id_paciente)
+
+    # Obtener registros de historial educativo
+    registros = obtener_historial_educativo(id_paciente)
+
+    # Redireccionar a la página de historial educativo
+    return render_template('HistorialEducativoPaciente.html', paciente=paciente, registros=registros)
+
+# NO FUNCIONA EDITAR HISTORIAL EDUCATIVO HAY QUE VER QUE PASA 
+@app.route('/historial-educativo/editar/<int:id_historial>', methods=['GET'])
+def editar_historial_educativo(id_historial):
+    print("ID Historial:", id_historial)
+    registro = obtener_registro_por_id(id_historial)
+    print("Registro:", registro)
+    return render_template('editar_historial_educativo_paciente.html', registro=registro)
 
 @app.route('/paciente/informacion_familiar/<int:id_paciente>', methods=['GET', 'POST'])
 def informacion_familiar(id_paciente):
