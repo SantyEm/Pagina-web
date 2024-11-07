@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Usuario</title>
+    <link rel="stylesheet" href="../static/css/style-usuario.css">
+    <link rel="stylesheet" href="../static/css/stiloMenu.css">
+
+</head>
+<body>
+    <header class="header" id="header">
+        <nav class="nav container">
+           <span class="puntito">.</span>
+           <a href="#" class="logo">Clínica de Psicopedagogía</a>
+           <div class="nav__menu" id="nav-menu">
+              <ul class="nav__list">
+                 <li class="nav__item">
+                    <a href="/volver_inicio" class="nav__link" >Inicio</a>
+                 </li>
+                 <li class="nav__item">
+                    <li class="nav__item">
+                        <a href="/padres" class="nav__link" >Padres</a>
+                     </li>
+                 </li>
+                 <li class="nav__item">
+                    <a href="/pacientes" class="nav__link" >Paciente</a>
+                 </li>
+                 <li class="nav__item">
+                    <a href="/Desarrollo" class="nav__link">Sesion</a>
+                 </li>
+              </ul>
+              <div class="nav__close" id="nav-close">
+                 <i class="ri-close-line"></i>
+              </div>
+           </div>
+           
+           <div class="nav__actions">
+              <div class="dropdown">
+                 <button class="dropdown__button" onclick="toggleDropdown('config-dropdown')">
+                     <i class="fas fa-cog"></i> Configuración
+                 </button>
+                 <div class="dropdown__content" id="config-dropdown">
+                    <a href="/backup">Seguridad y Backup</a>
+                     <a href="acerca-de">Acerca de</a>
+                 </div>
+             </div>
+             
+             <div class="dropdown">
+              <button class="dropdown__button" onclick="toggleDropdown('profile-dropdown')">
+                  <i class="fas fa-user"></i> Perfil
+              </button>
+              <div class="dropdown__content" id="profile-dropdown">
+                  <a href="opciones_usuario">Opciones de Usuario</a>
+                  <a href="/cerrar-sesion?confirm_logout=true">Cerrar sesión</a>
+              </div>
+          </div>
+          
+          </div>
+          
+          </div>
+        </nav>
+        
+     </header>
+          <!-- Formulario alternativo para cerrar sesión -->
+          <form action="/cerrar-sesion" method="POST">
+              <button type="submit">Cerrar sesión</button>
+           </form>
+
+       {% if datos_usuario %}
+            <p>Nombre: {{ datos_usuario.NombreUsuario }}</p>
+            <p>Apellido: {{ datos_usuario.Apellido }}</p>
+            <p>Email: {{ datos_usuario.Email }}</p>
+            {% if success_message %}
+                <div class="success-message">{{ success_message }}</div>
+            {% endif %}
+        {% endif %}
+
+
+
+    <div class="container">
+        <div class="item1">
+            <h1 class="titulos">Información personal</h1>
+            <form id="personal-info-form" action="/actualizar_informacion" method="POST">
+                {% if datos_usuario %}
+                <div>
+                    <label for="nombre">Nombre:</label>
+                    <input type="text" id="nombre" name="nombre" value="{{ datos_usuario.NombreUsuario }}" required>
+                </div>
+                <div>
+                    <label for="apellido">Apellido:</label>
+                    <input type="text" id="apellido" name="apellido" value="{{ datos_usuario.Apellido }}" required>
+                </div>
+                <div>
+                    <label for="email">Email:</label>
+                    <input type="email" id="email" name="email" value="{{ datos_usuario.Email }}" required>
+                </div>
+                {% endif %}
+                <button type="submit">Guardar</button>
+            </form>
+        </div>
+    
+        <div class="item2">
+            <h1 class="titulos">Cambiar contraseña</h1>
+            <form id="change-password-form">
+                <div>
+                    <label for="current-password">Contraseña actual:</label>
+                    <input type="password" id="current-password" name="current-password" required>
+                </div>
+                <div>
+                    <label for="new-password">Nueva contraseña:</label>
+                    <input type="password" id="new-password" name="new-password" required>
+                </div>
+                <div>
+                    <label for="confirm-new-password">Confirmar nueva contraseña:</label>
+                    <input type="password" id="confirm-new-password" name="confirm-new-password" required>
+                </div>
+                <button type="submit">Guardar</button>
+            </form>
+        </div>
+    </div>
+    
+
+    <script src="../static/js/menu.js"></script>
+</body>
+</html>

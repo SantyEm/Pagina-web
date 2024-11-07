@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="../static/css/stiloMenu.css">
+    <link rel="stylesheet" href="../static/css/stiloPacienteForm.css">
+</head>
+
+<body>
+  <header class="header" id="header">
+    <nav class="nav container">
+       <span class="puntito">.</span>
+       <a href="#" class="logo">Clínica de Psicopedagogía</a>
+       <div class="nav__menu" id="nav-menu">
+          <ul class="nav__list">
+             <li class="nav__item">
+                <a href="/volver_inicio" class="nav__link" >Inicio</a>
+             </li>
+             <li class="nav__item">
+                <li class="nav__item">
+                    <a href="/padres" class="nav__link" >Padres</a>
+                 </li>
+             </li>
+             <li class="nav__item">
+                <a href="/pacientes" class="nav__link" >Paciente</a>
+             </li>
+             <li class="nav__item">
+                <a href="/Desarrollo" class="nav__link">Sesion</a>
+             </li>
+          </ul>
+          <div class="nav__close" id="nav-close">
+             <i class="ri-close-line"></i>
+          </div>
+       </div>
+       
+       <div class="nav__actions">
+          <div class="dropdown">
+             <button class="dropdown__button" onclick="toggleDropdown('config-dropdown')">
+                 <i class="fas fa-cog"></i> Configuración
+             </button>
+             <div class="dropdown__content" id="config-dropdown">
+                <a href="/backup">Seguridad y Backup</a>
+                 <a href="acerca-de">Acerca de</a>
+             </div>
+         </div>
+         
+         <div class="dropdown">
+          <button class="dropdown__button" onclick="toggleDropdown('profile-dropdown')">
+              <i class="fas fa-user"></i> Perfil
+          </button>
+          <div class="dropdown__content" id="profile-dropdown">
+              <a href="opciones_usuario">Opciones de Usuario</a>
+              <a href="/cerrar-sesion?confirm_logout=true">Cerrar sesión</a>
+          </div>
+      </div>
+      
+      </div>
+      
+      </div>
+    </nav>
+    
+ </header>
+      <!-- Formulario alternativo para cerrar sesión -->
+      <form action="/cerrar-sesion" method="POST">
+          <button type="submit">Cerrar sesión</button>
+       </form>
+    
+       <div class="contenedor-busqueda">
+        <form action="/buscarPaciente" method="post">
+          <div class="busqueda">
+            <button type="submit">Buscar</button>
+            <input type="text" name="buscar" placeholder="Buscar...">
+            <select name="parametro">
+              <option value="nombre">Nombre</option>
+              <option value="apellido">Apellido</option>
+              <option value="dni">DNI</option>
+              <option value="fecha_nacimiento">Fecha de nacimiento</option>
+            </select>
+          </div>
+        </form>
+      </div>
+            <div class="blockEntrada">
+                <div class="title">Ingreso de Datos</div>
+                <form id="datos-paciente" action="/agregar-paciente" method="post">
+                    <!-- Campos de entrada de datos del paciente -->
+                    <label for="nombre">Nombre:</label>
+                    <input type="text" id="nombre" name="nombre" required><br>
+                    <label for="apellido">Apellido:</label>
+                    <input type="text" id="apellido" name="apellido" required><br>
+                    <label for="dni">DNI:</label>
+                    <input type="text" id="dni" name="dni" maxlength="20" required><br>
+
+                    <label for="genero">Género:</label>
+                    <div>
+                    <select id="genero" name="genero">
+                        <option value="masculino">Masculino</option>
+                        <option value="femenino">Femenino</option>
+                        <option value="otro">Otro</option>
+                    </select>
+                    </div>
+
+                    <label for="fecha_nacimiento">Fecha de Nacimiento:</label>
+                    <input type="date" id="fecha_nacimiento" name="fecha_nacimiento" required><br>
+                    <label for="fecha_registro">Fecha de Registro:</label>
+                    <input type="date" id="fecha_registro" name="fecha_registro" required><br>
+                    <label for="observaciones">Observaciones:</label>
+                    <textarea id="observaciones" name="observaciones" rows="4"></textarea><br>
+
+                    <!-- Área dinámica para las direcciones -->
+                    <div id="direcciones-container">
+                        <!-- Aquí se agregarán dinámicamente las direcciones -->
+                    </div>
+        
+                    <button type="submit">Agregar Paciente</button>
+                </form>
+            </div>
+   
+        <div class="blockTabla">
+          <div class="title">Tabla De Registros</div>
+          <form action="/pacientes" method="post" id="formulario-pacientes">
+            <!-- Contenido del formulario -->
+            <div>
+              <table class="table">
+                <!-- Encabezados de la tabla -->
+                <thead>
+                  <tr>
+                      <th>Nombre</th>
+                      <th>Apellido</th>
+                      <th>DNI</th>
+                      <th>Genero</th>
+                      <th>Edad</th> 
+                      <th>Fecha de Nacimiento</th>
+                      <th>Fecha de Registro</th>
+                      <th>Observaciones</th>
+                      <th>Direcciones</th>
+                      <th>Historial Educación</th>
+                      <th>Información Familiar</th>
+                      <th>Datos de Gestación</th> <!-- Nueva columna -->
+                      <th>Acciones</th>
+                  </tr>
+              </thead>
+              
+              <tbody>
+                  {% for paciente in pacientes %}
+                  <tr>
+                      <td>{{ paciente.Nombre }}</td>
+                      <td>{{ paciente.Apellido }}</td>
+                      <td>{{ paciente.DNI }}</td>
+                      <td>{{ paciente.Genero }}</td>
+                      <td>{{ paciente.edad }}</td> 
+                      <td>{{ paciente.Fecha_nacimiento }}</td>
+                      <td>{{ paciente.Fecha_registro }}</td>
+                      <td class="observaciones">{{ paciente.Observaciones }}</td>
+                      <td>
+                          <form action="/paciente/direcciones/{{ paciente.Id_paciente }}" method="get" target="_blank">
+                            <button type="submit">Ver direcciones</button>
+                          </form>
+                      </td>
+                      <td>
+                          <form action="/paciente/historial_educacion/{{ paciente.Id_paciente }}" method="get" target="_blank">
+                              <button type="submit">Ver Historial Educación</button>
+                          </form>
+                      </td>
+                      <td>
+                          <form action="/paciente/informacion_familiar/{{ paciente.Id_paciente }}" method="get" target="_blank">
+                              <button type="submit">Ver Información Familiar</button>
+                          </form>
+                      </td>
+                      <td>
+                          <form action="/paciente/datos_gestacion/{{ paciente.Id_paciente }}" method="get" target="_blank">
+                              <button type="submit">Ver Datos de Gestación</button>
+                          </form>
+                      </td>
+                      <td>
+                          <form action="/editar_paciente/{{ paciente.Id_paciente }}" method="get" target="_blank">
+                              <button type="submit">Editar</button>
+                          </form>
+                          <form action="/eliminar_paciente/{{ paciente.Id_paciente }}" method="post">
+                              <button type="submit">Eliminar</button>
+                          </form>
+                      </td>
+                  </tr>
+                  {% endfor %}
+              </tbody>
+              </table>
+            </div>
+          </form>
+        </div>        
+</div>
+
+    </div>
+        
+    </div>
+</div>
+
+    <script src="../static/js/menu.js"></script>
+    <script src="../static/js/pacientesJs.js"></script>
+</body>
+</html>

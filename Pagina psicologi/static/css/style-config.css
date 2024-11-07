@@ -1,0 +1,35 @@
+/* Estilos para el contenedor principal */
+.contenedorBody {
+    display: flex;
+    flex-direction: column;
+    padding: 30px;
+    margin-top: var(--header-height); /* Ajusta según la altura de tu header */
+}
+
+/* Estilos para los elementos item1 e item2 */
+.contenedorBody .item1, .contenedorBody .item2 {
+    background-color: beige; /* Color de fondo ajustable */
+    font-size: 19px; /* Tamaño de fuente ajustable */
+    padding: 25px; /* Espaciado interno ajustable */
+    border-radius: 45px; /* Borde redondeado ajustable */
+    margin: 10px; /* Margen exterior ajustable */
+    border: 1px solid rgb(139, 139, 139); /* Borde ajustable */
+}
+
+.contenedorBody .item2 {
+    background-color: rgb(247, 247, 244); /* Color de fondo ajustable */
+}
+
+/* Estilos para los títulos */
+.titulos {
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif; /* Fuente ajustable */
+    font-size: 17px; /* Tamaño de fuente ajustable */
+    text-align: justify; /* Ajuste del alineado */
+}
+
+/* Estilos para el fondo del body */
+body {
+    background: url('../img/fon-config.jpg') no-repeat; /* Imagen de fondo ajustable */
+    background-size: cover; /* Ajuste para cubrir toda la pantalla */
+    background-attachment: fixed; /* Ajuste para que la imagen de fondo no se desplace */
+}

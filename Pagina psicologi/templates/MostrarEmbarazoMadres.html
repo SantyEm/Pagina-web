@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/stiloPacienteForm.css">
+</head>
+<!-- ESTE FOMRULARIO VA EN PESTAÑA DE PACIENTES -->
+<body>
+    <div class="blockEntrada">
+        <h2>Registrar Embarazo</h2>
+        <form id="embarazo-form" action="/registrar-embarazo" method="post">
+            <!-- Campos de la tabla t_06datosembarazo -->
+            <label for="inicio_del_embarazo">Inicio del Embarazo:</label>
+            <input type="date" id="inicio_del_embarazo" name="inicio_del_embarazo" required>
+            <label for="fecha_fin_del_embarazo">Fecha Fin del Embarazo:</label>
+            <input type="date" id="fecha_fin_del_embarazo" name="fecha_fin_del_embarazo" required>
+            <label for="semana_gestacion">Semanas de Gestación:</label>
+            <input type="number" id="semana_gestacion" name="semana_gestacion" required>
+            <label for="peso_al_nacer">Peso al Nacer:</label>
+            <input type="number" step="0.01" id="peso_al_nacer" name="peso_al_nacer" required>
+            
+            <!-- Select para tipo de parto (t_08tipoparto) -->
+            <label for="id_tipo_parto">Tipo de Parto:</label>
+            <select id="id_tipo_parto" name="id_tipo_parto">
+              <option value="1">Parto Natural</option>
+              <option value="2">Cesárea</option>
+              <option value="3">Parto Inducido</option>
+              <option value="4">Parto por Fórceps</option>
+              <option value="5">Parto en el Agua</option>
+            </select>
+            
+            <!-- Campo para enfermedades del embarazo (t_09enfermedadesembarazo) -->
+            <label for="enfermedad">Enfermedad del Embarazo:</label>
+            <select id="enfermedad" name="enfermedad">
+                <option value="1">Hipertensión</option>
+                <option value="2">Gestación diabetes</option>
+                <option value="3">Anemia</option>
+                <option value="4">Infección urinaria</option>
+                <option value="5">Preeclampsia</option>
+                <option value="6">Infección respiratoria</option>
+                <option value="7">Enfermedad X</option>
+                <!-- Agrega más opciones según sea necesario -->
+            </select>
+            
+            <button type="submit">Registrar Embarazo</button>
+        </form>
+    </div>
+
+    <div class="blockTabla">
+        <div class="ventanaEmbarazo-content">
+            <h2 class="title">Datos de Embarazo</h2>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Tipo de Parto</th>
+                        <th>Inicio del Embarazo</th>
+                        <th>Fecha Fin del Embarazo</th>
+                        <th>Semana de Gestación</th>
+                        <th>Peso al Nacer</th>
+                        <th>Enfermedades</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if datos_embarazo %}
+                        {% for embarazo in datos_embarazo %}
+                        <tr>
+                            <td>{{ embarazo['tipo_parto'] }}</td>
+                            <td>{{ embarazo['inicio_del_embarazo'] }}</td>
+                            <td>{{ embarazo['fecha_fin_del_embarazo'] }}</td>
+                            <td>{{ embarazo['semana_gestacion'] }}</td>
+                            <td>{{ embarazo['peso_al_nacer'] }}</td>
+                            <td>{{ embarazo['enfermedad'] }}</td>
+                            <td class="acciones">
+                                <form action="/embarazo/editar/{{ embarazo['id_embarazo'] }}" method="post" target="_blank">
+                                    <button type="submit">Editar</button>
+                                </form>
+                                <form action="/embarazo/eliminar/{{ embarazo['id_embarazo'] }}" method="post" target="_blank">
+                                    <button type="submit">eliminar</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    {% else %}
+                        <tr>
+                            <td colspan="7">No hay datos de embarazo registrados.</td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

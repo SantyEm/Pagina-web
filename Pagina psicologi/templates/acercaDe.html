@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../static/css/stiloAcercaDe.css">
+    <link rel="stylesheet" href="../static/css/stiloMenu.css">
+    <title>Acerca de</title>
+</head>
+
+<header class="header" id="header">
+   <nav class="nav container">
+      <span class="puntito">.</span>
+      <a href="#" class="logo">Clínica de Psicopedagogía</a>
+      <div class="nav__menu" id="nav-menu">
+         <ul class="nav__list">
+            <li class="nav__item">
+               <a href="/volver_inicio" class="nav__link" >Inicio</a>
+            </li>
+            <li class="nav__item">
+               <li class="nav__item">
+                   <a href="/padres" class="nav__link" >Padres</a>
+                </li>
+            </li>
+            <li class="nav__item">
+               <a href="/pacientes" class="nav__link" >Paciente</a>
+            </li>
+            <li class="nav__item">
+               <a href="/Desarrollo" class="nav__link">Sesión</a>
+            </li>
+         </ul>
+         <div class="nav__close" id="nav-close">
+            <i class="ri-close-line"></i>
+         </div>
+      </div>
+      
+      <div class="nav__actions">
+         <div class="dropdown">
+            <button class="dropdown__button" onclick="toggleDropdown('config-dropdown')">
+                <i class="fas fa-cog"></i> Configuración
+            </button>
+            <div class="dropdown__content" id="config-dropdown">
+               <a href="/backup">Seguridad y Backup</a>
+                <a href="acerca-de">Acerca de</a>
+            </div>
+        </div>
+        
+        <div class="dropdown">
+         <button class="dropdown__button" onclick="toggleDropdown('profile-dropdown')">
+             <i class="fas fa-user"></i> Perfil
+         </button>
+         <div class="dropdown__content" id="profile-dropdown">
+             <a href="opciones_usuario">Opciones de Usuario</a>
+             <a href="/cerrar-sesion?confirm_logout=true">Cerrar sesión</a>
+         </div>
+     </div>
+     
+     </div>
+     
+     </div>
+   </nav>
+   
+</header>
+     <!-- Formulario alternativo para cerrar sesión -->
+     <form action="/cerrar-sesion" method="POST">
+         <button type="submit">Cerrar sesión</button>
+      </form>
+ 
+<body>
+   <div class="acerca-de">
+      <h2 class="title">Acerca De</h2>
+      <p>Bienvenida a nuestra página web de psicopedagogía, un espacio diseñado para facilitar la gestión y el seguimiento de la información relacionada con pacientes y tutores.</p>
+      <p>Nuestro objetivo es ofrecer una herramienta completa y segura que apoye el trabajo de profesionales en el campo de la psicopedagogía.</p>
+      
+      <h3>Funcionalidades</h3>
+      <ul>
+          <li><strong>Registro Seguro:</strong> Los usuarios pueden registrarse con un nombre de usuario y contraseña, garantizando la seguridad y privacidad de la información.</li>
+          <li><strong>Gestión de Archivos:</strong> Accede, visualiza y edita los archivos guardados de pacientes y tutores de manera eficiente.</li>
+          <li><strong>Clasificación de Sesiones:</strong> Organiza las sesiones según su tipo y horario, asegurando un seguimiento detallado de cada encuentro.</li>
+          <li><strong>Observaciones Personalizadas:</strong> Agrega notas y observaciones a cada sesión para un análisis más profundo y personalizado de cada caso.</li>
+          <li><strong>Tabla de Registro:</strong> Lleva un registro detallado de los datos importantes, permitiendo una fácil consulta y manejo de la información.</li>
+          <li><strong>Configuración de Perfil:</strong> Personaliza tu perfil para adaptarlo a tus necesidades y preferencias, manteniendo tus datos siempre actualizados.</li>
+      </ul>
+      
+      <p>Para más información o consultas, no dudes en contactarnos en el correo: <a href="mailto:info@psicopedagogiaweb.com">info@psicopedagogiaweb.com</a>.</p>
+      <p>Nuestro compromiso es ofrecer una plataforma fácil de usar que apoye el desarrollo y bienestar de tus pacientes, ayudándote a llevar un control preciso y efectivo de tu trabajo diario.</p>
+      <p>¡Gracias por confiar en nosotros! ☆</p>
+  </div>
+  <script src="../static/js/menu.js"></script>
+</body>
+</html>

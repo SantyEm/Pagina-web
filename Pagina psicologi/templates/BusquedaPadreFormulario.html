@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="../static/css/stiloMenu.css">
+    <link rel="stylesheet" href="../static/css/stilos_busqueda.css">
+</head>
+
+<body>
+    <header class="header" id="header">
+        <nav class="nav container">
+           <span class="puntito">.</span>
+           <a href="#" class="logo">Clínica de Psicopedagogía</a>
+           <div class="nav__menu" id="nav-menu">
+              <ul class="nav__list">
+                 <li class="nav__item">
+                    <a href="/volver_inicio" class="nav__link" >Inicio</a>
+                 </li>
+                 <li class="nav__item">
+                    <li class="nav__item">
+                        <a href="/padres" class="nav__link" >Padres</a>
+                     </li>
+                 </li>
+                 <li class="nav__item">
+                    <a href="/pacientes" class="nav__link" >Paciente</a>
+                 </li>
+                 <li class="nav__item">
+                    <a href="/Desarrollo" class="nav__link">Sesión</a>
+                 </li>
+              </ul>
+              <div class="nav__close" id="nav-close">
+                 <i class="ri-close-line"></i>
+              </div>
+           </div>
+           
+           <div class="nav__actions">
+              <div class="dropdown">
+                 <button class="dropdown__button" onclick="toggleDropdown('config-dropdown')">
+                     <i class="fas fa-cog"></i> Configuración
+                 </button>
+                 <div class="dropdown__content" id="config-dropdown">
+                    <a href="/backup">Seguridad y Backup</a>
+                     <a href="acerca-de">Acerca de</a>
+                 </div>
+             </div>
+             
+             <div class="dropdown">
+              <button class="dropdown__button" onclick="toggleDropdown('profile-dropdown')">
+                  <i class="fas fa-user"></i> Perfil
+              </button>
+              <div class="dropdown__content" id="profile-dropdown">
+                  <a href="opciones_usuario">Opciones de Usuario</a>
+                  <a href="/cerrar-sesion?confirm_logout=true">Cerrar sesión</a>
+              </div>
+          </div>
+          
+          </div>
+          
+          </div>
+        </nav>
+        
+     </header>
+
+     <!-- Formulario alternativo para cerrar sesión -->
+     <form action="/cerrar-sesion" method="POST">
+        <button type="submit">Cerrar sesión</button>
+     </form>
+
+<div class="blockTabla">
+    <div class="title">Resultado de la Búsqueda</div>
+    <form action="/padres">
+        <button type="submit">Actualizar lista</button>
+    </form>
+    <div class="title">Tabla De Registros de Padres</div>
+    <table class="table">
+        <!-- Encabezados de la tabla -->
+        <thead>
+            <tr>
+                <th style="display: none;">ID</th>
+                <th>Nombres</th>
+                <th>Apellido</th>
+                <th>Teléfono</th>
+                <th>Ocupación</th>
+                <th>Nivel de Educación</th>
+                <th>Edad</th>
+                <th>Fecha de nacimiento</th>
+                <th>Tipo de Relacion</th>
+                <th>Datos de Embarazo</th>
+                <th>Direcciones</th>
+                <th>Datos de Embarazo</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        
+        <tbody>
+            {% for resultado in resultados %}
+            <tr>
+                <td style="display: none;">{{ resultado.Id_padre }}</td>
+                <td>{{ resultado.Nombres }}</td>
+                <td>{{ resultado.Apellido }}</td>
+                <td>{{ resultado.Telefono }}</td>
+                <td>{{ resultado.Ocupacion }}</td>
+                <td>{{ resultado.nivel }}</td>
+                <td>{{ resultado.edad }}</td>
+                <td>{{ resultado.Fecha_nacimiento }}</td>
+                <td>
+                    {% if resultado.id_tipo_relacion == 1 %}
+                        Padre
+                    {% elif resultado.id_tipo_relacion == 2 %}
+                        Madre
+                    {% else %}
+                        Desconocido
+                    {% endif %}
+                </td>
+                <td>
+                    {% if resultado.id_tipo_relacion == 2 %}
+                    <form action="/padre/{{ resultado.Id_padre }}/datos-embarazo/" method="get" target="_blank">
+                        <button type="submit" onclick="window.open('/padre/{{ resultado.Id_padre }}/datos-embarazo/', 'Datos de Embarazo', 'width=1083,height=393');">Ver datos de embarazo</button>
+                    </form>
+                    {% endif %}
+                </td>
+                <td class="Direcciones" >   
+                    <form action="/padre/direcciones/{{ resultado.Id_padre }}" method="get" onsubmit="mostrarIdPadre(this); return false;">
+                        <button type="submit" onclick="window.open('/padre/direcciones/{{ resultado.Id_padre }}', 'Direcciones', 'width=400,height=200'); return false;">Ver direcciones</button>
+                    </form>
+                    <form action="/agregar-direccion/{{ resultado.Id_padre }}" method="get" target="_blank">
+                        <button type="submit" class="btn btn-primary">Agregar Dirección</button>
+                    </form> 
+                </td>
+                <td class="Embarazo" >   
+                    <form action="/padre/{{ resultado.Id_padre }}/datos-embarazo/" method="get" target="_blank">
+                        <button type="submit">Ver Embarazo</button>
+                    </form>
+                    <form action="/agregar_Datos de Embarazo/{{ resultado.Id_padre }}" method="get" target="_blank">
+                        <button type="submit" class="btn btn-primary">Agregar datos embarazo</button>
+                    </form>
+                </td>
+                <td class="acciones" >
+                    <!-- Acciones para cada padre -->
+                    <form action="/padre/editar/{{ resultado.Id_padre }}" method="get">
+                        <button type="submit" onclick="window.open('/padre/editar/{{ resultado.Id_padre }}', 'Editar', 'width=600,height=600'); return false;">Editar</button>
+                    </form>
+                    <form action="/eliminar_padre/{{ resultado.Id_padre }}" method="post">
+                        <button type="submit" name="eliminar" value="eliminar" onclick="return confirmarEliminacion()">Eliminar</button>
+                    </form>
+                    
+                    {% if mostrar_confirmacion %}
+                        <div>
+                            ¿Está seguro de eliminar este registro?
+                            <form action="" method="post">
+                                <input type="hidden" name="id_padre" value="{{ resultado.Id_padre }}">
+                                <button type="submit" name="confirmar" value="confirmar">Confirmar</button>
+                                <button type="submit" name="cancelar" value="cancelar">Cancelar</button>
+                            </form>
+                        </div>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

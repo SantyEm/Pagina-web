@@ -1,0 +1,234 @@
+
+
+ /* Estilos para los campos de entrada */
+ input[type=text], input[type=date], textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    font-size: 16px;
+}
+
+input[type=text]:focus, input[type=date]:focus, textarea:focus {
+    outline: none;
+    border-color: #4CAF50;
+}
+
+
+body{
+    background: url('../img/fon-config.jpg') no-repeat;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+/* Estilos para los botones */
+button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+/* bloques */
+
+
+.blockEntrada {
+    width: 300px;
+    height: 900px;
+    background-color: #f2f2f2;
+    border-radius: 10px;
+    text-align: center;
+    margin-right: 20px; 
+    display: inline-block; 
+    vertical-align: top; 
+    position: relative;
+    top: 80px; /* Ajusta el valor según sea necesario */
+}
+
+.blockTabla {
+    width: 1100px; 
+    height: 450px;
+    border-radius: 10px;
+    text-align: center;
+    margin-right: 20px; 
+    display: inline-block; 
+    vertical-align: top; 
+    overflow-y: auto; 
+    position: relative;
+    top: 80px; /* Ajusta el valor según sea necesario */
+}
+
+@media (max-width: 768px) {
+    .blockEntrada, .blockTabla {
+        position: static; /* Cambia a posición estática en pantallas pequeñas */
+        width: 100%; /* Ancho completo en pantallas pequeñas */
+        margin: 10px 0; /* Ajusta el margen */
+    }
+}
+
+.blockTabla .title {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    text-align: center; /* Alineación centrada del título */
+}
+
+.blockTabla .table {
+    width: 100%;
+    border-collapse: collapse; /* Colapsa los bordes de la tabla */
+    background-color: #fff; /* Color de fondo de la tabla */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra ligera alrededor de la tabla */
+    border-radius: 8px; /* Borde redondeado para la tabla */
+    
+}
+
+.blockTabla .table th,
+.blockTabla .table td {
+    padding: 10px; /* Ajusta el padding de las celdas según sea necesario */
+    border: 1px solid #9b9a9a; /* Añade bordes a las celdas */
+    text-align: center; /* Alinea el contenido al centro */
+    white-space: nowrap; /* Evita que el texto se envuelva */
+    vertical-align: middle; /* Alinea el contenido verticalmente */
+    height: 10px; /* Ajusta la altura deseada para las celdas */
+    line-height: 10px; /* Ajusta la altura de línea igual a la altura para centrar el texto verticalmente */
+}
+
+.blockTabla .table td.observaciones {
+    max-width: 300px; /* Ancho máximo para las celdas de observaciones */
+    overflow: hidden; /* Oculta el contenido que sobresale */
+    text-overflow: ellipsis; /* Agrega puntos suspensivos si el texto se desborda */
+    white-space: nowrap; /* Evita que el texto se envuelva */
+}
+
+.blockTabla .table th {
+    background-color: #f0f0f0; /* Color de fondo para las celdas de encabezado */
+}
+
+.blockTabla .table tbody tr:nth-child(even) {
+    background-color: #f9f9f9; /* Color de fondo para filas pares */
+}
+
+.blockTabla .table tbody tr:hover {
+    background-color: #e0e0e0; /* Color de fondo al pasar el mouse sobre una fila */
+}
+
+.blockTabla .table td {
+
+    padding: 8px; /* Ajusta el padding de las celdas según sea necesario */
+    border: 1px solid #ddd; /* Añade bordes a las celdas */
+    text-align: center; /* Alinea el contenido al centro */
+    white-space: normal; /* Permite que el texto se envuelva automáticamente */
+    max-width: 300px; /* Ancho máximo para las celdas de datos */
+    overflow: auto; /* Agrega scroll si es necesario */
+}
+
+.blockTabla .table .acciones {
+    white-space: nowrap; /* Evita saltos de línea */
+}
+
+.blockTabla .table .acciones form {
+    display: inline-block; /* Alinea los formularios en línea */
+    margin-right: 30px; /* Espacio entre formularios si es necesario */
+    
+}
+
+.blockTabla .table .acciones button {
+    display: inline-block; /* Alinea los botones en línea */
+    padding: 12px 12px; /* Ajusta el padding de los botones */
+    background-color: #007bff; /* Color de fondo del botón */
+    color: #fff; /* Color del texto del botón */
+    border: none; /* Elimina el borde del botón */
+    cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
+    border-radius: 4px; /* Borde redondeado para el botón */
+    transition: background-color 0.3s ease; /* Transición suave al cambiar el color de fondo */
+}
+
+.blockTabla .table .acciones button:hover {
+    background-color: #0056b3; /* Color de fondo del botón al pasar el mouse */
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  .select-wrapper {
+    display: inline-block;
+    position: relative;
+  }
+  
+  select {
+    width: 200px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    background-color: #f9f9f9;
+    font-size: 14px;
+    color: #333;
+    margin-bottom: 70px; /* Espacio vertical entre bloques */
+  }
+  
+  .select-wrapper::after {
+    content: '\25BC';
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    pointer-events: none;
+  }
+
+/* estilo busqueda */
+.contenedor-busqueda {
+    background-color: #fff; /* Fondo blanco */
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-top: 90px; /* Ajusta el valor según el height del header */
+    height: 60px; /* Ajusta el valor según tus necesidades */
+    
+
+  }
+  
+  .busqueda {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .busqueda button[type="submit"], .busqueda input[type="text"], .busqueda select {
+    vertical-align: middle;
+  }
+  
+  .busqueda button[type="submit"] {
+    margin-top: -70px;
+    margin-right: 10px;
+  }
+  
+  .busqueda input[type="text"] {
+    margin-right: 25px;
+    margin-top: -55px;
+    width: 800px;
+  }
+  
+  .busqueda select {
+    width: 150px;
+    margin-top: -15px;
+    color: #333;
+    background-color: #f9f9f9;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }

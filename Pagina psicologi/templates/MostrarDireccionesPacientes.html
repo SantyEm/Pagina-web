@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/static/css/stiloPacienteForm.css">
+  <title>Agregar Dirección</title>
+</head>
+<body>
+
+    <div class="blockEntrada">
+    <div class="title">Direcciones</div>
+    <form id="direcciones-form" action="/agregar-direccion/{{ paciente.Id_paciente }}" method="post">
+      <!-- Campos de entrada de direcciones -->
+      <label for="direccion">Dirección:</label>
+      <input type="text" id="direccion" name="direccion" required><br>
+      <label for="ciudad">Ciudad:</label>
+      <input type="text" id="ciudad" name="ciudad" required><br>
+      <label for="estado">Estado:</label>
+      <input type="text" id="estado" name="estado" required><br>
+      <label for="codigo_postal">Código Postal:</label>
+      <input type="text" id="codigo_postal" name="codigo_postal" required><br>
+  
+      <button type="submit">Agregar Dirección</button>
+  </form>
+  </div>
+
+  <!-- Tabla de direcciones existentes -->
+  <div class="blockTabla">
+    <div class="title">Tabla De Registros</div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Dirección</th>
+          <th>Ciudad</th>
+          <th>Estado</th>
+          <th>Código Postal</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for direccion in direcciones %}
+        <tr>
+          <td>{{ direccion.direccion }}</td>
+          <td>{{ direccion.ciudad }}</td>
+          <td>{{ direccion.estado }}</td>
+          <td>{{ direccion.codigo_postal }}</td>
+          <td>
+            <form action="/paciente/direcciones/editar/{{ paciente.Id_paciente }}/{{ direccion.id_direccion }}" method="get" target="_blank">
+              <button type="submit" class="btn btn-primary">Editar</button>
+            </form>
+            <form action="/paciente/direcciones/eliminar/{{ direccion.id_paciente }}/{{ direccion.id_direccion }}" method="post">
+              <button class="btn btn-danger" type="submit">Eliminar</button>
+          </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+</div>
+</body>
+</html>
