@@ -149,7 +149,7 @@ CREATE TABLE `t_04direccionpadre` (
   KEY `id_padre` (`id_padre`),
   KEY `id_estado_vivienda` (`id_estado_vivienda`),
   CONSTRAINT `t_04direccionpadre_ibfk_2` FOREIGN KEY (`id_estado_vivienda`) REFERENCES `t_12estadovivienda` (`id_estado`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8 COMMENT='Tabla almacena la información de las direcciones de los padres y madres, incluyendo la relación con el padre o madre correspondiente. Es similar a la tabla "t_02direccionpaciente", pero para los padres y madres en lugar de los pacientes.';
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8 COMMENT='Tabla almacena la información de las direcciones de los padres y madres, incluyendo la relación con el padre o madre correspondiente. Es similar a la tabla "t_02direccionpaciente", pero para los padres y madres en lugar de los pacientes.';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -194,7 +194,7 @@ DROP TABLE IF EXISTS `t_06datosembarazo`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `t_06datosembarazo` (
-  `id_embarazo` int(11) NOT NULL,
+  `id_embarazo` int(11) NOT NULL AUTO_INCREMENT,
   `id_paciente` int(11) DEFAULT NULL,
   `id_tipo_parto` int(11) DEFAULT NULL,
   `inicio_del_embarazo` date DEFAULT NULL,
@@ -206,7 +206,7 @@ CREATE TABLE `t_06datosembarazo` (
   KEY `id_tipo_parto` (`id_tipo_parto`),
   CONSTRAINT `t_06datosembarazo_ibfk_1` FOREIGN KEY (`id_paciente`) REFERENCES `t_01paciente` (`Id_paciente`),
   CONSTRAINT `t_06datosembarazo_ibfk_2` FOREIGN KEY (`id_tipo_parto`) REFERENCES `t_08tipoparto` (`id_tipo_parto`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Tabla almacena la información relacionada con el embarazo de las madres, incluyendo la fecha de inicio y fin del embarazo, el tipo de parto, la semana de gestación y el peso del bebé al nacer. Como mencionas, esta tabla solo sería relevante para las madres.';
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COMMENT='Tabla almacena la información relacionada con el embarazo de las madres, incluyendo la fecha de inicio y fin del embarazo, el tipo de parto, la semana de gestación y el peso del bebé al nacer. Como mencionas, esta tabla solo sería relevante para las madres.';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -215,7 +215,7 @@ CREATE TABLE `t_06datosembarazo` (
 
 LOCK TABLES `t_06datosembarazo` WRITE;
 /*!40000 ALTER TABLE `t_06datosembarazo` DISABLE KEYS */;
-INSERT INTO `t_06datosembarazo` VALUES (1,1,1,'2020-01-01','2020-08-01',30,3.50),(2,2,2,'2020-02-01','2020-09-01',32,3.80),(3,3,1,'2020-03-01','2020-10-01',35,4.00),(4,4,2,'2020-04-01','2020-11-01',30,3.20),(5,5,1,'2020-05-01','2020-12-01',33,3.60),(6,6,2,'2020-06-01','2021-01-01',31,3.40),(7,7,1,'2020-07-01','2021-02-01',34,3.90),(8,8,2,'2020-08-01','2021-03-01',29,3.10),(9,9,1,'2020-09-01','2021-04-01',36,4.20),(10,10,2,'2020-10-01','2021-05-01',30,3.50),(11,1,1,'2022-01-01','2022-10-01',40,3.50);
+INSERT INTO `t_06datosembarazo` VALUES (1,1,1,'2020-01-01','2020-08-01',30,3.50),(2,2,2,'2020-02-01','2020-09-01',32,3.80),(3,3,1,'2020-03-01','2020-10-01',35,4.00),(4,4,2,'2020-04-01','2020-11-01',30,3.20),(5,5,1,'2020-05-01','2020-12-01',33,3.60),(6,6,2,'2020-06-01','2021-01-01',31,3.40),(7,7,1,'2020-07-01','2021-02-01',34,3.90),(8,8,2,'2020-08-01','2021-03-01',29,3.10),(9,9,1,'2020-09-01','2021-04-01',36,4.20),(10,10,2,'2020-10-01','2021-05-01',30,3.50),(11,1,1,'2022-01-01','2022-10-01',40,3.50),(12,NULL,1,'2024-05-03','2024-11-11',9,4.00);
 /*!40000 ALTER TABLE `t_06datosembarazo` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -257,7 +257,7 @@ CREATE TABLE `t_09enfermedadesembarazo` (
   PRIMARY KEY (`id`),
   KEY `id_embarazo` (`id_embarazo`),
   CONSTRAINT `t_09enfermedadesembarazo_ibfk_1` FOREIGN KEY (`id_embarazo`) REFERENCES `t_06datosembarazo` (`id_embarazo`)
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8 COMMENT='Tabla almacena la información de las enfermedades que ocurrieron durante el embarazo de cada madre. La relación con la tabla "t_06datosembarazo" permite vincular cada enfermedad con el embarazo correspondiente.';
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8 COMMENT='Tabla almacena la información de las enfermedades que ocurrieron durante el embarazo de cada madre. La relación con la tabla "t_06datosembarazo" permite vincular cada enfermedad con el embarazo correspondiente.';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -266,7 +266,7 @@ CREATE TABLE `t_09enfermedadesembarazo` (
 
 LOCK TABLES `t_09enfermedadesembarazo` WRITE;
 /*!40000 ALTER TABLE `t_09enfermedadesembarazo` DISABLE KEYS */;
-INSERT INTO `t_09enfermedadesembarazo` VALUES (1,'Hipertensión',1),(2,'Gestación diabetes',2),(3,'Anemia',3),(4,'Infección urinaria',4),(5,'Hipertensión',5),(6,'Preeclampsia',6),(7,'Gestación diabetes',7),(8,'Anemia',8),(9,'Infección respiratoria',9),(10,'Hipertensión',10),(1,'Enfermedad X',11);
+INSERT INTO `t_09enfermedadesembarazo` VALUES (1,'Sin enfermedad',1),(2,'Gestación diabetes',2),(3,'Anemia',3),(4,'Infección urinaria',4),(5,'Hipertensión',5),(6,'Preeclampsia',6),(7,'Gestación diabetes',7),(8,'Anemia',8),(9,'Infección respiratoria',9),(10,'Hipertensión',10),(2,'Hipertensión',11),(12,'Ninguna',12);
 /*!40000 ALTER TABLE `t_09enfermedadesembarazo` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -397,7 +397,7 @@ DROP TABLE IF EXISTS `t_13datosesion`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `t_13datosesion` (
-  `id_sesiones` int(11) NOT NULL,
+  `id_sesiones` int(11) NOT NULL AUTO_INCREMENT,
   `id_paciente` int(11) DEFAULT NULL,
   `fecha_sesion` date DEFAULT NULL,
   `hora_sesion` time DEFAULT NULL,
@@ -415,7 +415,7 @@ CREATE TABLE `t_13datosesion` (
   CONSTRAINT `t_13datosesion_ibfk_2` FOREIGN KEY (`id_tipo_sesion`) REFERENCES `t_14tipossesion` (`id_tipo_sesion`),
   CONSTRAINT `t_13datosesion_ibfk_3` FOREIGN KEY (`id_desarrollo_psicomotor`) REFERENCES `t_16desarrollopsicomotor` (`id_desarrollo_psicomotor`),
   CONSTRAINT `t_13datosesion_ibfk_4` FOREIGN KEY (`id_desarrollo_lenguaje`) REFERENCES `t_15desarrollolenguaje` (`id_desarrollo_lenguaje`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Tabla almacena información detallada sobre cada sesión de terapia o evaluación del paciente, incluyendo la fecha, hora, duración, tipo de sesión, desarrollo psicomotor y del lenguaje, y observaciones adicionales. ';
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COMMENT='Tabla almacena información detallada sobre cada sesión de terapia o evaluación del paciente, incluyendo la fecha, hora, duración, tipo de sesión, desarrollo psicomotor y del lenguaje, y observaciones adicionales. ';
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -424,7 +424,7 @@ CREATE TABLE `t_13datosesion` (
 
 LOCK TABLES `t_13datosesion` WRITE;
 /*!40000 ALTER TABLE `t_13datosesion` DISABLE KEYS */;
-INSERT INTO `t_13datosesion` VALUES (1,1,'2023-08-20','10:00:00',60,1,1,1,'Avance en sostén cefálico.'),(2,2,'2023-08-21','15:30:00',45,2,2,3,'Trabajó en habilidades de sentarse y pararse.'),(3,3,'2023-08-22','11:00:00',30,3,4,2,'Enfoque en el gateo y coordinación.'),(4,4,'2023-08-23','09:15:00',50,1,3,4,'Evaluación de la marcha y equilibrio.'),(5,5,'2023-08-24','14:45:00',40,2,5,5,'Trabajo en desarrollo del lenguaje oracional.'),(6,6,'2023-08-25','16:30:00',55,3,1,1,'Observación de avances en sostén cefálico.'),(7,7,'2023-08-26','12:20:00',35,1,2,3,'Continuación en desarrollo de sentarse y pararse.'),(8,8,'2023-08-27','13:45:00',70,2,3,2,'Enfoque en el gateo y coordinación motora.'),(9,9,'2023-08-28','17:00:00',45,3,4,4,'Evaluación del progreso en la marcha y equilibrio.'),(10,10,'2023-08-29','09:30:00',50,1,5,5,'Trabajo en desarrollo del lenguaje oracional.');
+INSERT INTO `t_13datosesion` VALUES (1,1,'2023-08-20','10:00:00',60,1,1,1,'Avance en sostén cefálico.'),(2,2,'2023-08-21','15:30:00',45,2,2,3,'Trabajó en habilidades de sentarse y pararse.'),(3,3,'2023-08-22','11:00:00',30,3,4,2,'Enfoque en el gateo y coordinación.'),(4,4,'2023-08-23','09:15:00',50,1,3,4,'Evaluación de la marcha y equilibrio.'),(5,5,'2023-08-24','14:45:00',40,2,5,5,'Trabajo en desarrollo del lenguaje oracional.'),(6,6,'2023-08-25','16:30:00',55,3,1,1,'Observación de avances en sostén cefálico.'),(7,7,'2023-08-26','12:20:00',35,1,2,3,'Continuación en desarrollo de sentarse y pararse.'),(8,8,'2023-08-27','13:45:00',70,2,3,2,'Enfoque en el gateo y coordinación motora.'),(9,9,'2023-08-28','17:00:00',45,3,4,4,'Evaluación del progreso en la marcha y equilibrio.'),(10,10,'2023-08-29','09:30:00',50,1,5,5,'Trabajo en desarrollo del lenguaje oracional.'),(11,18,'2024-02-09','17:39:00',60,1,0,0,'ns'),(12,17,'2024-11-09','18:10:00',50,3,0,0,'sn'),(14,3,'2024-11-09','18:15:00',55,3,0,1,'ns'),(15,1,'2024-11-09','18:23:00',55,7,0,0,'nada');
 /*!40000 ALTER TABLE `t_13datosesion` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -472,7 +472,7 @@ CREATE TABLE `t_15desarrollolenguaje` (
 
 LOCK TABLES `t_15desarrollolenguaje` WRITE;
 /*!40000 ALTER TABLE `t_15desarrollolenguaje` DISABLE KEYS */;
-INSERT INTO `t_15desarrollolenguaje` VALUES (1,'Gorjeo'),(2,'Balbuceo'),(3,'Primeras palabras'),(4,'Frases'),(5,'Lenguaje oracional'),(6,'Se le entendió'),(7,'Uso de mímica'),(8,'Presentó tartamudez');
+INSERT INTO `t_15desarrollolenguaje` VALUES (0,'N/A'),(1,'Gorjeo'),(2,'Balbuceo'),(3,'Primeras palabras'),(4,'Frases'),(5,'Lenguaje oracional'),(6,'Se le entendió'),(7,'Uso de mímica'),(8,'Presentó tartamudez');
 /*!40000 ALTER TABLE `t_15desarrollolenguaje` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -496,7 +496,7 @@ CREATE TABLE `t_16desarrollopsicomotor` (
 
 LOCK TABLES `t_16desarrollopsicomotor` WRITE;
 /*!40000 ALTER TABLE `t_16desarrollopsicomotor` DISABLE KEYS */;
-INSERT INTO `t_16desarrollopsicomotor` VALUES (1,'Sostén cefálico'),(2,'Sentarse'),(3,'Pararse'),(4,'Gateo'),(5,'Marcha');
+INSERT INTO `t_16desarrollopsicomotor` VALUES (0,'N/A'),(1,'Sostén cefálico'),(2,'Sentarse'),(3,'Pararse'),(4,'Gateo'),(5,'Marcha');
 /*!40000 ALTER TABLE `t_16desarrollopsicomotor` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -540,4 +540,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-11-07 13:31:29
+-- Dump completed on 2024-11-09 21:35:48

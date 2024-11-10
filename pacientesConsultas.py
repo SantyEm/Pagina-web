@@ -497,6 +497,147 @@ def editar_paciente(id_paciente):
     print(paciente)
     return render_template('editar_paciente.html', paciente=paciente)
 
+@app.route('/paciente/<int:id_paciente>/datos_gestacion', methods=['GET'])
+def mostrar_datos_gestacion(id_paciente):
+    datos_gestacion = obtener_datos_gestacion(id_paciente)
+    return render_template('DatosGestacion.html', datos_gestacion=datos_gestacion)
+
+
+def obtener_datos_gestacion(id_paciente):
+    try:
+        connection = get_connection()
+        cursor = connection.cursor()
+        cursor.execute("""
+            SELECT 
+                e.id_embarazo, 
+                e.id_paciente, 
+                tp.tipo AS tipo_parto, 
+                e.inicio_del_embarazo, 
+                e.fecha_fin_del_embarazo, 
+                e.semana_gestacion, 
+                e.peso_al_nacer,
+                en.enfermedad
+            FROM 
+                t_06datosembarazo e
+            LEFT JOIN 
+                t_08tipoparto tp ON e.id_tipo_parto = tp.id_tipo_parto
+            LEFT JOIN 
+                t_09enfermedadesembarazo en ON e.id_embarazo = en.id_embarazo
+            WHERE 
+                e.id_paciente = %s
+        """, (id_paciente,))
+        datos_gestacion = cursor.fetchall()
+        return [dict(zip([column[0] for column in cursor.description], row)) for row in datos_gestacion]
+    except Exception as e:
+        print(f"Error al obtener datos de gestación: {e}")
+        return []
+
+@app.route('/registrar-embarazo', methods=['POST'])
+def agregar_embarazo():
+    try:
+        datos_embarazo = {
+            'inicio_del_embarazo': request.form['inicio_del_embarazo'],
+            'fecha_fin_del_embarazo': request.form['fecha_fin_del_embarazo'],
+            'semana_gestacion': request.form['semana_gestacion'],
+            'peso_al_nacer': request.form['peso_al_nacer'],
+            'id_tipo_parto': request.form['id_tipo_parto'],
+            'enfermedad': request.form['enfermedad']
+        }
+        
+        if not validar_datos(datos_embarazo):
+            print("Datos inválidos:", datos_embarazo)
+            return "Datos inválidos: " + str(datos_embarazo), 400
+        
+        connection = get_connection()
+        cursor = connection.cursor()
+        
+        cursor.execute("""
+            INSERT INTO t_06datosembarazo 
+            (inicio_del_embarazo, fecha_fin_del_embarazo, semana_gestacion, peso_al_nacer, id_tipo_parto)
+            VALUES (%s, %s, %s, %s, %s)
+        """, (
+            datos_embarazo['inicio_del_embarazo'],
+            datos_embarazo['fecha_fin_del_embarazo'],
+            datos_embarazo['semana_gestacion'],
+            datos_embarazo['peso_al_nacer'],
+            datos_embarazo['id_tipo_parto']
+        ))
+        
+        id_embarazo = cursor.lastrowid
+        
+        enfermedad = datos_embarazo['enfermedad'] if datos_embarazo['enfermedad'].strip() != "" else "Ninguna"
+        cursor.execute("""
+            INSERT INTO t_09enfermedadesembarazo 
+            (id_embarazo, enfermedad)
+            VALUES (%s, %s)
+        """, (id_embarazo, enfermedad))
+        
+        connection.commit()
+        connection.close()
+        
+        return "Embarazo registrado correctamente"
+    except Exception as e:
+        print(f"Error al registrar embarazo: {e}")
+        return "Error al registrar embarazo", 500
+
+
+def validar_datos(datos):
+    if not validar_fecha(datos['inicio_del_embarazo']) or not validar_fecha(datos['fecha_fin_del_embarazo']):
+        return False
+    
+    if not datos['semana_gestacion'].isdigit() or not datos['peso_al_nacer'].replace('.', '', 1).isdigit():
+        return False
+    
+    if not datos['id_tipo_parto'].isdigit():
+        return False
+    
+    # Permitir que el campo "enfermedad" esté vacío
+    if len(datos['enfermedad']) < 3 and datos['enfermedad'].strip() != "":
+        return False
+    
+    return True
+
+
+def validar_fecha(fecha):
+    try:
+        datetime.strptime(fecha, '%Y-%m-%d')
+        return True
+    except ValueError:
+        return False
+
+    
+ # Este codigo de editar del embarazo no funciona no tiene formulario
+
+@app.route('/embarazo/editar/<int:embarazo_id>', methods=['GET', 'POST'])
+def editar_embarazo(embarazo_id):
+    datos_embarazo = obtener_datos_gestacion(embarazo_id)
+    
+    if request.method == 'POST':
+        print(request.form)  # Agregar print aquí
+        # Procesar los datos del formulario
+        inicio_del_embarazo = request.form['inicio_del_embarazo']
+        fecha_fin_del_embarazo = request.form['fecha_fin_del_embarazo']
+        tipo_parto = request.form['tipo_parto']
+        semana_gestacion = request.form['semana_gestacion']
+        peso_al_nacer = request.form['peso_al_nacer']
+        enfermedad = request.form['enfermedad']
+        
+        connection = get_connection()
+        cursor = connection.cursor()
+
+        query = "UPDATE t_embarazos SET inicio_del_embarazo = %s, fecha_fin_del_embarazo = %s, tipo_parto = %s, semana_gestacion = %s, peso_al_nacer = %s, enfermedad = %s WHERE id_embarazo = %s"
+        cursor.execute(query, (inicio_del_embarazo, fecha_fin_del_embarazo, tipo_parto, semana_gestacion, peso_al_nacer, enfermedad, embarazo_id))
+        connection.commit()
+        
+        # Obtener los datos actualizados
+        datos_embarazo = obtener_datos_gestacion(embarazo_id)
+        
+        return render_template('EditarEmbarazo.html', embarazo=datos_embarazo[0])
+    
+    else:
+        # Renderizar el formulario para edición
+        return render_template('EditarEmbarazo.html', embarazo=datos_embarazo[0])
+
 @app.route('/eliminar_paciente/<int:id_paciente>', methods=['POST'])
 def eliminar_paciente(id_paciente):
     connection = get_connection()

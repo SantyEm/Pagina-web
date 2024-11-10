@@ -1,4 +1,5 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect, url_for
+
 from conexion import get_connection
 
 app = Flask(__name__)
@@ -14,7 +15,7 @@ def obtener_sesiones():
     cursor = connection.cursor()
     
     query = """
-            SELECT 
+        SELECT 
             s.id_sesiones,
             s.id_paciente, 
             p.nombre,
@@ -36,6 +37,10 @@ def obtener_sesiones():
             t_16desarrollopsicomotor dps ON s.id_desarrollo_psicomotor = dps.id_desarrollo_psicomotor
         INNER JOIN 
             t_15desarrollolenguaje dl ON s.id_desarrollo_lenguaje = dl.id_desarrollo_lenguaje
+        WHERE 
+            s.id_sesiones = (SELECT MAX(id_sesiones) 
+                            FROM t_13datosesion 
+                            WHERE id_paciente = s.id_paciente)
     """
     
     cursor.execute(query)
@@ -45,6 +50,62 @@ def obtener_sesiones():
     cursor.close()
     connection.close()
     return sesiones
+
+@app.route('/agregar-sesion', methods=['POST'])
+def agregar_sesiones():
+    print("Llegó a la ruta /agregar-sesion")
+    print(request.form)
+    
+    id_paciente = request.form['id_paciente']
+    fecha_sesion = request.form['fecha_sesion']
+    hora_sesion = request.form['hora_sesion']
+    duracion = request.form['duracion']
+    id_tipo_sesion = request.form['id_tipo_sesion']
+    id_desarrollo_psicomotor = request.form['id_desarrollo_psicomotor']
+    id_desarrollo_lenguaje = request.form['id_desarrollo_lenguaje']
+    observacion = request.form['observacion']
+    
+    connection = get_connection()
+    print("Conexión a la base de datos establecida")
+    cursor = connection.cursor()
+    
+    query = """
+        INSERT INTO t_13datosesion (
+            id_paciente,
+            fecha_sesion,
+            hora_sesion,
+            duracion,
+            id_tipo_sesion,
+            id_desarrollo_psicomotor,
+            id_desarrollo_lenguaje,
+            observacion
+        ) VALUES (
+            %s,
+            %s,
+            %s,
+            %s,
+            %s,
+            %s,
+            %s,
+            %s
+        )
+    """
+    cursor.execute(query, (
+        id_paciente,
+        fecha_sesion,
+        hora_sesion,
+        duracion,
+        id_tipo_sesion,
+        id_desarrollo_psicomotor,
+        id_desarrollo_lenguaje,
+        observacion
+    ))
+    
+    connection.commit()
+    cursor.close()
+    connection.close()
+    
+    return redirect(url_for('mostrar_desarrollo'))
 
 @app.route('/historial/<int:id_paciente>', methods=['GET'])
 def mostrar_historial(id_paciente):
@@ -57,7 +118,7 @@ def obtener_sesiones_historial(id_paciente):
     cursor = connection.cursor()
     
     query = """
-        SELECT 
+                SELECT 
                 s.id_sesiones,
                 p.nombre,
                 p.apellido,
@@ -79,7 +140,7 @@ def obtener_sesiones_historial(id_paciente):
             INNER JOIN 
                 t_15desarrollolenguaje dl ON s.id_desarrollo_lenguaje = dl.id_desarrollo_lenguaje
             WHERE 
-                p.nombre LIKE %s
+                s.id_paciente = %s
             ORDER BY 
                 s.fecha_sesion DESC
     """
@@ -105,6 +166,109 @@ def obtener_pacientes():
     cursor.close()
     connection.close()
     return pacientes
+
+# editar
+@app.route('/sesion/editar/<int:id_sesion>', methods=['GET'])
+def obtener_sesion(id_sesion):
+    connection = get_connection()
+    cursor = connection.cursor()
+    query = """
+        SELECT 
+            s.id_sesiones,
+            s.id_paciente, 
+            p.nombre,
+            p.apellido,
+            s.fecha_sesion,
+            s.hora_sesion,
+            s.duracion,
+            ts.nombre_tipo,
+            dps.descripcion AS descripcion_psicomotor,
+            dl.descripcion AS descripcion_lenguaje,
+            s.observacion
+        FROM 
+            t_13datosesion s
+        INNER JOIN 
+            t_01paciente p ON s.id_paciente = p.id_paciente
+        INNER JOIN 
+            t_14tipossesion ts ON s.id_tipo_sesion = ts.id_tipo_sesion
+        INNER JOIN 
+            t_16desarrollopsicomotor dps ON s.id_desarrollo_psicomotor = dps.id_desarrollo_psicomotor
+        INNER JOIN 
+            t_15desarrollolenguaje dl ON s.id_desarrollo_lenguaje = dl.id_desarrollo_lenguaje
+        WHERE 
+            s.id_sesiones = %s
+    """
+    cursor.execute(query, (id_sesion,))
+    sesion = cursor.fetchone()
+    sesion = dict(zip([column[0] for column in cursor.description], sesion))
+    cursor.close()
+    connection.close()
+    return render_template('editar_sesion.html', sesion=sesion)
+
+@app.route('/sesion/actualizar/<int:id_sesion>', methods=['POST'])
+def actualizar_sesion(id_sesion):
+    print(request.form)
+    # Obtener los datos del formulario
+    fecha_sesion = request.form['fecha_sesion']
+    hora_sesion = request.form['hora_sesion']
+    duracion = request.form['duracion']
+    id_tipo_sesion = request.form['id_tipo_sesion']
+    id_desarrollo_psicomotor = request.form['id_desarrollo_psicomotor']
+    id_desarrollo_lenguaje = request.form['id_desarrollo_lenguaje']
+    observacion = request.form['observacion']
+
+    # Actualizar los datos en la base de datos
+    connection = get_connection()
+    cursor = connection.cursor()
+    query = """
+        UPDATE t_13datosesion 
+        SET 
+            fecha_sesion = %s, 
+            hora_sesion = %s, 
+            duracion = %s,
+            id_tipo_sesion = %s,
+            id_desarrollo_psicomotor = %s,
+            id_desarrollo_lenguaje = %s,
+            observacion = %s
+        WHERE 
+            id_sesiones = %s
+    """
+    cursor.execute(query, (
+        fecha_sesion, 
+        hora_sesion, 
+        duracion, 
+        id_tipo_sesion, 
+        id_desarrollo_psicomotor, 
+        id_desarrollo_lenguaje, 
+        observacion, 
+        id_sesion
+    ))
+    connection.commit()
+    cursor.close()
+    connection.close()
+
+    # Redireccionar a la página de historial
+    return render_template('HistorialDesarrollo.html')
+
+@app.route('/sesion/eliminar/<int:id_sesion>', methods=['POST'])
+def eliminar_sesion(id_sesion):
+    # Conexión a la base de datos
+    connection = get_connection()
+    cursor = connection.cursor()
+    
+    # Query para eliminar la sesión
+    query = "DELETE FROM t_13datosesion WHERE id_sesiones = %s"
+    cursor.execute(query, (id_sesion,))
+    
+    # Commit y cierre de la conexión
+    connection.commit()
+    cursor.close()
+    connection.close()
+    
+    # Redirección a la página de historial
+    return render_template('HistorialDesarrollo.html')
+
+# falta pulir cosas en editar
 
 @app.route('/busqueda_sesiones', methods=['POST'])
 def buscar_sesiones():
