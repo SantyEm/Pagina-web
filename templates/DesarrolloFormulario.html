@@ -20,7 +20,7 @@
                  </li>
                  <li class="nav__item">
                     <li class="nav__item">
-                        <a href="/padres" class="nav__link" >Padres</a>
+                        <a href="/padres" class="nav__link" >Tutor</a>
                      </li>
                  </li>
                  <li class="nav__item">
@@ -120,6 +120,7 @@
           <label for="id_desarrollo_psicomotor">Desarrollo Psicomotor:</label>
           <select id="id_desarrollo_psicomotor" name="id_desarrollo_psicomotor" required>
               <!-- Opciones para seleccionar desarrollo psicomotor -->
+              <option value="0">N/A</option>
               <option value="1">Sostén cefálico</option>
               <option value="2">Sentarse</option>
               <option value="3">Pararse</option>
@@ -130,6 +131,7 @@
           <label for="id_desarrollo_lenguaje">Desarrollo Lenguaje:</label>
           <select id="id_desarrollo_lenguaje" name="id_desarrollo_lenguaje" required>
               <!-- Opciones para seleccionar desarrollo lenguaje -->
+              <option value="0">N/A</option>
               <option value="1">Gorjeo</option>
               <option value="2">Balbuceo</option>
               <option value="3">Primeras palabras</option>
@@ -163,7 +165,7 @@
                     <th>Desarrollo Psicomotor</th>
                     <th>Desarrollo Lenguaje</th>
                     <th>Observación</th>
-                    <th>Acciones</th>
+                    <th>Historial</th>
                 </tr>
             </thead>
             <tbody>
@@ -179,28 +181,12 @@
                     <td>{{ sesion.descripcion_psicomotor }}</td>
                     <td>{{ sesion.descripcion_lenguaje }}</td>
                     <td>{{ sesion.observacion }}</td>
-                    <td class="acciones">
-                        <!-- Acciones para cada sesión -->
-                        <form action="/sesion/editar/{{ sesion.id_sesiones }}" method="get">
-                            <button type="submit" onclick="window.open('/sesion/editar/{{ sesion.id_sesiones }}', 'Editar', 'width=600,height=600'); return false;">Editar</button>
-                        </form>
-                        <form action="/sesion/eliminar/{{ sesion.id_sesiones }}" method="post">
-                            <button type="submit" name="eliminar" value="eliminar" onclick="return confirmarEliminacion()">Eliminar</button>
-                        </form>
+                    <td class="historial">
                         <form action="/historial/{{ sesion.id_paciente }}" method="get" target="_blank">
                             <button type="submit">Ver Historial</button>
                         </form>
-                        {% if mostrar_confirmacion %}
-                            <div>
-                                ¿Está seguro de eliminar este registro?
-                                <form action="" method="post">
-                                    <input type="hidden" name="id_sesion" value="{{ sesion.id_sesiones }}">
-                                    <button type="submit" name="confirmar" value="confirmar">Confirmar</button>
-                                    <button type="submit" name="cancelar" value="cancelar">Cancelar</button>
-                                </form>
-                            </div>
-                        {% endif %}
                     </td>
+                    
                 </tr>
                 {% endfor %}
             </tbody>

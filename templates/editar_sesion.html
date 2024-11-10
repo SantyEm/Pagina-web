@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/remixicon.css" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/styleFormEditar.css">
+    <title>Edición de Dirección del Paciente</title>
+</head>
+<body>
+    <div class="container">
+        <div class="title">Edición de Datos de la Sesión</div>
+        <form action="/sesion/actualizar/{{ sesion.id_sesiones }}" method="post">
+
+        <label>Paciente: {{ sesion['nombre'] }} ({{ sesion['apellido'] }})</label>
+                
+        <label for="fecha_sesion">Fecha de Sesión:</label>
+        <input type="date" id="fecha_sesion" name="fecha_sesion" value="{{ sesion.fecha_sesion }}" required><br>
+        
+        <label for="hora_sesion">Hora de Sesión:</label>
+        <input type="time" id="hora_sesion" name="hora_sesion" value="{{ sesion.hora_sesion }}" required><br>
+        
+        <label for="duracion">Duración (minutos):</label>
+        <input type="number" id="duracion" name="duracion" value="{{ sesion.duracion }}" required><br>
+        
+        <label for="id_tipo_sesion">Tipo de Sesión:</label>
+        <select id="id_tipo_sesion" name="id_tipo_sesion" required>
+            <option value="1" {% if sesion.id_tipo_sesion == 1 %}selected{% endif %}>Evaluación Inicial</option>
+            <option value="2" {% if sesion.id_tipo_sesion == 2 %}selected{% endif %}>Estimulación Cognitiva</option>
+            <option value="3" {% if sesion.id_tipo_sesion == 3 %}selected{% endif %}>Apoyo Escolar</option>
+            <option value="4" {% if sesion.id_tipo_sesion == 4 %}selected{% endif %}>Desarrollo Emocional</option>
+            <option value="5" {% if sesion.id_tipo_sesion == 5 %}selected{% endif %}>Orientación Vocacional</option>
+            <option value="6" {% if sesion.id_tipo_sesion == 6 %}selected{% endif %}>Estrategias de Aprendizaje</option>
+            <option value="7" {% if sesion.id_tipo_sesion == 7 %}selected{% endif %}>Reforzamiento Positivo</option>
+            <option value="8" {% if sesion.id_tipo_sesion == 8 %}selected{% endif %}>Habilidades Sociales</option>
+            <option value="9" {% if sesion.id_tipo_sesion == 9 %}selected{% endif %}>Resolución de Conflictos</option>
+            <option value="10" {% if sesion.id_tipo_sesion == 10 %}selected{% endif %}>Terapia Lúdica</option>
+        </select>
+        
+        <label for="id_desarrollo_psicomotor">Desarrollo Psicomotor:</label>
+        <select id="id_desarrollo_psicomotor" name="id_desarrollo_psicomotor" required>
+            <option value="0" {% if sesion.id_desarrollo_psicomotor == 0 %}selected{% endif %}>N/A</option>
+            <option value="1" {% if sesion.id_desarrollo_psicomotor == 1 %}selected{% endif %}>Sostén cefálico</option>
+            <option value="2" {% if sesion.id_desarrollo_psicomotor == 2 %}selected{% endif %}>Sentarse</option>
+            <option value="3" {% if sesion.id_desarrollo_psicomotor == 3 %}selected{% endif %}>Pararse</option>
+            <option value="4" {% if sesion.id_desarrollo_psicomotor == 4 %}selected{% endif %}>Gateo</option>
+            <option value="5" {% if sesion.id_desarrollo_psicomotor == 5 %}selected{% endif %}>Marcha</option>
+        </select>
+
+        <label for="id_desarrollo_lenguaje">Desarrollo Lenguaje:</label>
+        <select id="id_desarrollo_lenguaje" name="id_desarrollo_lenguaje" required>
+            <option value="0" {% if sesion.id_desarrollo_lenguaje == 0 %}selected{% endif %}>N/A</option>
+            <option value="1" {% if sesion.id_desarrollo_lenguaje == 1 %}selected{% endif %}>Gorjeo</option>
+            <option value="2" {% if sesion.id_desarrollo_lenguaje == 2 %}selected{% endif %}>Balbuceo</option>
+            <option value="3" {% if sesion.id_desarrollo_lenguaje == 3 %}selected{% endif %}>Primeras palabras</option>
+            <option value="4" {% if sesion.id_desarrollo_lenguaje == 4 %}selected{% endif %}>Frases</option>
+            <option value="5" {% if sesion.id_desarrollo_lenguaje == 5 %}selected{% endif %}>Lenguaje oracional</option>
+            <option value="6" {% if sesion.id_desarrollo_lenguaje == 6 %}selected{% endif %}>Se le entendió</option>
+            <option value="7" {% if sesion.id_desarrollo_lenguaje == 7 %}selected{% endif %}>Uso de mímica</option>
+            <option value="8" {% if sesion.id_desarrollo_lenguaje == 8 %}selected{% endif %}>Presentó tartamudez</option>
+        </select>
+        
+        <label for="observacion">Observación:</label>
+        <textarea id="observacion" name="observacion" required>{{ sesion.observacion }}</textarea><br>
+            <!-- Campos del formulario -->
+            <button type="submit">Guardar Cambios</button>
+        </form>
+    </div>
+</body>
+</html>
