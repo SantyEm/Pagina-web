@@ -6,17 +6,11 @@
       "use": "@vercel/python"
     }
   ],
-  "routes": [
-    {
-      "src": "/",
-      "dest": "HomeProcesos.py"
-    },
-    {
-      "src": "/static/(.*)",
-      "dest": "static/$1"
-    }
-  ],
   "rewrites": [
+    {
+      "source": "/",
+      "destination": "HomeProcesos.py"
+    },
     {
       "source": "/static/(.*)",
       "destination": "/static/$1"
