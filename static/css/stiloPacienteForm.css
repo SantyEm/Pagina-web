@@ -1,6 +1,7 @@
 
 
  /* Estilos para los campos de entrada */
+
  input[type=text], input[type=date], textarea {
     width: 100%;
     padding: 10px;

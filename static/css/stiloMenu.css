@@ -1,6 +1,20 @@
 /*=============== GOOGLE FONTS ===============*/
 @import url("https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600&display=swap");
 
+.container {
+  max-width: 1120px;
+  margin-inline: 0rem;
+}
+
+.main {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  background-position: center;
+}
+
+
 /*=============== VARIABLES CSS ===============*/
 :root {
   --header-height: 3.5rem;

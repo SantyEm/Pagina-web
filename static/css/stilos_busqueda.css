@@ -114,7 +114,7 @@ body{
     border: 1px solid #ccc;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    margin-top: 150px; 
+    margin-top: 90px; 
     height: auto; /* Ajusta el height para que se adapte al contenido */
 }
 
@@ -161,4 +161,9 @@ button {
 
 button:hover {
     background-color: #45a049;
+}
+
+.acciones-contenedor {
+    text-align: right;
+    margin-bottom: 10px;
 }
