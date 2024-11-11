@@ -15,5 +15,23 @@
       "source": "/static/css/(.*)",
       "destination": "/static/css/$1"
     }
+  ],
+  "routes": [
+    {
+      "src": "/opciones_usuario",
+      "dest": "/opciones_usuario"
+    },
+    {
+      "src": "/acerca-de",
+      "dest": "/acerca-de"
+    },
+    {
+      "src": "/volver_inicio",
+      "dest": "/volver_inicio"
+    },
+    {
+      "src": "/backup",
+      "dest": "/backup"
+    }
   ]
 }
