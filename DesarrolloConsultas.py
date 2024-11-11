@@ -1,4 +1,11 @@
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, send_file
+
+from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import letter
+from reportlab.lib.units import inch
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
+from reportlab.lib import colors
+from flask import send_file
 
 from conexion import get_connection
 
@@ -311,6 +318,46 @@ def buscar_sesiones():
     resultados = [dict(zip([column[0] for column in cursor.description], row)) for row in resultados]
     
     return render_template('busqueda_sesiones.html', sesiones=resultados)
+
+# exportar datos de la tabla a pdf
+@app.route('/exportar_todo/<int:id_paciente>')
+def exportar_todo(id_paciente):
+    sesiones = obtener_sesiones_historial(id_paciente)
+
+    datos = []
+    for sesion in sesiones:
+        datos.append([
+            sesion['fecha_sesion'],
+            sesion['hora_sesion'],
+            sesion['duracion'],
+            sesion['nombre_tipo'],
+            sesion['descripcion_psicomotor'],
+            sesion['descripcion_lenguaje'],
+            sesion['observacion'],
+            ""  # Acciones
+        ])
+
+    # Código para crear el PDF
+    pdf = SimpleDocTemplate("HistorialPaciente.pdf", pagesize=letter)
+
+    # Estilos de la tabla
+    estilos = TableStyle([
+        ('BACKGROUND', (0, 0), (-1, 0), colors.grey),
+        ('TEXTCOLOR', (0, 0), (-1, 0), colors.whitesmoke),
+        ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+        ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+        ('FONTSIZE', (0, 0), (-1, -1), 12),
+        ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+        ('TOPPADDING', (0, 1), (-1, -1), 12),
+    ])
+
+    # Creamos la tabla
+    tabla = Table(datos, style=estilos)
+
+    # Agregamos la tabla al PDF
+    pdf.build([tabla])
+
+    return send_file("HistorialPaciente.pdf", as_attachment=True)
 
 if __name__ == '__main__':
     app.run()

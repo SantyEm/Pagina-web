@@ -1,8 +1,7 @@
 from flask import Flask, render_template, request, url_for, redirect, session, make_response
 from conexion import get_connection
-from flask import send_file
-from io import BytesIO
-import sqlite3
+
+import subprocess
 from datetime import datetime
 
 app = Flask(__name__)
@@ -64,7 +63,26 @@ def logout():
         response.headers['Expires'] = '0'
         return response
 
+@app.route('/backup_seguridad', methods=['POST'])
+def crear_backup():
+    connection = get_connection()
+    realizar_backup(connection)
+    return redirect(url_for('backup', mensaje='backup guardado correctamente.'))
 
+def realizar_backup(connection):
+    # Ruta completa al archivo de salida
+    ruta_archivo = r'C:\Users\Usuar\Downloads\bdpsico.sql'
+    
+    # Comando para exportar el esquema de la base de datos
+    command = f'mysqldump -h localhost -u root -p12345 bdpsico > {ruta_archivo}'
+    
+    # Ejecutar el comando en la terminal
+    subprocess.run(command, shell=True)
+    
+    # Mensaje de confirmación
+    print(f"Exportación del esquema de la base de datos completada. Archivo guardado en {ruta_archivo}")
+    connection.close()
 
+    
 if __name__ == '__main__':
     app.run(debug=True)
