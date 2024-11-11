@@ -12,16 +12,14 @@
       "dest": "HomeProcesos.py"
     },
     {
-      "src": "/static/css/(.*)",
-      "dest": "static/css"
-    },
+      "src": "/static/(.*)",
+      "dest": "static/$1"
+    }
+  ],
+  "rewrites": [
     {
-      "src": "/static/img/(.*)",
-      "dest": "static/img"
-    },
-    {
-      "src": "/static/js/(.*)",
-      "dest": "static/js"
+      "source": "/static/(.*)",
+      "destination": "/static/$1"
     }
   ]
 }
