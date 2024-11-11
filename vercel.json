@@ -12,9 +12,18 @@
       "destination": "HomeProcesos.py"
     },
     {
-      "source": "/static/css/(.*)",
-      "destination": "/static/css/$1"
+      "source": "/static/css/stiloMenu.css",
+      "destination": "/static/css/stiloMenu.css"
     },
+    {
+      "source": "/static/css/stylesHome.css",
+      "destination": "/static/css/stylesHome.css"
+    },
+    {
+      "source": "/static/js/menu.js",
+      "destination": "/static/js/menu.js"
+    }
+    ,
     {
       "source": "/opciones_usuario",
       "destination": "HomeProcesos.py"
