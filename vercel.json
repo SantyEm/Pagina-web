@@ -14,24 +14,22 @@
     {
       "source": "/static/css/(.*)",
       "destination": "/static/css/$1"
-    }
-  ],
-  "routes": [
-    {
-      "src": "/opciones_usuario",
-      "dest": "/opciones_usuario"
     },
     {
-      "src": "/acerca-de",
-      "dest": "/acerca-de"
+      "source": "/opciones_usuario",
+      "destination": "HomeProcesos.py"
     },
     {
-      "src": "/volver_inicio",
-      "dest": "/volver_inicio"
+      "source": "/acerca-de",
+      "destination": "HomeProcesos.py"
     },
     {
-      "src": "/backup",
-      "dest": "/backup"
+      "source": "/volver_inicio",
+      "destination": "HomeProcesos.py"
+    },
+    {
+      "source": "/backup",
+      "destination": "HomeProcesos.py"
     }
   ]
 }
