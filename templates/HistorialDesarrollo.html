@@ -1,80 +1,83 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../static/css/stilos_busqueda.css">
-    <title>Historial de Sesiones</title>
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="../static/css/stilos_busqueda.css">
+        <title>Historial de Sesiones</title>
+    </head>
 <body>
 
-    <header>
-        <div class="contenedor-busqueda">
-            <!-- Formulario de búsqueda -->
-            <form action="/busqueda_sesiones" method="post">
-                <div class="busqueda">
-                    <button type="submit">Buscar</button>
-                    <input type="text" name="buscar" placeholder="Buscar...">
-                    <select name="parametro">
-                        <option value="nombre">Nombre</option>
-                        <option value="fecha_sesion">Fecha de Sesión</option>
-                        <!-- Agrega más opciones según sea necesario -->
-                    </select>
-                </div>
-            </form>
-        </div>
-    </header>
+    <div class="contenedor-busqueda">
+        <!-- Formulario de búsqueda -->
+        <form action="/busqueda_sesiones" method="post">
+            <div class="busqueda">
+                <button type="submit">Buscar</button>
+                <input type="text" name="buscar" placeholder="Buscar...">
+                <select name="parametro">
+                    <option value="fecha_sesion">Fecha de Sesión</option>
+                    <option value="hora_sesion">Hora de Sesión</option>
+                    <option value="duracion">Duración</option>
+                    <option value="nombre_tipo">Tipo de Sesión</option>
+                </select>
+            </div>
+        </form>
+    </div>
+    <button type="submit">Actualizar lista</button>
+
     
-    <button id="exportar-todo" onclick="exportarTodo()">Exportar todo el historial</button>
-    <main class="blockTabla">
-        {% for sesion in sesiones %}
-        <div class="title">Historial de Sesiones: <label>Paciente: {{ sesion['nombre'] }} {{ sesion['apellido'] }}</label></div>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Fecha de Sesión</th>
-                    <th>Hora de Sesión</th>
-                    <th>Duración</th>
-                    <th>Tipo de Sesión</th>
-                    <th>Desarrollo Psicomotor</th>
-                    <th>Desarrollo Lenguaje</th>
-                    <th>Observación</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                
-                <tr>
-                    <td>{{ sesion.fecha_sesion }}</td>
-                    <td>{{ sesion.hora_sesion }}</td>
-                    <td>{{ sesion.duracion }}</td>
-                    <td>{{ sesion.nombre_tipo }}</td>
-                    <td>{{ sesion.descripcion_psicomotor }}</td>
-                    <td>{{ sesion.descripcion_lenguaje }}</td>
-                    <td class="observaciones">{{ sesion.observacion }}</td>
-                    <td class="acciones">
-                        <!-- Acciones para cada sesión -->
-                        <form action="/sesion/editar/{{ sesion.id_sesiones }}" method="get">
-                            <button type="submit" onclick="window.open('/sesion/editar/{{ sesion.id_sesiones }}', 'Editar', 'width=600,height=600'); return false;">Editar</button>
-                        </form>
-                        <form action="/sesion/eliminar/{{ sesion.id_sesiones }}" method="post">
-                            <button type="submit" name="eliminar" value="eliminar" onclick="return confirmarEliminacion()">Eliminar</button>
-                        </form>
-                        {% if mostrar_confirmacion %}
-                            <div>
-                                ¿Está seguro de eliminar este registro?
-                                <form action="" method="post">
-                                    <input type="hidden" name="id_sesion" value="{{ sesion.id_sesiones }}">
-                                    <button type="submit" name="confirmar" value="confirmar">Confirmar</button>
-                                    <button type="submit" name="cancelar" value="cancelar">Cancelar</button>
-                                </form>
-                            </div>
-                        {% endif %}
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </main>
+    <main class="blockTabla" id="tabla-historial">
+        <div class="acciones-contenedor">
+            <button id="exportar-todo" onclick="window.open('/exportar_todo/{{ id_paciente }}', '_blank')">Exportar todo el historial</button>
+        </div>
+        <div class="title">Historial de Sesiones: {{ sesiones[0].nombre }} {{ sesiones[0].apellido }}</div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Fecha de Sesión</th>
+                <th>Hora de Sesión</th>
+                <th>Duración</th>
+                <th>Tipo de Sesión</th>
+                <th>Desarrollo Psicomotor</th>
+                <th>Desarrollo Lenguaje</th>
+                <th>Observación</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for sesion in sesiones %}
+         
+            <tr>
+                <td>{{ sesion.fecha_sesion }}</td>
+                <td>{{ sesion.hora_sesion }}</td>
+                <td>{{ sesion.duracion }}</td>
+                <td>{{ sesion.nombre_tipo }}</td>
+                <td>{{ sesion.descripcion_psicomotor }}</td>
+                <td>{{ sesion.descripcion_lenguaje }}</td>
+                <td class="observaciones">{{ sesion.observacion }}</td>
+                <td class="acciones">
+                    <!-- Acciones para cada sesión -->
+                    <form action="/sesion/editar/{{ sesion.id_sesiones }}" method="get">
+                        <button type="submit" onclick="window.open('/sesion/editar/{{ sesion.id_sesiones }}', 'Editar', 'width=600,height=600'); return false;">Editar</button>
+                    </form>
+                    <form action="/sesion/eliminar/{{ sesion.id_sesiones }}" method="post">
+                        <button type="submit" name="eliminar" value="eliminar" onclick="return confirmarEliminacion()">Eliminar</button>
+                    </form>
+                    {% if mostrar_confirmacion %}
+                        <div>
+                            ¿Está seguro de eliminar este registro?
+                            <form action="" method="post">
+                                <input type="hidden" name="id_sesion" value="{{ sesion.id_sesiones }}">
+                                <button type="submit" name="confirmar" value="confirmar">Confirmar</button>
+                                <button type="submit" name="cancelar" value="cancelar">Cancelar</button>
+                            </form>
+                        </div>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</main>
 </body>
 </html>

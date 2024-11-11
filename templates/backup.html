@@ -110,13 +110,7 @@
   
      <div class="backup-section">
         <h1 class="titulos">Backup y Restauración</h1>
-        <form id="backup-form" action="/backup" method="POST">
-            <label for="frecuencia">Frecuencia de Backup:</label>
-            <select id="frecuencia" name="frecuencia">
-                <option value="diario">Diario</option>
-                <option value="semanal">Semanal</option>
-                <option value="mensual">Mensual</option>
-            </select>
+        <form id="backup-form" action="/backup_seguridad" method="POST">
             <button type="submit">Realizar Backup</button>
             <button type="submit" formaction="/restaurar">Restaurar desde Backup</button>
         </form>
