@@ -12,8 +12,8 @@
       "destination": "HomeProcesos.py"
     },
     {
-      "source": "/static/(.*)",
-      "destination": "/static/$1"
+      "source": "/static/css/(.*)",
+      "destination": "/static/css/$1"
     }
   ]
 }
