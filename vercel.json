@@ -5,5 +5,11 @@
       "src": "HomeProcesos.py",
       "use": "@vercel/python"
     }
+  ],
+  "routes": [
+    {
+      "src": "/",
+      "dest": "HomeProcesos.py"
+    }
   ]
 }
