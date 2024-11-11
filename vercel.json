@@ -10,6 +10,18 @@
     {
       "src": "/",
       "dest": "HomeProcesos.py"
+    },
+    {
+      "src": "/static/css/(.*)",
+      "dest": "static/css"
+    },
+    {
+      "src": "/static/img/(.*)",
+      "dest": "static/img"
+    },
+    {
+      "src": "/static/js/(.*)",
+      "dest": "static/js"
     }
   ]
 }
