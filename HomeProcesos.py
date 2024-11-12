@@ -1,11 +1,15 @@
-from flask import Flask, render_template, request, url_for, redirect, session, make_response
+from flask import Flask, render_template, request, url_for, redirect, session, make_response, send_from_directory
 from conexion import get_connection
 
 import subprocess
 from datetime import datetime
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='static')
 app.secret_key = 'XD'
+
+@app.route('/static/<path:path>')
+def send_static(path):
+    return send_from_directory('static', path)
 
 @app.route('/')
 def index():
@@ -82,6 +86,7 @@ def realizar_backup(connection):
     # Mensaje de confirmación
     print(f"Exportación del esquema de la base de datos completada. Archivo guardado en {ruta_archivo}")
     connection.close()
+
 
     
 if __name__ == '__main__':
