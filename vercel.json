@@ -12,10 +12,9 @@
       "destination": "HomeProcesos.py"
     },
     {
-      "src": "/static/(.*)",
-      "dest": "static/$1"
-    }
-    ,
+      "source": "/static/(.*)",
+      "destination": "static/$1"
+    },
     {
       "source": "/opciones_usuario",
       "destination": "HomeProcesos.py"
