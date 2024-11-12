@@ -2,9 +2,6 @@ services:
   - type: web
     name: pagina-web
     env: python
-    build:
-      command: pip install -r requirements.txt
-    start:
-      command: gunicorn app:app
-    http:
-      port: 8080
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app
+    port: 8080
