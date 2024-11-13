@@ -1,35 +1,13 @@
 {
   "version": 2,
-  "builds": [
+  "builds": [{"src": "HomeProcesos.py","use": "@vercel/python"}],
+  "routes": [
     {
-      "src": "HomeProcesos.py",
-      "use": "@vercel/python"
+      "src": "/(.*)",
+      "dest": "HomeProcesos.py"
     }
   ],
-  "rewrites": [
-    {
-      "source": "/",
-      "destination": "HomeProcesos.py"
-    },
-    {
-      "source": "/static/(.*)",
-      "destination": "static/$1"
-    },
-    {
-      "source": "/opciones_usuario",
-      "destination": "HomeProcesos.py"
-    },
-    {
-      "source": "/acerca-de",
-      "destination": "HomeProcesos.py"
-    },
-    {
-      "source": "/volver_inicio",
-      "destination": "HomeProcesos.py"
-    },
-    {
-      "source": "/backup",
-      "destination": "HomeProcesos.py"
-    }
-  ]
+  "env": {
+    "FLASK_ENV": "production"
+  }
 }
