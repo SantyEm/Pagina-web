@@ -8,6 +8,7 @@
     }
   ],
   "env": {
+    "APT_INSTALL": "libsdl2-dev",
     "FLASK_ENV": "production"
   }
 }
