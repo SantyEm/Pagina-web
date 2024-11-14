@@ -84,6 +84,13 @@
             <div class="blockEntrada">
                 <div class="title">Ingreso de Datos</div>
                 <form id="datos-paciente" action="/agregar-paciente" method="post">
+                    <label for="id_padre">Seleccionar tutor</label>
+                    <select id="id_padre" name="id_padre" required>
+                        <!-- Opciones para seleccionar paciente -->
+                        {% for padre in tutores %}
+                        <option value="{{ padre.Id_padre }}">{{ padre.Nombres }} ({{ padre.Apellido }})</option>
+                        {% endfor %}
+                    </select><br>
                     <!-- Campos de entrada de datos del paciente -->
                     <label for="nombre">Nombre:</label>
                     <input type="text" id="nombre" name="nombre" required><br>
