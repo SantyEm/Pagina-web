@@ -175,3 +175,28 @@ img {
 .drop2 li:hover{
   background-color: #6ccc1e;
 }
+
+footer {
+  background-color: #333;
+  color: #fff;
+  padding: 20px;
+  text-align: center;
+  font-size: 20px;
+  width: 100%; /* Ajusta el ancho del pie de página */
+  height: auto; /* Ajusta el alto del pie de página */
+  position: relative; /* Agrega esto */
+}
+
+footer img {
+  display: block; /* Agrega esto */
+  margin: 0 auto; /* Centra la imagen */
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background-color: #444;
+  padding: 5px;
+}
+
+footer p {
+  margin: 0 10px; /* Agrega espacio entre el texto y el logo */
+}
