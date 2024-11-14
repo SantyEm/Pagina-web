@@ -13,7 +13,8 @@ def calcular_edad_pacientes(fecha_nacimiento):
 @app.route('/pacientes')
 def mostrar_pacientes():
     pacientes = obtener_pacientes()
-    return render_template('PacienteFormulario.html', pacientes=pacientes)
+    tutores = obtener_tutores()
+    return render_template('PacienteFormulario.html', pacientes=pacientes, tutores=tutores)
 
 @app.route('/paciente/direcciones/<int:id_paciente>', methods=['GET'])
 def mostrar_direcciones(id_paciente):
@@ -36,6 +37,19 @@ def obtener_direcciones(id_paciente):
         print(f"Error al obtener direcciones: {e}")
         return []
     
+def obtener_tutores():
+    connection = get_connection()
+    cursor = connection.cursor()
+    
+    query = "SELECT Id_padre, Nombres, Apellido FROM t_03padres_madres"
+    
+    cursor.execute(query)
+    padres = cursor.fetchall()
+    padres = [dict(zip([column[0] for column in cursor.description], row)) for row in padres]
+    
+    cursor.close()
+    connection.close()
+    return padres
     
 def obtener_pacientes():
     connection = get_connection()
