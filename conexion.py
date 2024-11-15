@@ -4,12 +4,13 @@ import mysql.connector
 app = Flask(__name__)
 
 def get_connection():
-    config = {
-        'host': 'localhost',
-        'user': 'root',
-        'password': '12345',
-        'database': 'bdpsico'
-    }
+            config = {
+            'host': 'junction.proxy.rlwy.net',
+            'user': 'root',
+            'password': 'qCEFPRFRQtRjGdVhZDGJTyaDnrBeBKAN',
+            'database': 'railway',
+            'port': 55492
+        }
     # Intenta establecer la conexión
     try:
         connection = mysql.connector.connect(**config)
