@@ -4,7 +4,7 @@ import mysql.connector
 app = Flask(__name__)
 
 def get_connection():
-            config = {
+    config = {
             'host': 'junction.proxy.rlwy.net',
             'user': 'root',
             'password': 'qCEFPRFRQtRjGdVhZDGJTyaDnrBeBKAN',
