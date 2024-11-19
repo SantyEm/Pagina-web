@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect, url_for
 from conexion import get_connection
 from flask import request
 from datetime import datetime
@@ -14,7 +14,9 @@ def calcular_edad_pacientes(fecha_nacimiento):
 def mostrar_pacientes():
     pacientes = obtener_pacientes()
     tutores = obtener_tutores()
-    return render_template('PacienteFormulario.html', pacientes=pacientes, tutores=tutores)
+    Tutores_tabla = obtener_tutores_tabla()
+    print(Tutores_tabla)
+    return render_template('PacienteFormulario.html', pacientes=pacientes, tutores=tutores, Tutores_tabla=Tutores_tabla)
 
 @app.route('/paciente/direcciones/<int:id_paciente>', methods=['GET'])
 def mostrar_direcciones(id_paciente):
@@ -36,6 +38,28 @@ def obtener_direcciones(id_paciente):
     except Exception as e:
         print(f"Error al obtener direcciones: {e}")
         return []
+ 
+def obtener_tutores_tabla():
+    connection = get_connection()
+    cursor = connection.cursor()
+    
+    query = """
+        SELECT p.Id_paciente, pm.Id_padre, pm.Nombres, pm.Apellido
+        FROM t_01paciente p
+        INNER JOIN t_03padres_madres pm ON p.Id_padre = pm.Id_padre
+    """
+    
+    cursor.execute(query)
+    resultados = cursor.fetchall()
+    
+    tutores_dict = {}
+    
+    for row in resultados:
+        tutores_dict[row[0]] = dict(zip(['Id_padre', 'Nombres', 'Apellido'], row[1:]))
+    
+    cursor.close()
+    connection.close()
+    return tutores_dict
     
 def obtener_tutores():
     connection = get_connection()
@@ -79,9 +103,10 @@ def agregar_paciente():
     fecha_nacimiento = request.form['fecha_nacimiento']
     fecha_registro = request.form['fecha_registro']
     observaciones = request.form['observaciones']
+    id_padre = request.form['id_padre']  # Agregar esta línea
 
     # Validar los datos
-    if not all([nombre, apellido, dni, genero, fecha_nacimiento]):
+    if not all([nombre, apellido, dni, genero, fecha_nacimiento, id_padre]):
         return 'Faltan datos', 400
 
     # Validar fecha de nacimiento
@@ -102,17 +127,17 @@ def agregar_paciente():
     cursor.execute("""
         INSERT INTO 
             t_01paciente 
-            (Id_paciente, Nombre, Apellido, DNI, Id_genero, Fecha_nacimiento, Fecha_registro, Observaciones) 
+            (Id_paciente, Nombre, Apellido, DNI, Id_genero, Id_padre, Fecha_nacimiento, Fecha_registro, Observaciones) 
         VALUES 
-            (NULL, %s, %s, %s, %s, %s, %s, %s)
+            (NULL, %s, %s, %s, %s, %s, %s, %s, %s)
     """, 
-    (nombre, apellido, dni, id_genero, fecha_nacimiento, fecha_registro, observaciones))
+    (nombre, apellido, dni, id_genero, id_padre, fecha_nacimiento, fecha_registro, observaciones))
     connection.commit()
 
     # Actualizar la tabla de pacientes
     pacientes = obtener_pacientes()
 
-    return render_template('PacienteFormulario.html', pacientes=pacientes)
+    return redirect(url_for('mostrar_pacientes', mensaje='Paciente agregado con éxito'))
 
 def obtener_paciente_por_id(id_paciente):
     connection = get_connection()
@@ -483,33 +508,36 @@ WHERE
     
     return respuesta
 
-@app.route('/editar_paciente/<int:id_paciente>', methods=['GET', 'POST'])
-def editar_paciente(id_paciente):
-    connection = get_connection()
-    cursor = connection.cursor()
-
-    if request.method == 'POST':
-        nombre = request.form['nombre']
-        apellido = request.form['apellido']
-        dni = request.form['dni']
-        id_genero = request.form['id_genero']
-        fecha_nacimiento = request.form['fecha_nacimiento']
-        fecha_registro = request.form['fecha_registro']
-        observaciones = request.form['observaciones']
-        id_padre = request.form['id_padre']
-
-        cursor.execute("UPDATE t_01paciente SET nombre=%s, apellido=%s, DNI=%s, id_genero=%s, fecha_nacimiento=%s, fecha_registro=%s, observaciones=%s, id_padre=%s WHERE id_paciente=%s", 
-                (nombre, apellido, dni, id_genero, fecha_nacimiento, fecha_registro, observaciones, id_padre, id_paciente))
-        connection.commit()
-        connection.close()
-        return render_template('editar_paciente.html')
-
-    
+@app.route('/editar_paciente/<int:id_paciente>', methods=['GET'])
+def mostrar_edicion_paciente(id_paciente):
     paciente = obtener_paciente_por_id(id_paciente)
     if paciente is None:
         return 'Paciente no encontrado', 404
-    print(paciente)
-    return render_template('editar_paciente.html', paciente=paciente)
+    tutores = obtener_tutores()
+    return render_template('editar_paciente.html', paciente=paciente, tutores=tutores)
+
+
+@app.route('/actualizar_paciente', methods=['POST'])
+def actualizar_paciente():
+    connection = get_connection()
+    cursor = connection.cursor()
+    
+    print(request.form)
+    id_paciente = request.form['id_paciente']
+    nombre = request.form['nombre']
+    apellido = request.form['apellido']
+    dni = request.form['dni']
+    id_genero = request.form['id_genero']
+    fecha_nacimiento = request.form['fecha_nacimiento']
+    fecha_registro = request.form['fecha_registro']
+    observaciones = request.form['observaciones']
+    id_padre = request.form['id_padre']
+
+    cursor.execute("UPDATE t_01paciente SET nombre=%s, apellido=%s, DNI=%s, id_genero=%s, fecha_nacimiento=%s, fecha_registro=%s, observaciones=%s, id_padre=%s WHERE id_paciente=%s", 
+            (nombre, apellido, dni, id_genero, fecha_nacimiento, fecha_registro, observaciones, id_padre, id_paciente))
+    connection.commit()
+    connection.close()
+    return redirect(url_for('mostrar_pacientes'))
 
 @app.route('/paciente/<int:id_paciente>/datos_gestacion', methods=['GET'])
 def mostrar_datos_gestacion(id_paciente):

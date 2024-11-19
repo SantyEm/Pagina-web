@@ -86,8 +86,31 @@ def realizar_backup(connection):
     # Mensaje de confirmación
     print(f"Exportación del esquema de la base de datos completada. Archivo guardado en {ruta_archivo}")
     connection.close()
-
-
     
+    
+    
+@app.route('/restaurar', methods=['POST'])
+def restaurar_backup():
+    connection = get_connection();
+    realizar_restauracion(connection);
+    return redirect(url_for('index', mensaje='Backup restaurado correctamente'));
+
+def realizar_restauracion(connection):
+    # Ruta completa al archivo de backup
+    ruta_archivo = r'C:\Users\Usuar\Downloads\bdpsico.sql'
+
+    # Comando para restaurar la base de datos
+    command = f"mysql -h localhost -u root -p12345 bdpsico < {ruta_archivo}"
+
+    try:
+        # Ejecutar el comando en la terminal
+        subprocess.run(command, shell=True, check=True)
+        print(f"Restauración de la base de datos completada desde {ruta_archivo}")
+    except subprocess.CalledProcessError as e:
+        print(f"Error al restaurar backup: {e}")
+    finally:
+        connection.close()
+
+
 if __name__ == '__main__':
     app.run(debug=True)

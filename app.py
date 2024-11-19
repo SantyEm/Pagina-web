@@ -48,16 +48,30 @@ app.add_url_rule('/buscar', 'buscar', PadresConsulta.buscar, methods=['POST'])
 
 # procesos del pacientes
 app.add_url_rule('/pacientes', "mostrar_pacientes", pacientesConsultas.mostrar_pacientes)
-# app.add_url_rule('/paciente/direcciones/<int:id_paciente>', 'mostrar_direcciones', pacientesConsultas.mostrar_direcciones, methods=['GET'])
-# app.add_url_rule('/agregar-paciente', 'agregar_paciente', pacientesConsultas.agregar_paciente, methods=['POST'])
-# app.add_url_rule('/agregar-direccion/<id_paciente>', 'agregar_direccion_paciente', pacientesConsultas.agregar_direccion_paciente, methods=['GET', 'POST'])
-# app.add_url_rule('/paciente/historial_educacion/<int:id_paciente>', 'historial_educacion', pacientesConsultas.historial_educacion, methods=['GET', 'POST'])
-# app.add_url_rule('/paciente/historial_educacion/<int:id_paciente>', 'historial_educacion', pacientesConsultas.historial_educacion, methods=['GET', 'POST'])
-# app.add_url_rule('/paciente/informacion_familiar/<int:id_paciente>', 'informacion_familiar', pacientesConsultas.informacion_familiar, methods=['GET', 'POST'])
-# app.add_url_rule('/editar_paciente/<int:id_paciente>', 'editar_paciente', pacientesConsultas.editar_paciente, methods=['GET', 'POST'])
-# app.add_url_rule('/eliminar_paciente/<int:id_paciente>', 'eliminar_paciente', pacientesConsultas.eliminar_paciente, methods=['POST'])
-# app.add_url_rule('/buscarPaciente', 'buscar_paciente', pacientesConsultas.buscar_paciente, methods=['POST'])
+app.add_url_rule('/paciente/direcciones/<int:id_paciente>', 'mostrar_direcciones', pacientesConsultas.mostrar_direcciones, methods=['GET'])
+app.add_url_rule('/agregar-paciente', 'agregar_paciente', pacientesConsultas.agregar_paciente, methods=['POST'])
+app.add_url_rule("/editar_paciente/<int:id_paciente>", "mostrar_edicion_paciente", pacientesConsultas.mostrar_edicion_paciente, methods=['GET'])
+app.add_url_rule("/actualizar_paciente", "actualizar_paciente", pacientesConsultas.actualizar_paciente, methods=['POST'])
+app.add_url_rule('/eliminar_paciente/<int:id_paciente>', 'eliminar_paciente', pacientesConsultas.eliminar_paciente, methods=['POST'])
+app.add_url_rule('/buscarPaciente', 'buscar_paciente', pacientesConsultas.buscar_paciente, methods=['POST'])
 
+
+app.add_url_rule('/agregar-direccion/<id_paciente>', 'agregar_direccion_paciente', pacientesConsultas.agregar_direccion_paciente, methods=['GET', 'POST'])
+app.add_url_rule("/paciente/direcciones/editar/<int:id_paciente>/<int:id_direccion>", "editar_direccion_paciente", pacientesConsultas.editar_direccion_paciente, methods=['GET', 'POST'])
+app.add_url_rule("/paciente/direcciones/actualizar/<int:id_paciente>/<int:id_direccion>", "actualizar_direccion_paciente", pacientesConsultas.actualizar_direccion_paciente, methods=['POST'])
+app.add_url_rule("/paciente/direcciones/eliminar/<int:id_paciente>/<int:id_direccion>", "eliminar_direccion_paciente", pacientesConsultas.eliminar_direccion_paciente, methods=['POST'])
+
+
+app.add_url_rule('/paciente/historial_educacion/<int:id_paciente>', 'historial_educacion', pacientesConsultas.historial_educacion, methods=['GET', 'POST'])
+app.add_url_rule('/agregar-historial-educativo/<int:id_paciente>', 'agregar_historial_educativo', pacientesConsultas.agregar_historial_educativo, methods=['POST'])
+app.add_url_rule("/historial-educativo/editar/<int:id_historial>", "editar_historial_educativo", pacientesConsultas.editar_historial_educativo, methods=['GET'])
+
+
+app.add_url_rule('/paciente/informacion_familiar/<int:id_paciente>', 'informacion_familiar', pacientesConsultas.informacion_familiar, methods=['GET', 'POST'])
+
+app.add_url_rule("/paciente/<int:id_paciente>/datos_gestacion", "mostrar_datos_gestacion", pacientesConsultas.mostrar_datos_gestacion, methods=['GET'])
+app.add_url_rule("/registrar-embarazo", "agregar_embarazo", pacientesConsultas.agregar_embarazo, methods=['POST'])
+app.add_url_rule("/embarazo/editar/<int:embarazo_id>", "editar_embarazo", pacientesConsultas.editar_embarazo, methods=['GET', 'POST'])
 
 # procesos del desarrollo
 app.add_url_rule('/Desarrollo', "mostrar_desarrollo", DesarrolloConsultas.mostrar_desarrollo)
