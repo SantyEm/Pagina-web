@@ -140,11 +140,12 @@
                       <th>Edad</th> 
                       <th>Fecha de Nacimiento</th>
                       <th>Fecha de Registro</th>
+                      <th>Tutor</th>
                       <th>Observaciones</th>
                       <th>Direcciones</th>
                       <th>Historial Educación</th>
                       <th>Información Familiar</th>
-                      <th>Datos de Gestación</th> <!-- Nueva columna -->
+                      <th>Datos de Gestación</th> 
                       <th>Acciones</th>
                   </tr>
               </thead>
@@ -159,6 +160,13 @@
                       <td>{{ paciente.edad }}</td> 
                       <td>{{ paciente.Fecha_nacimiento }}</td>
                       <td>{{ paciente.Fecha_registro }}</td>
+                      <td>
+                        {% if paciente.Id_paciente in Tutores_tabla %}
+                          {{ Tutores_tabla[paciente.Id_paciente]['Nombres'] }} {{ Tutores_tabla[paciente.Id_paciente]['Apellido'] }}
+                        {% else %}
+                          Sin tutor asignado
+                        {% endif %}
+                      </td>
                       <td class="observaciones">{{ paciente.Observaciones }}</td>
                       <td>
                           <form action="/paciente/direcciones/{{ paciente.Id_paciente }}" method="get" target="_blank">
