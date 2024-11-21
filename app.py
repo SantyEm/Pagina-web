@@ -17,7 +17,7 @@ app.add_url_rule('/registrar_usuario', 'procesar_registro', LoginConsultas.proce
 app.add_url_rule('/forgot_password', 'forgot_password', LoginConsultas.forgot_password, methods=['GET', 'POST'])
 app.add_url_rule('/cambiar_contraseña', 'cambiar_contraseña', LoginConsultas.cambiar_contraseña, methods=['POST'])
 app.add_url_rule('/actualizar_informacion', 'actualizar_informacion', LoginConsultas.actualizar_informacion, methods=['POST'])
-app.add_url_rule('/informacion_personal', 'informacion_personal', LoginConsultas.informacion_personal)
+app.add_url_rule("/cambiar-contraseña", "cambiar_contrasena", LoginConsultas.cambiar_contrasena, methods=['POST'])
 
  # procesos del home
 app.add_url_rule('/opciones_usuario', 'opciones_usuario', HomeProcesos.opciones_usuario, methods=['GET', 'POST'])

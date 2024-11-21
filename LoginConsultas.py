@@ -118,6 +118,7 @@ def procesar_registro():
 
     # Si el método no es POST, renderiza nuevamente el formulario de registro
     return render_template('loginRegistro.html')
+# hasta aca proceso de login en duda si colocarlo o no
 
 @app.route('/forgot_password', methods=['GET', 'POST'])
 def forgot_password():
@@ -196,24 +197,6 @@ def cambiar_contraseña():
         return render_template('loginCambioContraseña2.html', error="Error al procesar el cambio de contraseña. Inténtalo nuevamente.", security_question=security_question, username_or_email=username_or_email)
 
 
-@app.route('/informacion_personal')
-def informacion_personal():
-    if 'username' in session:
-        username = session['username']
-
-        # Obtener la información personal del usuario desde la base de datos
-        connection = get_connection()
-        cursor = connection.cursor()
-        cursor.execute("SELECT * FROM usuario WHERE NombreUsuario = %s", (username,))
-        user = cursor.fetchone()
-        cursor.close()
-        connection.close()
-
-        return render_template('opcionesUsuario.html', user=user)
-
-    else:
-        return redirect(url_for('login'))
-
 @app.route('/actualizar_informacion', methods=['POST'])
 def actualizar_informacion():
     if 'username' in session:
@@ -247,7 +230,39 @@ def actualizar_informacion():
     else:
         return redirect(url_for('login'))
 
-
+@app.route('/cambiar-contraseña', methods=['POST'])
+def cambiar_contrasena():
+    if 'username' in session:
+        username = session['username']
+        
+        # Obtener el id_usuario desde la base de datos
+        connection = get_connection()
+        cursor = connection.cursor()
+        cursor.execute("SELECT UsuarioID FROM usuario WHERE NombreUsuario = %s", (username,))
+        id_usuario = cursor.fetchone()[0]
+        
+        contrasena_actual = request.form['current-password']
+        nueva_contrasena = request.form['new-password']
+        confirmar_nueva_contrasena = request.form['confirm-new-password']
+        
+        # Verificar que la contraseña actual coincida con la almacenada en la base de datos
+        cursor.execute("SELECT contraseña FROM usuario WHERE UsuarioID = %s", (id_usuario,))
+        resultado = cursor.fetchone()
+        if resultado[0] != contrasena_actual:
+            return 'Contraseña actual incorrecta', 401
+        
+        # Verificar que la nueva contraseña y su confirmación coincidan
+        if nueva_contrasena != confirmar_nueva_contrasena:
+            return 'Nueva contraseña y confirmación no coinciden', 400
+        
+        # Actualizar la contraseña en la base de datos
+        cursor.execute("UPDATE usuario SET contraseña = %s WHERE UsuarioID = %s", (nueva_contrasena, id_usuario))
+        connection.commit()
+        
+        return redirect(url_for('home'))
+    
+    else:
+        return redirect(url_for('home'))
     
 
 if __name__ == '__main__':

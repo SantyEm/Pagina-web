@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, url_for, redirect
 from conexion import get_connection
 from flask import request
 from datetime import datetime
@@ -179,70 +179,52 @@ def obtener_padres():
 
 @app.route('/agregar-padre', methods=['POST'])
 def agregar_padre_registro():
-        # Obtener la conexión y el cursor
-        connection = get_connection()
-        cursor = connection.cursor()
+    # Obtener la conexión y el cursor
+    connection = get_connection()
+    cursor = connection.cursor()
 
-        # Obtener los datos del formulario
-        nombres = request.form['nombres']
-        apellido = request.form['apellido']
-        telefono = request.form['telefono']
-        ocupacion = request.form['ocupacion']
-        nivel_educacion = request.form['nivel_educacion']
-        fecha_nacimiento = request.form['fecha_nacimiento']
-        tipo_relacion = request.form['tipo_relacion']
+    # Obtener los datos del formulario
+    nombres = request.form['nombres']
+    apellido = request.form['apellido']
+    telefono = request.form['telefono']
+    ocupacion = request.form['ocupacion']
+    nivel_educacion = request.form['nivel_educacion']
+    fecha_nacimiento = request.form['fecha_nacimiento']
+    tipo_relacion = request.form['tipo_relacion']
 
-        # Validar los datos
-        if not nombres or not apellido or not ocupacion or not nivel_educacion:
-            return 'Faltan datos', 400
+    # Validar los datos
+    if not nombres or not apellido or not ocupacion or not nivel_educacion:
+        return 'Faltan datos', 400
 
-        # Obtener el Id_nivel correspondiente al nivel de educación seleccionado
-        cursor.execute("SELECT id_nivel FROM t_05niveleseducacion WHERE id_nivel = %s", (nivel_educacion,))
-        resultado = cursor.fetchone()
-        if resultado is not None:
-            id_nivel = resultado[0]
-        else:
-        # Manejar el caso en que no se encontró ningún resultado
-             id_nivel = None
-
-        # Convertir la fecha de nacimiento a un objeto datetime
+    # Validar fecha de nacimiento
+    try:
         fecha_nacimiento = datetime.strptime(fecha_nacimiento, '%Y-%m-%d')
+    except ValueError:
+        return 'Fecha de nacimiento inválida', 400
 
-        # Calcular la edad
-        edad = datetime.now().year - fecha_nacimiento.year - ((datetime.now().month, datetime.now().day) < (fecha_nacimiento.month, fecha_nacimiento.day))
+    # Obtener el Id_nivel correspondiente al nivel de educación seleccionado
+    cursor.execute("SELECT id_nivel FROM t_05niveleseducacion WHERE id_nivel = %s", (nivel_educacion,))
+    resultado = cursor.fetchone()
+    if resultado is None:
+        return 'Nivel de educación inválido', 400
+    id_nivel = resultado[0]
 
-        # Agregar el padre a la base de datos
-        cursor.execute("INSERT INTO t_03padres_madres(Nombres, Apellido, Telefono, Ocupacion, id_nivel_educacion, Fecha_nacimiento) VALUES (%s, %s, %s, %s, %s, %s)", (nombres, apellido, telefono, ocupacion, id_nivel, fecha_nacimiento))
-        connection.commit()
+    # Agregar el padre a la base de datos
+    cursor.execute("INSERT INTO t_03padres_madres(Nombres, Apellido, Telefono, Ocupacion, id_nivel_educacion, Fecha_nacimiento, tipo_relacion) VALUES (%s, %s, %s, %s, %s, %s, %s)", (nombres, apellido, telefono, ocupacion, id_nivel, fecha_nacimiento, tipo_relacion))
+    connection.commit()
 
-        # Obtener el ID del padre recién agregado
-        padre_id = cursor.lastrowid
-        
-       # Obtener el id_tipo_relacion correspondiente al tipo de relación seleccionado
-        cursor.execute("SELECT id_tipo_relacion FROM t_04tipo_relacion WHERE descripcion = %s", (tipo_relacion,))
-        resultado = cursor.fetchone()
-        if resultado is not None:
-            id_tipo_relacion = resultado[0]
-        else:
-            # Manejar el caso en que no se encontró ningún resultado
-            id_tipo_relacion = None
-        print(tipo_relacion)
+    # Obtener el ID del padre recién agregado
+    padre_id = cursor.lastrowid
 
-        padres = obtener_padres()
-        # print(padres)  # Agregar este print
-        return render_template('PadresFormulario.html', padres=padres)
+    padres = obtener_padres()
+    return render_template('PadresFormulario.html', padres=padres)
 
 
 @app.route('/direcciones/agregar/<id_padre>', methods=['POST'])
 def agregar_direccion(id_padre):
-    id_padre = request.form['id_padre']
     direccion = request.form['direccion']
     ciudad = request.form['ciudad']
     estado = request.form['estado']
-    id_padre = request.form.get('id_padre', None)
-    print("ID del padre:", id_padre)
-    if id_padre is None or id_padre == '':
-        return "Error: ID Padre no puede ser vacío"
 
     try:
         connection = get_connection()
@@ -254,11 +236,12 @@ def agregar_direccion(id_padre):
         """, (id_padre, direccion, ciudad, estado))
 
         connection.commit()
-        return render_template("MostrarDireccionesPadres.html", mensaje='Direccion agregada correctamente. Puede cerrar esta pestaña.')
+        return redirect(url_for("mostrar_direcciones_padre", id_padre=id_padre))
 
     except Exception as e:
         print(f"Error al agregar dirección: {e}")
-        return "Error al agregar dirección"
+        flash('Error al agregar dirección')
+        return redirect(url_for("mostrar_direcciones_padre", id_padre=id_padre))
 
     
     
@@ -335,7 +318,7 @@ def obtener_padre_especifico(id_padre):
 
 @app.route('/editar-padre', methods=['POST'])
 def editar_padre_form():
-    id_padre = request.form['id_padre']  
+    id_padre = request.form['id_padre']
     padre = obtener_padre_especifico(id_padre)
     if padre is None:
         return 'Padre no encontrado', 404
@@ -353,18 +336,18 @@ def editar_padre_form():
 
     # Actualizar los datos del padre en la base de datos
     query = """
-        UPDATE 
-            t_03padres_madres 
-        SET 
-            Nombres = %s, 
-            Apellido = %s, 
-            Telefono = %s, 
-            Ocupacion = %s, 
-            Fecha_nacimiento = %s, 
-            id_nivel_educacion = (SELECT id_nivel FROM t_05niveleseducacion WHERE nivel = %s), 
-            tipo_relacion = %s 
-        WHERE 
-            Id_padre = %s
+    UPDATE 
+        t_03padres_madres 
+    SET 
+        Nombres = %s, 
+        Apellido = %s, 
+        Telefono = %s, 
+        Ocupacion = %s, 
+        Fecha_nacimiento = %s, 
+        id_nivel_educacion = %s, 
+        tipo_relacion = %s 
+    WHERE 
+        Id_padre = %s
     """
     cursor.execute(query, (nombres, apellido, telefono, ocupacion, fecha_nacimiento, nivel_educacion, tipo_relacion, id_padre))
     connection.commit()
@@ -372,7 +355,7 @@ def editar_padre_form():
     cursor.close()
     connection.close()
 
-    return render_template('PadresFormulario.html', mensaje='Edición exitosa. Puede cerrar esta pestaña.')
+    return render_template('EditarPadres.html', padre=padre, mensaje="Se editó correctamente. Cierre esta ventana y actualice la tabla para ver los cambios.")
 
     # Código para manejar la búsqueda
 @app.route('/buscar', methods=['POST'])
@@ -385,7 +368,7 @@ def buscar():
 
     # Consulta SQL con filtro
     query = """
-        SELECT p.Id_padre, p.Nombres, p.Apellido, p.Telefono, p.Ocupacion, e.nivel, p.Fecha_nacimiento, p.id_tipo_relacion 
+        SELECT p.Id_padre, p.Nombres, p.Apellido, p.Telefono, p.Ocupacion, e.nivel, p.Fecha_nacimiento, p.tipo_relacion 
         FROM t_03padres_madres p 
         LEFT JOIN t_05niveleseducacion e ON p.id_nivel_educacion = e.id_nivel 
         WHERE {} LIKE '%{}%'
