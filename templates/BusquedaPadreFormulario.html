@@ -87,9 +87,7 @@
                 <th>Edad</th>
                 <th>Fecha de nacimiento</th>
                 <th>Tipo de Relacion</th>
-                <th>Datos de Embarazo</th>
                 <th>Direcciones</th>
-                <th>Datos de Embarazo</th>
                 <th>Acciones</th>
             </tr>
         </thead>
@@ -114,28 +112,8 @@
                         Desconocido
                     {% endif %}
                 </td>
-                <td>
-                    {% if resultado.id_tipo_relacion == 2 %}
-                    <form action="/padre/{{ resultado.Id_padre }}/datos-embarazo/" method="get" target="_blank">
-                        <button type="submit" onclick="window.open('/padre/{{ resultado.Id_padre }}/datos-embarazo/', 'Datos de Embarazo', 'width=1083,height=393');">Ver datos de embarazo</button>
-                    </form>
-                    {% endif %}
-                </td>
-                <td class="Direcciones" >   
-                    <form action="/padre/direcciones/{{ resultado.Id_padre }}" method="get" onsubmit="mostrarIdPadre(this); return false;">
-                        <button type="submit" onclick="window.open('/padre/direcciones/{{ resultado.Id_padre }}', 'Direcciones', 'width=400,height=200'); return false;">Ver direcciones</button>
-                    </form>
-                    <form action="/agregar-direccion/{{ resultado.Id_padre }}" method="get" target="_blank">
-                        <button type="submit" class="btn btn-primary">Agregar Dirección</button>
-                    </form> 
-                </td>
-                <td class="Embarazo" >   
-                    <form action="/padre/{{ resultado.Id_padre }}/datos-embarazo/" method="get" target="_blank">
-                        <button type="submit">Ver Embarazo</button>
-                    </form>
-                    <form action="/agregar_Datos de Embarazo/{{ resultado.Id_padre }}" method="get" target="_blank">
-                        <button type="submit" class="btn btn-primary">Agregar datos embarazo</button>
-                    </form>
+                <td class="Direcciones">
+                    <button type="button" class="btn btn-primary" onclick="window.open('/padre/direcciones/{{ resultado.Id_padre }}', 'Direcciones', 'width=400,height=200'); return false;">Ver direcciones</button>
                 </td>
                 <td class="acciones" >
                     <!-- Acciones para cada padre -->

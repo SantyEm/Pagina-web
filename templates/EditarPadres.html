@@ -49,5 +49,9 @@
             <button type="submit" class="btn-submit">Guardar Edición</button>
         </form>
     </div>
+
+    {% if mensaje %}
+  <div class="alert alert-success">{{ mensaje }}</div>
+    {% endif %}
 </body>
 </html>
