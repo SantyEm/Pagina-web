@@ -106,6 +106,7 @@
                             <th>Direcciones</th>
                             <th>Historial Educación</th>
                             <th>Información Familiar</th>
+                            <th>Datos de Gestación</th> 
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -137,6 +138,11 @@
                                     <button type="submit">Ver Información Familiar</button>
                                 </form>
                             </td>
+                            <td>
+                                <form action="/paciente/{{ paciente.Id_paciente }}/datos_gestacion" method="get" target="_blank">
+                                  <button type="submit">Ver Datos de Gestación</button>
+                              </form>
+                          </td>
                             <td>
                                 <form action="/editar_paciente/{{ paciente.Id_paciente }}" method="get" target="_blank">
                                     <button type="submit">Editar</button>
